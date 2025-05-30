@@ -1,8 +1,17 @@
 [
+[
   {
     "title": "Batidora Utinex Pro",
     "category": "Cocina",
     "image": "https://via.placeholder.com/150",
     "link": "https://amzn.to/ejemplo"
   }
+]
+
+{
+  "title":   "Corta Rápido y Fácil",
+  "category":"",
+  "image":   "https://m.media-amazon.com/images/I/81DjwnE9XkL._AC_SL1500_.jpg",
+  "link":    "https://www.amazon.es/dp/B0BHSXFTGH?tag=reznero-21"
+}
 ]
