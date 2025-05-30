@@ -42,7 +42,7 @@ body {
 .featured-card {
   background: #fff;
   /* Antes: padding: 12px; */
-  padding: 10px;            /* ↑ Cambiado a 24px para más espacio uniforme */
+  padding: 4px;            /* ↑ Cambiado a 24px para más espacio uniforme */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 30px auto;
@@ -62,7 +62,7 @@ body {
 .categories-card {
   background: #fff;
   /* Antes: padding: 12px; */
-  padding: 8px;            /* ↑ mismo padding que above */
+  padding: 0px;            /* ↑ mismo padding que above */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 30px auto;
