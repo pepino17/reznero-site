@@ -1,32 +1,24 @@
-/* — Fondo suave tipo Linktree — */
-body {
-  margin: 0;
-  padding: 20px;
-  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-  font-family: "Segoe UI", sans-serif;
-}
-
-/* — Título libre, sin recuadro — */
+/* Título un poco más grande */
 .page-title {
   text-align: center;
-  font-size: 2rem;
+  font-size: 2.2rem;   /* antes 2rem */
   margin-bottom: 10px;
   color: #333;
 }
 
-/* — Tarjeta de redes sociales a todo ancho — */
+/* Elimina el recuadro de redes */
+/* Sobrescribimos .social-card para que no pinte nada */
 .social-card {
-  background: #fff;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom: 30px;
+  background: none;
+  padding: 0;
+  box-shadow: none;
+  margin-bottom: 0;
 }
 
-/* — Tarjeta de Destacados — */
+/* Ajusta un poco la altura de la lista de destacados */
 .featured-card {
   background: #fff;
-  padding: 16px;
+  padding: 12px;       /* antes 16px */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin-bottom: 30px;
@@ -34,16 +26,23 @@ body {
 .featured-card h2 {
   text-align: center;
   font-size: 1.6rem;
-  margin-bottom: 20px;
+  margin-bottom: 16px; /* un pelín menos */
 }
 
-/* — Sección de Categorías (libre, sin tarjeta) — */
-.categories-section h2 {
+/* Nueva tarjeta para Categorías */
+.categories-card {
+  background: #fff;
+  padding: 12px;       /* igual que destacados */
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 30px 0;
+}
+.categories-card h2 {
   text-align: center;
   font-size: 1.6rem;
-  margin: 30px 0 20px;
-  color: #333;
+  margin-bottom: 16px;
 }
+
 
 /* — Fondo suave tipo Linktree — */
 body {
