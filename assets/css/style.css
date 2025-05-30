@@ -41,41 +41,39 @@ body {
 /* — Tarjeta de Destacados — */
 .featured-card {
   background: #fff;
-  /* Antes: padding: 12px; */
+  padding: 12px 24px;            /* ajusta 12px arriba/abajo y 24px lados */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  max-width: 800px;
+  max-width: 800px;              /* ancho máximo */
+  margin: 30px 30px;             /* centrado y espacio arriba/abajo */
+  min-height: 200px;             /* altura mínima, cámbiala si quieres */
 }
 
 .featured-card h2 {
-  /* Quitamos el margin-bottom para que no añada espacio extra */
   text-align: center;
   font-size: 1.6rem;
-  margin: 0;                /* ← importante: elimina márgenes */
-  padding-bottom: 16px;     /* espacio entre el título y la lista */
-  border-bottom: 1px solid #eee; /* opcional, te ayuda a separar */
-  margin: 0 0 16px;    /* deja solo espacio inferior */
-  padding: 0;          /* quita padding extra */
+  margin: 0 0 16px;              /* solo margin-bottom para separar */
+  padding: 0;                    /* sin padding interior */
+  /* border-bottom: 1px solid #eee;  */ /* elimina la línea si ya no la quieres */
 }
 
 /* — Tarjeta de Categorías — */
 .categories-card {
   background: #fff;
-  /* Antes: padding: 12px; */
+  padding: 12px 24px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 800px;
+  margin: 30px 30px;
+  min-height: 200px;
 }
 
 .categories-card h2 {
-  /* También quitamos el margin-bottom */
   text-align: center;
   font-size: 1.6rem;
-  margin: 0;                /* elimina márgenes */
-  padding-bottom: 16px;     /* igual espacio bajo el título */
-  border-bottom: 1px solid #eee; /* opcional: línea de separación */
   margin: 0 0 16px;
   padding: 0;
+  /* border-bottom: 1px solid #eee; */
 }
 
 
