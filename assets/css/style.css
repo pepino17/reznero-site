@@ -41,12 +41,12 @@ body {
 /* — Tarjeta de Destacados — */
 .featured-card {
   background: #fff;
-  padding: 0px 0px;            /* ajusta 12px arriba/abajo y 24px lados */
+  padding: 12px 12px;            /* ajusta 12px arriba/abajo y 24px lados */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  max-width: 800px;              /* ancho máximo */
+  max-width: 1100px;              /* ancho máximo */
   margin: 30px auto;             /* centrado y espacio arriba/abajo */
-  min-height: 200px;             /* altura mínima, cámbiala si quieres */
+  min-height: 50px;             /* altura mínima, cámbiala si quieres */
 }
 
 .featured-card h2 {
@@ -60,12 +60,12 @@ body {
 /* — Tarjeta de Categorías — */
 .categories-card {
   background: #fff;
-  padding: 0px 0px;
+  padding: 12px 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  max-width: 800px;
+  max-width: 1100px;
   margin: 30px auto;
-  min-height: 200px;
+  min-height: 50px;
 }
 
 .categories-card h2 {
