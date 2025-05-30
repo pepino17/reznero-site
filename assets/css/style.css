@@ -45,7 +45,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 800px;              /* ancho máximo */
-  margin: 30px 30px;             /* centrado y espacio arriba/abajo */
+  margin: 30px auto;             /* centrado y espacio arriba/abajo */
   min-height: 200px;             /* altura mínima, cámbiala si quieres */
 }
 
@@ -64,7 +64,7 @@ body {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 800px;
-  margin: 30px 30px;
+  margin: 30px auto;
   min-height: 200px;
 }
 
@@ -75,6 +75,7 @@ body {
   padding: 0;
   /* border-bottom: 1px solid #eee; */
 }
+
 
 
 /* — Destacados: lista horizontal — */
