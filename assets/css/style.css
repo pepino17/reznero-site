@@ -46,6 +46,7 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 30px auto;
   max-width: 1000px;
+  min-height: 12px;
 }
 .featured-card h2 {
   text-align: center;
@@ -61,6 +62,7 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 30px auto;
   max-width: 1000px;
+  min-height: 12px;
 }
 .categories-card h2 {
   text-align: center;
