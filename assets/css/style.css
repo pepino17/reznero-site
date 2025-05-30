@@ -54,6 +54,8 @@ body {
   margin: 0;                /* ← importante: elimina márgenes */
   padding-bottom: 16px;     /* espacio entre el título y la lista */
   border-bottom: 1px solid #eee; /* opcional, te ayuda a separar */
+  margin: 0 0 16px;    /* deja solo espacio inferior */
+  padding: 0;          /* quita padding extra */
 }
 
 /* — Tarjeta de Categorías — */
@@ -72,6 +74,8 @@ body {
   margin: 0;                /* elimina márgenes */
   padding-bottom: 16px;     /* igual espacio bajo el título */
   border-bottom: 1px solid #eee; /* opcional: línea de separación */
+  margin: 0 0 16px;
+  padding: 0;
 }
 
 
