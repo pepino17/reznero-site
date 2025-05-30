@@ -41,34 +41,43 @@ body {
 /* — Tarjeta de Destacados — */
 .featured-card {
   background: #fff;
-  padding: 12px;
+  /* Antes: padding: 12px; */
+  padding: 24px;            /* ↑ Cambiado a 24px para más espacio uniforme */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 30px auto;
-  max-width: 1000px;
-  min-height: 12px;
+  max-width: 800px;
 }
+
 .featured-card h2 {
+  /* Quitamos el margin-bottom para que no añada espacio extra */
   text-align: center;
   font-size: 1.6rem;
-  margin-bottom: 16px;
+  margin: 0;                /* ← importante: elimina márgenes */
+  padding-bottom: 16px;     /* espacio entre el título y la lista */
+  border-bottom: 1px solid #eee; /* opcional, te ayuda a separar */
 }
 
 /* — Tarjeta de Categorías — */
 .categories-card {
   background: #fff;
-  padding: 12px;
+  /* Antes: padding: 12px; */
+  padding: 24px;            /* ↑ mismo padding que above */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   margin: 30px auto;
-  max-width: 1000px;
-  min-height: 12px;
+  max-width: 800px;
 }
+
 .categories-card h2 {
+  /* También quitamos el margin-bottom */
   text-align: center;
   font-size: 1.6rem;
-  margin-bottom: 16px;
+  margin: 0;                /* elimina márgenes */
+  padding-bottom: 16px;     /* igual espacio bajo el título */
+  border-bottom: 1px solid #eee; /* opcional: línea de separación */
 }
+
 
 /* — Destacados: lista horizontal — */
 .featured-list {
