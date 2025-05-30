@@ -1,3 +1,39 @@
+/* — Fondo suave tipo Linktree — */
+body {
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+}
+
+/* — Wrapper central — */
+.wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* — Tarjeta del header — */
+.links-header {
+  background: rgba(255,255,255,0.9);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* — Tarjeta del main (contenido) — */
+.links-main {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+/* Ajustes de separación interna */
+.links-main section {
+  margin-top: 30px;
+}
+
+
 /* — Redes sociales — */
 .social-icons {
   display: flex;
