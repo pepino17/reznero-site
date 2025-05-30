@@ -1,5 +1,52 @@
 /* — Fondo suave tipo Linktree — */
 body {
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* — Título libre, sin recuadro — */
+.page-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* — Tarjeta de redes sociales a todo ancho — */
+.social-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+/* — Tarjeta de Destacados — */
+.featured-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+.featured-card h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+/* — Sección de Categorías (libre, sin tarjeta) — */
+.categories-section h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin: 30px 0 20px;
+  color: #333;
+}
+
+/* — Fondo suave tipo Linktree — */
+body {
   background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
 }
 
