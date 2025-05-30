@@ -3,8 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>Productos Afiliados</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    details summary { cursor: pointer; font-size: 1.2em; margin-top: 10px; }
+    .product { display: flex; align-items: center; margin: 10px 0; text-decoration: none; color: inherit; }
+    .product img { max-width: 80px; margin-right: 10px; }
+  </style>
 </head>
 <body>
-  <h1>Cargando productos…</h1>
+  <h1>Productos Afiliados</h1>
+  <div id="products">Cargando productos…</div>
+  <script>
+    fetch('../data/products.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('products');
+        container.innerHTML = '';  // Limpia mensaje inicial
+        // Obtener categorías únicas
+        const categorias = [...new Set(data.map(p => p.category))];
+        categorias.forEach(cat => {
+          const detalles = document.createElement('details');
+          const resumen = document.createElement('summary');
+          resumen.textContent = cat;
+          detalles.appendChild(resumen);
+          // Añade cada producto de esta categoría
+          data
+            .filter(p => p.category === cat)
+            .forEach(p => {
+              const enlace = document.createElement('a');
+              enlace.href = p.link;
+              enlace.target = '_blank';
+              enlace.className = 'product';
+              enlace.innerHTML = \`
+                <img src="\${p.image}" alt="\${p.title}">
+                <span>\${p.title}</span>
+              \`;
+              detalles.appendChild(enlace);
+            });
+          container.appendChild(detalles);
+        });
+      })
+      .catch(err => {
+        document.getElementById('products').textContent = 'Error cargando productos.';
+        console.error(err);
+      });
+  </script>
 </body>
 </html>
