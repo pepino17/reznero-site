@@ -133,7 +133,7 @@
           
           const div = document.createElement('a');
           div.className = 'category-card';
-          div.href = `category.html?category=${encodeURIComponent(category)}`;
+          div.href = `categoria.html?category=${encodeURIComponent(category)}`;
           
           // Grid de imágenes para la tarjeta
           const imageGrid = document.createElement('div');
@@ -185,8 +185,31 @@
       if (featuredList && dots.length > 0) {
         // Calcular qué dot debe estar activo basado en la posición del scroll
         const scrollPosition = featuredList.scrollLeft;
+        const totalWidth = featuredList.scrollWidth;
+        const viewportWidth = featuredList.clientWidth;
         const itemWidth = featuredList.querySelector('.featured-item').offsetWidth;
-        const activeIndex = Math.floor(scrollPosition / (itemWidth * 2)); // 2 items por vista
+        const itemGap = 16; // El gap entre items
+        const itemsPerView = 2; // Siempre mostramos 2 en móvil
+        
+        // Si hay 5 items y mostramos 2 a la vez, necesitamos 3 dots (posiciones)
+        const totalDots = dots.length;
+        
+        // Calcular el progreso actual del scroll (0 a 1)
+        const scrollProgress = scrollPosition / (totalWidth - viewportWidth);
+        
+        // Convertir el progreso a un índice de dot (0 a totalDots-1)
+        // Para el último dot, debe estar al menos en 80% del scroll
+        let activeIndex;
+        
+        if (scrollProgress >= 0.8) {
+          activeIndex = totalDots - 1; // Último dot
+        } else {
+          // Para los demás, dividir el espacio entre 0 y 0.8 entre los dots restantes
+          activeIndex = Math.floor(scrollProgress * (totalDots - 0.2) / 0.8);
+        }
+        
+        // Limitar a índices válidos
+        activeIndex = Math.max(0, Math.min(activeIndex, totalDots - 1));
         
         // Actualizar clases
         dots.forEach((dot, index) => {

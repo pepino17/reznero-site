@@ -110,6 +110,10 @@ body {
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
+  /* Asegurar que no haya espacios adicionales en desktop */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .featured-card h2 {
@@ -170,11 +174,12 @@ body {
   -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
   scrollbar-width: none; /* oculta scroll en Firefox */
   position: relative;
-  max-width: 100%;
+  width: 100%; /* Asegurar que ocupe todo el ancho */
   box-sizing: border-box;
   scroll-snap-type: x mandatory;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  margin-right: 0; /* Evitar espacio a la derecha */
 }
 
 .featured-list::-webkit-scrollbar {
@@ -264,9 +269,9 @@ body {
   }
   
   .featured-item {
-    width: calc(50vw - 23px); /* Exactamente la mitad del viewport menos padding y gap */
+    width: calc(50vw - 24px); /* Exactamente la mitad del viewport menos padding y gap */
     flex-shrink: 0;
-    scroll-snap-align: center; /* Alinear al centro para los dots */
+    scroll-snap-align: start; /* Alinear al inicio para mejor control de dots */
     min-height: 220px; /* Altura fija para consistencia */
     margin-right: 12px; /* Espacio entre elementos */
   }
@@ -487,6 +492,7 @@ footer {
 /* Página de categoría */
 .category-page-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 24px; /* Aumentado de 20px a 24px */
   gap: 10px;
@@ -510,9 +516,9 @@ footer {
   text-decoration: none;
   color: #333;
   font-size: 0.9rem;
-  position: absolute;
-  left: 0;
+  align-self: flex-start; /* Alineado a la izquierda pero no posición absoluta */
   z-index: 2;
+  margin-bottom: 10px;
 }
 
 .category-page-title {
@@ -608,7 +614,7 @@ main > .social-icons {
     z-index: 10;
     align-items: center;
     justify-content: flex-end;
-    width: 40px;
+    width: 50px; /* Aumentar el ancho para mejor cobertura */
     opacity: 1;
     transition: opacity 0.3s ease;
     margin-right: 0;
