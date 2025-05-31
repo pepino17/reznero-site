@@ -62,15 +62,15 @@
             .filter(p => p.category === cat)
             .slice(-4)
             .reverse();
-          const card = document.createElement('a');
+          const card = document.createElement('div');
           card.className = 'category-card';
-          card.href = `?category=${encodeURIComponent(cat)}`;
           card.innerHTML = `
-            <h3>${cat}</h3>
             <div class="category-grid">
               ${items.map(p => `<img src="${p.image}" alt="${p.title}">`).join('')}
             </div>
+            <div class="category-title">${cat}</div>
           `;
+          card.onclick = () => window.location.href = `?category=${encodeURIComponent(cat)}`;
           grid.appendChild(card);
         });
       })
