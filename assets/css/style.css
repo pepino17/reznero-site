@@ -439,40 +439,46 @@ body {
 
 /* Media queries para pantallas muy estrechas (menores a 376px) */
 @media (max-width: 375px) {
-  /* Ajustar la forma de las tarjetas de Categorías */
+  /* 1. TARJETAS DE CATEGORÍAS MÁS CUADRADAS */
+  .category-card {
+    padding: 0;
+    margin-bottom: 0;
+  }
+  
   .category-grid {
-    aspect-ratio: 1 / 0.9; /* Hacer las tarjetas más cuadradas */
-    padding: 6px; /* Reducir padding interior */
+    max-height: 120px !important;
+    min-height: 0 !important;
+    height: 120px !important;
+    overflow: hidden;
   }
   
   .category-grid img {
-    max-width: 85%; /* Reducir tamaño de imagen interna ~15% */
-    margin: 0 auto; /* Centrar imagen */
-    height: auto; /* Ajustar altura automáticamente */
-  }
-  
-  .category-card {
-    padding: 0;
+    width: 75% !important;
+    height: auto !important;
+    max-height: 45px !important;
+    object-fit: contain;
   }
   
   .categories-grid {
-    padding: 0 6px; /* Reducir padding lateral a 6px */
+    padding: 0 4px;
+    gap: 8px;
   }
   
   .category-title {
-    padding: 8px 4px; /* Reducir espacio del título */
-    font-size: 1rem; /* Reducir tamaño de fuente ligeramente */
+    padding: 6px 2px;
+    margin-top: 0;
   }
   
-  /* Corregir bordes redondeados en Productos Destacados */
+  /* 2. BORDES REDONDEADOS VISIBLES EN PRODUCTOS DESTACADOS */
   .featured-card {
-    padding: 20px 6px;
     margin: 0 6px 25px 6px;
     width: calc(100% - 12px);
+    padding: 20px 6px;
+    border-radius: 12px;
   }
   
-  .featured-list {
-    margin: 0 6px;
+  .featured-title {
+    padding: 0 6px;
   }
 }
 
