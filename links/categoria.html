@@ -7,8 +7,7 @@
   <link rel="stylesheet" href="../assets/css/style.css"/>
 </head>
 <body>
-  <header>
-    <h1 class="page-title" id="category-title">Productos de la categoría</h1>
+  <div class="header-wrapper">
     <div class="social-icons">
       <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank">
         <img src="../assets/img/instagram.svg" alt="Instagram"/>
@@ -20,19 +19,27 @@
         <img src="../assets/img/telegram.svg" alt="Telegram"/>
       </a>
     </div>
-  </header>
+  </div>
 
   <main>
-    <section class="categories-card" style="margin-top:20px;">
-      <h2 id="cat-heading"></h2>
-      <div class="categories-grid" id="category-products"></div>
-      <div style="text-align:center; margin:30px;">
-        <a href="index.html" style="text-decoration:none; color:#333; font-weight:bold;">
-          ← Volver a todas las categorías
-        </a>
-      </div>
+    <div class="category-page-header">
+      <a href="index.html" class="back-button">
+        <span>←</span>
+      </a>
+      <h1 class="category-page-title" id="category-title">Productos de la categoría</h1>
+    </div>
+
+    <section class="categories-card">
+      <div class="category-products" id="category-products"></div>
     </section>
   </main>
+
+  <footer>
+    <div class="footer-content">
+      <p><span class="secure-icon">🔒</span> Sitio seguro con enlaces de afiliados a Amazon</p>
+      <p>Los precios y la disponibilidad pueden variar</p>
+    </div>
+  </footer>
 
   <script>
     // 1. Saca el nombre de la categoría desde la URL
@@ -40,9 +47,8 @@
     const cat = params.get('category');
 
     // 2. Cambia los títulos para SEO y visual
-    document.getElementById('page-title').innerText = cat ? `Productos de ${cat}` : 'Categoría';
+    document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
     document.getElementById('category-title').innerText = cat ? cat : 'Categoría';
-    document.getElementById('cat-heading').innerText = cat ? `Productos de la categoría "${cat}"` : '';
 
     // 3. Carga productos y filtra por categoría
     fetch('../data/products.json')
@@ -56,15 +62,16 @@
           productsDiv.innerHTML = '<p style="text-align:center;">No hay productos en esta categoría.</p>';
         } else {
           filtered.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'category-card';
-            card.style.cursor = 'default';
+            const card = document.createElement('a');
+            card.className = 'product-card';
+            card.href = p.link;
+            card.target = "_blank";
+            card.rel = "noopener noreferrer";
             card.innerHTML = `
-              <div class="category-grid">
-                <img src="${p.image}" alt="${p.title}">
+              <img src="${p.image}" alt="${p.title}">
+              <div class="product-card-content">
+                <div class="product-card-title">${p.title}</div>
               </div>
-              <div class="category-title">${p.title}</div>
-              <a href="${p.link}" target="_blank" class="ver-mas-btn">Ver producto</a>
             `;
             productsDiv.appendChild(card);
           });
