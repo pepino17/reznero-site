@@ -451,37 +451,37 @@ body {
 @media (max-width: 420px) {
   /* 1. TARJETAS DE CATEGORÍAS CUADRADAS */
   .category-card {
-    padding: 10px;
+    padding: 8px 8px 0 8px;
     margin: 0 3px 10px 3px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 190px;
-    min-height: 190px;
+    max-height: 220px;
+    min-height: 220px;
     background: white;
   }
   
   .category-grid {
-    max-height: 120px !important;
-    height: 120px !important;
+    max-height: 160px !important;
+    height: 160px !important;
     width: 100% !important;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 5px 0;
+    padding: 0;
     overflow: hidden;
     margin-bottom: 5px;
   }
   
   .category-grid img {
-    width: 48% !important;
-    height: 58px !important;
+    width: 47% !important;
+    height: 78px !important;
     object-fit: contain !important;
     margin: 1px;
-    padding: 2px;
+    padding: 0;
   }
   
   .categories-grid {
