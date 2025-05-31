@@ -44,6 +44,10 @@
       <h1 class="category-page-title" id="category-title">Productos de la categoría</h1>
     </div>
 
+    <div class="category-title-container">
+      <h2 id="category-title-display">Categoría de productos</h2>
+    </div>
+
     <section class="categories-card">
       <div class="category-products hidden-loading" id="category-products"><!-- Contenido cargado dinámicamente --></div>
     </section>
@@ -65,9 +69,10 @@
       const params = new URLSearchParams(window.location.search);
       const cat = params.get('category');
       
-      // Actualizar título
+      // Actualizar títulos
       document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
       document.getElementById('category-title').innerText = cat ? cat : 'Productos destacados';
+      document.getElementById('category-title-display').innerText = cat ? cat : 'Productos destacados';
 
       // Cargar productos y filtrar por categoría
       fetch('../data/products.json')
@@ -94,7 +99,9 @@
             card.innerHTML = `
               <div itemscope itemtype="http://schema.org/Product">
                 <a href="${p.link}" target="_blank" rel="noopener noreferrer" itemprop="url" class="product-link">
-                  <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy" width="200" height="200">
+                  <div class="product-image-container">
+                    <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy">
+                  </div>
                   <div class="product-title" itemprop="name">${p.title}</div>
                 </a>
                 <meta itemprop="brand" content="${p.brand || 'Marca'}">
