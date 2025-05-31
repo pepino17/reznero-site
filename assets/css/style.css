@@ -40,7 +40,7 @@ body {
 
 /* — Tarjeta de Destacados — */
 .featured-card {
-  background: #eafff1;   /* ← amarillo pastel suave, puedes cambiar a otro pastel */
+  background: #f3eaff;   /* ← amarillo pastel suave, puedes cambiar a otro pastel */
   padding: 12px 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
