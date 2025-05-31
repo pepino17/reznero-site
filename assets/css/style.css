@@ -443,10 +443,10 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 1px; /* Reduced gap for images to almost touch */
+    gap: 0px; /* ELIMINATED gap for images to touch */
     width: 100% !important;
     aspect-ratio: 1/1;
-    padding: 2px; /* Reduced padding to give images more space */
+    padding: 0px; /* ELIMINATED padding to give images maximum space */
     margin-bottom: 5px;
   }
   
@@ -461,8 +461,8 @@ body {
   .categories-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-    padding: 0 8px !important;
+    gap: 10px !important; /* This gap is between the category cards themselves */
+    padding: 0 4px !important; /* Reduced side padding for the main grid */
     width: 100% !important;
   }
   
