@@ -118,11 +118,23 @@
         
         // Asegurar que el carrusel muestre las primeras tarjetas completas al inicio en móvil
         setTimeout(() => {
-          // Forzar la posición inicial del scroll a 0
+          // Forzar la posición inicial del scroll a 0 para que la primera tarjeta sea completamente visible
           featuredList.scrollLeft = 0;
           
           // Agregar clase loaded cuando el carrusel esté inicializado
           featuredList.classList.add('loaded');
+          
+          // Doble comprobación para dispositivos móviles
+          if (window.innerWidth <= 768) {
+            // Asegurar que no haya desplazamiento inicial
+            featuredList.style.scrollBehavior = 'auto';
+            featuredList.scrollLeft = 0;
+            
+            // Reestablecer comportamiento de scroll suave después
+            setTimeout(() => {
+              featuredList.style.scrollBehavior = 'smooth';
+            }, 50);
+          }
         }, 100);
         
         // Detectar final del scroll y actualizar dots

@@ -230,6 +230,7 @@ body {
   .header-wrapper {
     flex-direction: column;
     text-align: center;
+    display: flex;
   }
   
   .page-title {
@@ -246,6 +247,7 @@ body {
   .search-container {
     margin-bottom: 16px;
     order: 3;
+    margin-top: 2px;
   }
   
   /* Sección principal */
@@ -280,12 +282,15 @@ body {
     scroll-snap-type: x mandatory;
     scroll-padding-left: 0; /* Asegurar que no haya padding inicial */
     scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: hidden;
   }
   
   /* Asegurar que la posición inicial sea 0 */
   .featured-list.loaded {
     scroll-behavior: auto; /* Evitar animación inicial */
-    /* El scroll inicial se controlará con JavaScript */
+    scroll-padding: 0;
   }
   
   .featured-list::-webkit-scrollbar {
@@ -323,19 +328,11 @@ body {
   }
   
   /* Ajustar cuadrícula de categorías en móvil */
-  .categories-section {
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
   .categories-grid {
     display: grid;
-    grid-template-columns: repeat(2, calc(45% - 4px)); /* Aproximadamente 45% del ancho */
-    gap: 8px; /* Espacio reducido entre columnas */
-    width: 100%;
-    padding: 0 12px; /* Padding lateral */
-    justify-content: center;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 0 12px;
   }
   
   .category-card {
