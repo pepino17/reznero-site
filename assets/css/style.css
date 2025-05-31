@@ -62,7 +62,7 @@ body {
 /* Tarjeta de Destacados */
 .featured-card {
   background: #f3eaff;
-  padding: 16px 0 22px; /* Eliminado padding lateral */
+  padding: 16px 0 22px; /* Sin padding lateral */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 1100px;
@@ -70,6 +70,7 @@ body {
   position: relative;
   width: 100%;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .featured-card h2 {
@@ -103,13 +104,14 @@ body {
   display: flex;
   overflow-x: auto;
   gap: 16px;
-  padding: 10px 16px 10px 16px; /* Padding horizontal uniforme */
+  padding: 10px 0 10px 16px; /* Sin padding derecho para evitar espacio muerto */
   justify-content: flex-start;
   -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
   scrollbar-width: none; /* oculta scroll en Firefox */
   position: relative;
   max-width: 100%;
   box-sizing: border-box;
+  scroll-snap-type: x mandatory;
 }
 
 /* Indicador de scroll horizontal */
@@ -129,19 +131,18 @@ body {
   align-items: center;
   justify-content: flex-end;
   width: 40px; /* Ancho definido para la flecha */
-  opacity: 0; /* Inicialmente oculta */
+  opacity: 1; /* Visible por defecto */
   transition: opacity 0.3s ease;
+  margin-right: 0; /* Asegurar que no haya margen */
 }
 
-/* Mostrar la flecha solo cuando hay contenido para desplazar */
-.featured-list:not(.scroll-end):hover::after,
-.featured-list:not(.scroll-end):active::after {
-  opacity: 1;
+/* La flecha siempre es visible excepto cuando se ha llegado al final */
+.featured-list.scroll-end::after {
+  opacity: 0;
 }
 
-/* Ocultar flecha al llegar al final usando JavaScript */
-.featured-list.scroll-end::after,
-html.hide-scroll-indicator .featured-list::after {
+/* Ocultar flecha al llegar al final */
+.featured-list.scroll-end::after {
   opacity: 0;
   pointer-events: none;
 }
@@ -397,10 +398,10 @@ main > .social-icons {
   
   /* Tarjeta de destacados a ancho completo en móvil */
   .featured-card {
-    width: 100%; /* Ancho completo */
-    margin-left: 0;
-    margin-right: 0;
-    border-radius: 8px; /* Mantener bordes redondeados pero reducidos */
+    width: 100vw; /* Ancho completo del viewport */
+    margin-left: -15px; /* Compensar el padding del body */
+    margin-right: -15px;
+    border-radius: 0; /* Sin bordes en móvil para aprovechar todo el ancho */
     padding: 16px 0 22px; /* Padding vertical solamente */
     box-sizing: border-box;
     overflow: hidden; /* Asegurar que nada se desborde */
@@ -408,10 +409,11 @@ main > .social-icons {
   
   .featured-list {
     padding-left: 15px; /* Padding izquierdo */
-    padding-right: 40px; /* Espacio para la flecha */
+    padding-right: 40px; /* Espacio exacto para la flecha */
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-snap-type: x mandatory; /* Mejorar experiencia de scroll */
     -ms-overflow-style: none; /* Para IE y Edge */
     scrollbar-width: none; /* Para Firefox */
@@ -422,11 +424,16 @@ main > .social-icons {
   }
   
   .featured-item {
-    width: 140px; /* Reducido para mejor fit en móvil */
+    width: calc(42vw - 20px); /* Tamaño ajustado para mostrar exactamente 2 tarjetas + parte de la tercera */
     flex-shrink: 0;
     scroll-snap-align: start;
     min-height: 220px; /* Altura fija para consistencia */
-    margin-right: 2px; /* Reducir espacio entre elementos */
+    margin-right: 12px; /* Espacio entre elementos */
+  }
+  
+  /* Último item en el carrusel sin margen derecho para eliminar espacio muerto */
+  .featured-item:last-child {
+    margin-right: 0;
   }
   
   /* Ajustar cuadrícula de categorías en móvil */

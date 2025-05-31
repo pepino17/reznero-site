@@ -65,25 +65,41 @@
   <script>
     // Función para detectar cuando se ha llegado al final del scroll horizontal
     function checkScrollEnd(element) {
-      const isAtEnd = element.scrollWidth - element.clientWidth <= element.scrollLeft + 5;
+      // Tolerancia más pequeña para considerar que se ha llegado al final
+      const isAtEnd = element.scrollWidth - element.clientWidth <= element.scrollLeft + 2;
+      
       if (isAtEnd) {
         element.classList.add('scroll-end');
-        document.documentElement.classList.add('hide-scroll-indicator');
       } else {
         element.classList.remove('scroll-end');
-        document.documentElement.classList.remove('hide-scroll-indicator');
       }
     }
     
-    // Verificar en tiempo real si se llega al final del scroll
+    // Configurar la vigilancia del scroll con comprobación inicial
     function setupScrollWatcher(elementId) {
       const element = document.getElementById(elementId);
       if (element) {
-        // Comprobar inicialmente
-        checkScrollEnd(element);
+        // Comprobar estado inicial después de cargar las imágenes
+        setTimeout(() => {
+          checkScrollEnd(element);
+        }, 100);
         
-        // Monitorear durante el scroll
+        // Comprobar regularmente (por si acaso hay cambios de tamaño)
+        const checkInterval = setInterval(() => {
+          if (document.contains(element)) {
+            checkScrollEnd(element);
+          } else {
+            clearInterval(checkInterval);
+          }
+        }, 500);
+        
+        // Monitorear durante el scroll activo
         element.addEventListener('scroll', function() {
+          checkScrollEnd(element);
+        });
+        
+        // Comprobar al cambiar de tamaño la ventana
+        window.addEventListener('resize', function() {
           checkScrollEnd(element);
         });
       }
@@ -126,13 +142,26 @@
             featuredList.appendChild(div);
           });
           
-          // Mostrar productos destacados una vez cargados
-          featuredList.classList.add('loaded');
-          
-          // Detectar cuando el scroll ha llegado al final
-          setTimeout(() => {
+          // Asegurarse de que todas las imágenes estén cargadas antes de configurar el scroll
+          Promise.all(Array.from(featuredList.querySelectorAll('img')).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+            // Configurar la detección de scroll
             setupScrollWatcher('featured-list');
-          }, 300);
+            
+            // Forzar comprobación adicional después de un tiempo prudencial
+            setTimeout(() => {
+              const list = document.getElementById('featured-list');
+              if (list) {
+                checkScrollEnd(list);
+                // Verificación extra para asegurar el estado correcto
+                if (list.scrollWidth <= list.clientWidth) {
+                  list.classList.add('scroll-end');
+                }
+              }
+            }, 500);
+          });
+          
+          // Mostrar el contenido una vez cargado
+          featuredList.classList.add('loaded');
 
           // 2. Categorías
           categoriesGrid.innerHTML = ''; // Limpiar contenedor
