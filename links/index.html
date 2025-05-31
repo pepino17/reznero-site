@@ -11,15 +11,6 @@
   <meta property="og:description" content="Descubre los mejores productos en Amazon. Ofertas diarias y envío rápido.">
   <meta property="og:image" content="../assets/img/og-image.jpg">
   <link rel="stylesheet" href="../assets/css/style.css"/>
-  <style>
-    .hidden-loading {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .loaded {
-      opacity: 1;
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -36,21 +27,38 @@
           <img src="../assets/img/telegram.svg" alt="Telegram"/>
         </a>
       </div>
+      <!-- Barra de búsqueda -->
+      <div class="search-container">
+        <div class="search-bar">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 21L16.65 16.65" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input type="text" placeholder="Buscar productos..." aria-label="Buscar productos">
+        </div>
+      </div>
     </div>
   </header>
 
   <main>
     <!-- Sección de Destacados -->
-    <section class="featured-card">
+    <div class="featured-card">
       <h2>Productos Destacados</h2>
-      <div class="featured-list hidden-loading" id="featured-list"><!-- Contenido cargado dinámicamente --></div>
-    </section>
+      <div class="featured-list" id="featuredList">
+        <!-- Se cargan dinámicamente -->
+      </div>
+      <!-- Dots para navegación móvil -->
+      <div class="carousel-dots" id="carouselDots">
+        <!-- Se generan dinámicamente -->
+      </div>
+    </div>
 
     <!-- Sección de Categorías -->
     <div class="categories-section">
       <h2>Categorías</h2>
-      <div class="categories-intro">Encuentra tu próximo favorito en un clic</div>
-      <div class="categories-grid hidden-loading" id="categories-grid"><!-- Contenido cargado dinámicamente --></div>
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- Se cargan dinámicamente -->
+      </div>
     </div>
   </main>
 
@@ -63,143 +71,162 @@
   </footer>
 
   <script>
-    // Función para detectar cuando se ha llegado al final del scroll horizontal
-    function checkScrollEnd(element) {
-      // Tolerancia más pequeña para considerar que se ha llegado al final
-      const isAtEnd = element.scrollWidth - element.clientWidth <= element.scrollLeft + 2;
+    // Cargar datos
+    fetch('../data/products.json')
+      .then(response => response.json())
+      .then(data => {
+        // Cargar productos destacados (últimos 5 productos)
+        const featuredList = document.getElementById('featuredList');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        // Usa los últimos 5 productos en orden inverso como destacados
+        const featuredProducts = data.slice(-5).reverse();
+        
+        featuredProducts.forEach((p, index) => {
+          const div = document.createElement('div');
+          div.className = 'featured-item';
+          div.innerHTML = `
+            <a href="${p.url || '#'}" class="product-link" target="_blank">
+              <img src="${p.image}" alt="${p.name}" loading="lazy">
+              <div class="product-title">${p.name}</div>
+            </a>
+          `;
+          featuredList.appendChild(div);
+        });
+        
+        // Generar dots para móvil
+        // Mostramos un dot por cada par de productos (considerando que se ven 2 a la vez)
+        const totalDots = Math.max(1, Math.ceil(featuredProducts.length / 2));
+        
+        for (let i = 0; i < totalDots; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'dot';
+          dot.dataset.index = i;
+          
+          // El primer dot está activo por defecto
+          if (i === 0) dot.classList.add('active');
+          
+          // Al hacer clic en un dot, desplazar al producto correspondiente
+          dot.addEventListener('click', () => {
+            const itemWidth = featuredList.querySelector('.featured-item').offsetWidth;
+            const scrollPosition = i * itemWidth * 2; // 2 productos por vista
+            featuredList.scrollTo({
+              left: scrollPosition,
+              behavior: 'smooth'
+            });
+          });
+          
+          dotsContainer.appendChild(dot);
+        }
+        
+        // Detectar final del scroll y actualizar dots
+        checkScrollEnd();
+        updateActiveDot();
+        
+        // Cargar categorías
+        const categories = [...new Set(data.map(p => p.category))];
+        const categoriesGrid = document.getElementById('categoriesGrid');
+        
+        categories.forEach(category => {
+          const categoryProducts = data.filter(p => p.category === category);
+          const categoryImages = categoryProducts.slice(0, 4).map(p => p.image);
+          
+          const div = document.createElement('a');
+          div.className = 'category-card';
+          div.href = `category.html?category=${encodeURIComponent(category)}`;
+          
+          // Grid de imágenes para la tarjeta
+          const imageGrid = document.createElement('div');
+          imageGrid.className = 'category-grid';
+          
+          // Añadir hasta 4 imágenes (o menos si no hay suficientes)
+          categoryImages.forEach(image => {
+            const img = document.createElement('img');
+            img.src = image;
+            img.alt = category;
+            img.loading = 'lazy';
+            imageGrid.appendChild(img);
+          });
+          
+          const title = document.createElement('div');
+          title.className = 'category-title';
+          title.textContent = category;
+          
+          div.appendChild(imageGrid);
+          div.appendChild(title);
+          categoriesGrid.appendChild(div);
+        });
+      })
+      .catch(error => console.error('Error cargando productos:', error));
+    
+    // Función para detectar si el scroll ha llegado al final
+    function checkScrollEnd() {
+      const featuredList = document.getElementById('featuredList');
       
-      if (isAtEnd) {
-        element.classList.add('scroll-end');
-      } else {
-        element.classList.remove('scroll-end');
+      // Solo si existe el elemento
+      if (featuredList) {
+        // Detectar si está al final del scroll
+        const isAtEnd = featuredList.scrollWidth <= featuredList.scrollLeft + featuredList.clientWidth + 5;
+        
+        // Añadir o quitar clase según corresponda
+        if (isAtEnd) {
+          featuredList.classList.add('scroll-end');
+        } else {
+          featuredList.classList.remove('scroll-end');
+        }
       }
     }
     
-    // Configurar la vigilancia del scroll con comprobación inicial
-    function setupScrollWatcher(elementId) {
-      const element = document.getElementById(elementId);
-      if (element) {
-        // Comprobar estado inicial después de cargar las imágenes
-        setTimeout(() => {
-          checkScrollEnd(element);
-        }, 100);
+    // Función para actualizar el dot activo según la posición del scroll
+    function updateActiveDot() {
+      const featuredList = document.getElementById('featuredList');
+      const dots = document.querySelectorAll('.dot');
+      
+      if (featuredList && dots.length > 0) {
+        // Calcular qué dot debe estar activo basado en la posición del scroll
+        const scrollPosition = featuredList.scrollLeft;
+        const itemWidth = featuredList.querySelector('.featured-item').offsetWidth;
+        const activeIndex = Math.floor(scrollPosition / (itemWidth * 2)); // 2 items por vista
         
-        // Comprobar regularmente (por si acaso hay cambios de tamaño)
-        const checkInterval = setInterval(() => {
-          if (document.contains(element)) {
-            checkScrollEnd(element);
+        // Actualizar clases
+        dots.forEach((dot, index) => {
+          if (index === activeIndex) {
+            dot.classList.add('active');
           } else {
-            clearInterval(checkInterval);
+            dot.classList.remove('active');
           }
-        }, 500);
-        
-        // Monitorear durante el scroll activo
-        element.addEventListener('scroll', function() {
-          checkScrollEnd(element);
-        });
-        
-        // Comprobar al cambiar de tamaño la ventana
-        window.addEventListener('resize', function() {
-          checkScrollEnd(element);
         });
       }
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const featuredList = document.getElementById('featured-list');
-      const categoriesGrid = document.getElementById('categories-grid');
+    
+    // Escuchar eventos de scroll en el carrusel
+    document.addEventListener('DOMContentLoaded', () => {
+      const featuredList = document.getElementById('featuredList');
       
-      // Ocultar mientras carga
-      featuredList.classList.add('hidden-loading');
-      categoriesGrid.classList.add('hidden-loading');
-      
-      fetch('../data/products.json')
-        .then(res => res.json())
-        .then(data => {
-          // 1. Productos destacados (últimos 5)
-          featuredList.innerHTML = ''; // Limpiar contenedor
-          
-          data.slice(-5).reverse().forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'featured-item';
-            div.innerHTML = `
-              <div itemscope itemtype="http://schema.org/Product">
-                <a href="${p.link}" target="_blank" rel="noopener noreferrer" itemprop="url" class="product-link">
-                  <div class="product-image-container">
-                    <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy">
-                  </div>
-                  <div class="product-title" itemprop="name">${p.title}</div>
-                </a>
-                <meta itemprop="brand" content="${p.brand || 'Marca'}">
-                <meta itemprop="category" content="${p.category}">
-                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                  <meta itemprop="priceCurrency" content="EUR">
-                  <meta itemprop="price" content="${p.price || ''}">
-                  <link itemprop="availability" href="http://schema.org/InStock">
-                </div>
-              </div>
-            `;
-            featuredList.appendChild(div);
-          });
-          
-          // Asegurarse de que todas las imágenes estén cargadas antes de configurar el scroll
-          Promise.all(Array.from(featuredList.querySelectorAll('img')).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
-            // Configurar la detección de scroll
-            setupScrollWatcher('featured-list');
-            
-            // Forzar comprobación adicional después de un tiempo prudencial
-            setTimeout(() => {
-              const list = document.getElementById('featured-list');
-              if (list) {
-                checkScrollEnd(list);
-                // Verificación extra para asegurar el estado correcto
-                if (list.scrollWidth <= list.clientWidth) {
-                  list.classList.add('scroll-end');
-                }
-              }
-            }, 500);
-          });
-          
-          // Mostrar el contenido una vez cargado
-          featuredList.classList.add('loaded');
-
-          // 2. Categorías
-          categoriesGrid.innerHTML = ''; // Limpiar contenedor
-          
-          // Obtener categorías únicas
-          const categories = [...new Set(data.map(p => p.category))];
-          
-          categories.forEach(cat => {
-            // Obtener productos de esta categoría (hasta 4 máximo)
-            const items = data.filter(p => p.category === cat).slice(-4).reverse();
-            
-            // Solo mostrar categorías con productos
-            if (items.length > 0) {
-              const card = document.createElement('a');
-              card.className = 'category-card';
-              card.href = `categoria.html?category=${encodeURIComponent(cat)}`;
-              
-              card.innerHTML = `
-                <div class="category-grid">
-                  ${items.map(p => `<img src="${p.image}" alt="${p.title}" loading="lazy">`).join('')}
-                </div>
-                <div class="category-title">${cat}</div>
-              `;
-              
-              categoriesGrid.appendChild(card);
-            }
-          });
-          
-          // Mostrar categorías una vez cargadas
-          categoriesGrid.classList.add('loaded');
-        })
-        .catch(err => {
-          console.error('Error cargando productos:', err);
-          featuredList.innerHTML = '<p class="error-message">Error cargando productos destacados</p>';
-          categoriesGrid.innerHTML = '<p class="error-message">Error cargando categorías</p>';
-          featuredList.classList.add('loaded');
-          categoriesGrid.classList.add('loaded');
+      if (featuredList) {
+        featuredList.addEventListener('scroll', () => {
+          checkScrollEnd();
+          updateActiveDot();
         });
+        
+        // Comprobar también al redimensionar ventana
+        window.addEventListener('resize', () => {
+          checkScrollEnd();
+          updateActiveDot();
+        });
+        
+        // Comprobar después de cargar imágenes
+        window.addEventListener('load', () => {
+          checkScrollEnd();
+          updateActiveDot();
+          
+          // Verificar periódicamente (útil para cuando las imágenes cambian el tamaño del contenedor)
+          setTimeout(() => {
+            checkScrollEnd();
+            updateActiveDot();
+          }, 1000);
+        });
+      }
     });
   </script>
 </body>
