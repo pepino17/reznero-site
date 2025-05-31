@@ -437,6 +437,45 @@ body {
   }
 }
 
+/* Media queries para pantallas muy estrechas (menores a 376px) */
+@media (max-width: 375px) {
+  /* Ajustar la forma de las tarjetas de Categorías */
+  .category-grid {
+    aspect-ratio: 1 / 0.9; /* Hacer las tarjetas más cuadradas */
+    padding: 6px; /* Reducir padding interior */
+  }
+  
+  .category-grid img {
+    max-width: 85%; /* Reducir tamaño de imagen interna ~15% */
+    margin: 0 auto; /* Centrar imagen */
+    height: auto; /* Ajustar altura automáticamente */
+  }
+  
+  .category-card {
+    padding: 0;
+  }
+  
+  .categories-grid {
+    padding: 0 6px; /* Reducir padding lateral a 6px */
+  }
+  
+  .category-title {
+    padding: 8px 4px; /* Reducir espacio del título */
+    font-size: 1rem; /* Reducir tamaño de fuente ligeramente */
+  }
+  
+  /* Corregir bordes redondeados en Productos Destacados */
+  .featured-card {
+    padding: 20px 6px;
+    margin: 0 6px 25px 6px;
+    width: calc(100% - 12px);
+  }
+  
+  .featured-list {
+    margin: 0 6px;
+  }
+}
+
 /* Estilo para eliminar subrayado en enlaces */
 .product-link {
   text-decoration: none;
