@@ -464,8 +464,8 @@ body {
   .categories-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important; /* This gap is between the category cards themselves */
-    padding: 0 4px !important; /* Reduced side padding for the main grid */
+    gap: 6px !important; /* Further reduced gap between category cards */
+    padding: 0 2px !important; /* Minimal side padding for maximum width */
     width: 100% !important;
   }
   
