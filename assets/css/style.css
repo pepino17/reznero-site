@@ -443,19 +443,22 @@ body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 0px; /* ELIMINATED gap for images to touch */
+    gap: 0; /* ELIMINATED gap for images to touch */
     width: 100% !important;
     aspect-ratio: 1/1;
-    padding: 0px; /* ELIMINATED padding to give images maximum space */
-    margin-bottom: 5px;
+    padding: 0; /* ELIMINATED padding to give images maximum space */
+    margin: 0 0 5px 0;
+    overflow: hidden; /* Ensure no overflow creates gaps */
   }
   
   .category-grid img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important; /* Changed from contain to cover to eliminate white space */
-    padding: 0px; /* Removed padding from images themselves */
+    padding: 0; /* Removed padding from images themselves */
     margin: 0;
+    display: block; /* Prevent inline element spacing */
+    border: none; /* Remove any possible borders */
   }
   
   .categories-grid {
