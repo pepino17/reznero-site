@@ -46,14 +46,13 @@
           const div = document.createElement('div');
           div.className = 'featured-item';
           div.innerHTML = `
-            <a href="${p.link}" target="_blank">
+            <a href="${p.link}" target="_blank" style="text-decoration:none;">
               <img src="${p.image}" alt="${p.title}">
-              <p>${p.title}</p>
+              <div class="product-title">${p.title}</div>
             </a>
           `;
           featuredList.appendChild(div);
         });
-
         // 2) Categorías: collage de 4 por categoría
         const categories = [...new Set(data.map(p => p.category))];
         const grid = document.getElementById('categories-grid');
