@@ -108,7 +108,7 @@ body {
 /* Indicador de scroll horizontal */
 .featured-list::after {
   content: '\203A';
-  position: absolute;
+  position: fixed; /* Cambiado a fixed para que no se mueva con el scroll */
   right: 0;
   top: 50%;
   transform: translateY(-50%);
@@ -117,10 +117,15 @@ body {
   background: linear-gradient(to right, transparent, rgba(243,234,255,0.8) 40%);
   padding: 15px 5px 15px 30px;
   pointer-events: none;
+  z-index: 10;
+  height: 100px;
+  display: flex;
+  align-items: center;
 }
 
 /* Ocultar flecha al llegar al final usando JavaScript */
-.featured-list.scroll-end::after {
+.featured-list.scroll-end::after,
+html.hide-scroll-indicator .featured-list::after {
   display: none;
 }
 
@@ -236,6 +241,7 @@ a:visited {
   background: #f8f8f8;
   border-top: 1px solid #eee;
   font-weight: 600;
+  margin: 0;
 }
 
 /* Footer */
@@ -269,11 +275,11 @@ footer {
 .category-page-header {
   display: flex;
   align-items: center;
-  justify-content: center;
   margin-bottom: 20px;
   gap: 10px;
   position: relative;
-  flex-wrap: wrap;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .back-button {
@@ -301,23 +307,34 @@ footer {
   text-align: center;
   width: 100%;
   font-weight: 700;
-  padding: 10px 50px;
+  padding: 10px 0;
   margin: 0 auto;
+  max-width: 800px;
 }
 
-/* Contenedor para título de categoría */
-.category-title-container {
-  background: #f8f8f8;
+/* Contenedor para secciones */
+.categories-section {
   padding: 15px 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   margin-bottom: 20px;
   text-align: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
-  z-index: 1;
+}
+
+main {
+  padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Iconos sociales en página de categoría */
+main > .social-icons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 .category-products {
@@ -448,15 +465,18 @@ footer {
   }
   
   .category-page-header {
-    padding-top: 40px;
-    margin-bottom: 30px;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    justify-content: flex-start;
   }
   
   .back-button {
-    top: 0;
+    position: relative;
+    top: auto;
     left: 0;
     transform: none;
     z-index: 2;
+    margin-bottom: 10px;
   }
   
   .category-page-title {

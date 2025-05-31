@@ -68,8 +68,10 @@
       const isAtEnd = element.scrollWidth - element.clientWidth <= element.scrollLeft + 5;
       if (isAtEnd) {
         element.classList.add('scroll-end');
+        document.documentElement.classList.add('hide-scroll-indicator');
       } else {
         element.classList.remove('scroll-end');
+        document.documentElement.classList.remove('hide-scroll-indicator');
       }
     }
 
