@@ -507,6 +507,33 @@ body {
   }
 }
 
+/* Media queries para pantallas extremadamente estrechas (menores o iguales a 360px) */
+@media (max-width: 360px) {
+  /* Reducir márgenes laterales para aprovechar mejor el espacio */
+  .categories-grid {
+    padding: 0 2px !important; /* Reducción de padding lateral al mínimo (2px) */
+    gap: 4px !important; /* Reducir el espacio entre tarjetas */
+  }
+  
+  /* Eliminar el gap entre las mini-imágenes */
+  .category-grid {
+    gap: 0 !important; /* Eliminar completamente el espacio entre imágenes */
+    padding: 0 !important; /* Eliminar padding interno */
+  }
+  
+  /* Mantener el formato del texto */
+  .category-title {
+    min-height: 50px; /* Asegurar altura mínima para que no se corte el texto */
+    padding: 8px 2px; /* Reducir padding horizontal */
+  }
+  
+  /* Ajustar tamaño de las tarjetas para maximizar espacio */
+  .category-card {
+    padding: 0 0 8px 0; /* Eliminar padding lateral y superior, mantener solo el inferior */
+    margin: 0 1px 8px 1px; /* Reducir márgenes laterales al mínimo */
+  }
+}
+
 /* Estilo para eliminar subrayado en enlaces */
 .product-link {
   text-decoration: none;
