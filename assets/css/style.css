@@ -343,16 +343,19 @@ body {
   /* Ajustar cuadrícula de categorías en móvil - 2 columnas */
   .categories-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 45%);
     gap: 8px;
     padding: 0 12px;
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
+    margin: 0 auto;
   }
   
   .category-card {
     width: 100%;
+    margin: 0;
+    box-sizing: border-box;
   }
   
   .category-grid {
@@ -360,11 +363,14 @@ body {
   }
   
   /* Ajustes para la página de categoría */
-  .category-products {
-    grid-template-columns: repeat(2, calc(50% - 6px)); /* Exactamente 45% del ancho disponible */
-    gap: 12px;
-    padding: 0 15px; /* Padding lateral para evitar que las cards toquen los bordes */
+  .category-products, #category-products {
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 4px));
+    gap: 8px;
+    padding: 0 14px; /* Padding lateral reducido */
     justify-content: center;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .product-card {
