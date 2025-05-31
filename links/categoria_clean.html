@@ -22,26 +22,41 @@
   </style>
 </head>
 <body>
-  <div class="header-wrapper">
-    <div class="social-icons">
-      <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
-        <img src="../assets/img/instagram.svg" alt="Instagram"/>
-      </a>
-      <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
-        <img src="../assets/img/youtube.svg" alt="YouTube"/>
-      </a>
-      <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
-        <img src="../assets/img/telegram.svg" alt="Telegram"/>
-      </a>
+  <header>
+    <div class="header-wrapper">
+      <h1 class="category-page-title page-title" id="category-title">Productos de la categoría</h1>
+      
+      <div class="social-icons">
+        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/instagram.svg" alt="Instagram"/>
+        </a>
+        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/youtube.svg" alt="YouTube"/>
+        </a>
+        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/telegram.svg" alt="Telegram"/>
+        </a>
+      </div>
+      
+      <!-- Barra de búsqueda -->
+      <div class="search-container">
+        <div class="search-bar">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 21L16.65 16.65" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Buscar productos..." aria-label="Buscar productos">
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
     </div>
-  </div>
+  </header>
 
   <main>
     <div class="category-page-header">
       <a href="index.html" class="back-button" aria-label="Volver a la página principal">
         <span>← Volver</span>
       </a>
-      <h1 class="category-page-title" id="category-title">Productos de la categoría</h1>
     </div>
 
     <section class="categories-card">

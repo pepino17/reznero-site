@@ -226,6 +226,28 @@ body {
 
 /* Media queries para móvil */
 @media (max-width: 768px) {
+  /* Ajustes de encabezado para móvil - orden correcto */
+  .header-wrapper {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .page-title {
+    margin-bottom: 16px;
+    margin-top: 0;
+    order: 1;
+  }
+  
+  .social-icons {
+    margin-bottom: 18px;
+    order: 2;
+  }
+  
+  .search-container {
+    margin-bottom: 16px;
+    order: 3;
+  }
+  
   /* Sección principal */
   body {
     padding: 10px 0; /* Reducir padding para eliminar espacio innecesario en móvil */
@@ -251,16 +273,19 @@ body {
   }
   
   .featured-list {
-    padding-left: 15px; /* Padding izquierdo */
-    padding-right: 15px; /* Ya no necesitamos espacio para la flecha */
-    width: 100%;
-    max-width: 100%;
+    padding: 10px 16px;
+    justify-content: flex-start;
     overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory; /* Mejorar experiencia de scroll */
-    -ms-overflow-style: none; /* Para IE y Edge */
-    scrollbar-width: none; /* Para Firefox */
-    scroll-behavior: smooth;
+    gap: 16px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0; /* Asegurar que no haya padding inicial */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  /* Asegurar que la posición inicial sea 0 */
+  .featured-list.loaded {
+    scroll-behavior: auto; /* Evitar animación inicial */
+    /* El scroll inicial se controlará con JavaScript */
   }
   
   .featured-list::-webkit-scrollbar {
@@ -270,7 +295,7 @@ body {
   .featured-item {
     width: calc(50vw - 24px); /* Exactamente la mitad del viewport menos padding y gap */
     flex-shrink: 0;
-    scroll-snap-align: center; /* Volver a center para mejor alineamiento móvil */
+    scroll-snap-align: start; /* Alinear al inicio para mostrar completa la primera tarjeta */
     min-height: 220px; /* Altura fija para consistencia */
     margin-right: 0; /* Sin margen adicional */
   }

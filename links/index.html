@@ -101,30 +101,29 @@
           featuredList.appendChild(div);
         });
         
-        // Generar dots para móvil
-        // Mostramos un dot por cada par de productos (considerando que se ven 2 a la vez)
-        const totalDots = Math.max(1, Math.ceil(featuredProducts.length / 2));
+        // Crear puntos indicadores para navegación móvil
+        const dotCount = Math.ceil(featuredProducts.length / 2); // Un punto por cada par de productos
         
-        for (let i = 0; i < totalDots; i++) {
+        for (let i = 0; i < dotCount; i++) {
           const dot = document.createElement('div');
-          dot.className = 'dot';
-          dot.dataset.index = i;
-          
-          // El primer dot está activo por defecto
-          if (i === 0) dot.classList.add('active');
-          
-          // Al hacer clic en un dot, desplazar al producto correspondiente
+          dot.className = 'dot' + (i === 0 ? ' active' : '');
           dot.addEventListener('click', () => {
-            const itemWidth = featuredList.querySelector('.featured-item').offsetWidth;
-            const scrollPosition = i * itemWidth * 2; // 2 productos por vista
-            featuredList.scrollTo({
-              left: scrollPosition,
-              behavior: 'smooth'
-            });
+            // Deslizar al producto correspondiente
+            const scrollPos = i * (featuredList.clientWidth * 0.8);
+            featuredList.scrollTo({ left: scrollPos, behavior: 'smooth' });
           });
           
           dotsContainer.appendChild(dot);
         }
+        
+        // Asegurar que el carrusel muestre las primeras tarjetas completas al inicio en móvil
+        setTimeout(() => {
+          // Forzar la posición inicial del scroll a 0
+          featuredList.scrollLeft = 0;
+          
+          // Agregar clase loaded cuando el carrusel esté inicializado
+          featuredList.classList.add('loaded');
+        }, 100);
         
         // Detectar final del scroll y actualizar dots
         checkScrollEnd();
