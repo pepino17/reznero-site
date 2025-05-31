@@ -426,8 +426,8 @@ body {
 @media (max-width: 420px) {
   /* 1. TARJETAS DE CATEGORÍAS CUADRADAS */
   .category-card {
-    padding: 8px 8px 8px 8px; /* Added bottom padding */
-    margin: 0 3px 10px 3px;
+    padding: 4px 4px 8px 4px; /* Reduced side and top padding, kept bottom for title */
+    margin: 0 2px 10px 2px; /* Reduced side margins from 3px to 2px */
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border-radius: 12px;
     display: flex;
@@ -453,7 +453,7 @@ body {
   .category-grid img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important;
+    object-fit: cover !important; /* Changed from contain to cover to eliminate white space */
     padding: 0px; /* Removed padding from images themselves */
     margin: 0;
   }
