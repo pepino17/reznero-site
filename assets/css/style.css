@@ -439,25 +439,22 @@ body {
   }
   
   .category-grid {
-    max-height: 160px !important;
-    height: 160px !important;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 5px;
     width: 100% !important;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    overflow: hidden;
+    aspect-ratio: 1/1;
+    padding: 10px;
     margin-bottom: 5px;
   }
   
   .category-grid img {
-    width: 65% !important;
-    height: auto !important;
-    max-height: 90px !important;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: contain !important;
-    margin: 4px;
-    padding: 0;
+    padding: 5px;
+    margin: 0;
   }
   
   .categories-grid {
