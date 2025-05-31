@@ -3,29 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Productos Recomendados</title>
+  <title>Productos UTINEX - Tienda Afiliada Amazon</title>
   <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="icon" type="image/png" href="../assets/img/logo-marca.png">
 </head>
 <body>
   <header>
-    <h1 class="page-title">Productos Recomendados</h1>
-    <div class="social-icons">
-      <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank">
-        <img src="../assets/img/instagram.svg" alt="Instagram"/>
-      </a>
-      <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank">
-        <img src="../assets/img/youtube.svg" alt="YouTube"/>
-      </a>
-      <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank">
-        <img src="../assets/img/telegram.svg" alt="Telegram"/>
-      </a>
+    <div class="header-wrapper">
+      <div class="logo-container">
+        <img 
+          src="../assets/img/logo-marca.png" 
+          alt="UTINEX - Tu Tienda de Cocina" 
+          style="height: 60px;"
+        >
+      </div>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank">
+          <img src="../assets/img/instagram.svg" alt="Instagram"/>
+        </a>
+        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank">
+          <img src="../assets/img/youtube.svg" alt="YouTube"/>
+        </a>
+        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank">
+          <img src="../assets/img/telegram.svg" alt="Telegram"/>
+        </a>
+      </div>
     </div>
   </header>
 
   <main>
     <!-- Destacados en su tarjeta estrecha -->
     <section class="featured-card" id="featured-section">
-      <h2>Destacados</h2>
+      <h2>Productos Destacados</h2>
       <div class="featured-list" id="featured-list"></div>
     </section>
 
@@ -35,6 +44,13 @@
       <div class="categories-grid" id="categories-grid"></div>
     </section>
   </main>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 UTINEX. Todos los derechos reservados.</p>
+      <p>Esta página es un programa de afiliados de Amazon. Los productos se compran directamente en Amazon.</p>
+    </div>
+  </footer>
 
   <script>
     fetch('../data/products.json')
@@ -46,34 +62,44 @@
           const div = document.createElement('div');
           div.className = 'featured-item';
           div.innerHTML = `
-            <a href="${p.link}" target="_blank" style="text-decoration:none;">
+            <a href="${p.link}" target="_blank" rel="noopener noreferrer">
               <img src="${p.image}" alt="${p.title}">
               <div class="product-title">${p.title}</div>
+              <div class="product-info">
+                <div class="price">${p.price}</div>
+                <div class="rating">${p.rating} estrellas</div>
+              </div>
             </a>
           `;
           featuredList.appendChild(div);
         });
+
         // 2) Categorías: collage de 4 por categoría
-       // ... dentro del then(data => { ... })
-       const categories = [...new Set(data.map(p => p.category))];
-       const grid = document.getElementById('categories-grid');
-       categories.forEach(cat => {
-         const items = data
-           .filter(p => p.category === cat)
-           .slice(-4)
-           .reverse();
-         // Cambia el div a <a>
-         const card = document.createElement('a');
-         card.className = 'category-card';
-         card.href = `categoria.html?category=${encodeURIComponent(cat)}`;
-         card.innerHTML = `
-           <div class="category-grid">
-             ${items.map(p => `<img src="${p.image}" alt="${p.title}">`).join('')}
-           </div>
-           <div class="category-title">${cat}</div>
-         `;
-         grid.appendChild(card);
-      });
+        const categories = [...new Set(data.map(p => p.category))];
+        const grid = document.getElementById('categories-grid');
+        categories.forEach(cat => {
+          const items = data
+            .filter(p => p.category === cat)
+            .slice(-4)
+            .reverse();
+          
+          const card = document.createElement('a');
+          card.className = 'category-card';
+          card.href = `categoria.html?category=${encodeURIComponent(cat)}`;
+          card.innerHTML = `
+            <div class="category-grid">
+              ${items.map(p => `
+                <img src="${p.image}" alt="${p.title}">
+                <div class="product-caption">
+                  <span class="product-title">${p.title}</span>
+                  <span class="product-price">${p.price}</span>
+                </div>
+              `).join('')}
+            </div>
+            <div class="category-title">${cat}</div>
+          `;
+          grid.appendChild(card);
+        });
       })
       .catch(err => console.error('Error cargando productos:', err));
   </script>
