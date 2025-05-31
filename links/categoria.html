@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title id="page-title">Categoría</title>
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body>
+  <header>
+    <h1 class="page-title" id="category-title">Productos de la categoría</h1>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank">
+        <img src="../assets/img/instagram.svg" alt="Instagram"/>
+      </a>
+      <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank">
+        <img src="../assets/img/youtube.svg" alt="YouTube"/>
+      </a>
+      <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank">
+        <img src="../assets/img/telegram.svg" alt="Telegram"/>
+      </a>
+    </div>
+  </header>
 
+  <main>
+    <section class="categories-card" style="margin-top:20px;">
+      <h2 id="cat-heading"></h2>
+      <div class="categories-grid" id="category-products"></div>
+      <div style="text-align:center; margin:30px;">
+        <a href="index.html" style="text-decoration:none; color:#333; font-weight:bold;">
+          ← Volver a todas las categorías
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // 1. Saca el nombre de la categoría desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category');
+
+    // 2. Cambia los títulos para SEO y visual
+    document.getElementById('page-title').innerText = cat ? `Productos de ${cat}` : 'Categoría';
+    document.getElementById('category-title').innerText = cat ? cat : 'Categoría';
+    document.getElementById('cat-heading').innerText = cat ? `Productos de la categoría "${cat}"` : '';
+
+    // 3. Carga productos y filtra por categoría
+    fetch('../data/products.json')
+      .then(res => res.json())
+      .then(data => {
+        const productsDiv = document.getElementById('category-products');
+        productsDiv.innerHTML = '';
+        const filtered = data.filter(p => p.category === cat);
+
+        if (filtered.length === 0) {
+          productsDiv.innerHTML = '<p style="text-align:center;">No hay productos en esta categoría.</p>';
+        } else {
+          filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+            card.style.cursor = 'default';
+            card.innerHTML = `
+              <div class="category-grid">
+                <img src="${p.image}" alt="${p.title}">
+              </div>
+              <div class="category-title">${p.title}</div>
+              <a href="${p.link}" target="_blank" class="ver-mas-btn">Ver producto</a>
+            `;
+            productsDiv.appendChild(card);
+          });
+        }
+      })
+      .catch(err => {
+        document.getElementById('category-products').innerHTML =
+          '<p style="color:red; text-align:center;">Error cargando productos.</p>';
+      });
+  </script>
+</body>
+</html>
