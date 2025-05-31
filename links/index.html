@@ -63,6 +63,16 @@
   </footer>
 
   <script>
+    // Función para detectar cuando se ha llegado al final del scroll horizontal
+    function checkScrollEnd(element) {
+      const isAtEnd = element.scrollWidth - element.clientWidth <= element.scrollLeft + 5;
+      if (isAtEnd) {
+        element.classList.add('scroll-end');
+      } else {
+        element.classList.remove('scroll-end');
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       const featuredList = document.getElementById('featured-list');
       const categoriesGrid = document.getElementById('categories-grid');
@@ -83,7 +93,9 @@
             div.innerHTML = `
               <div itemscope itemtype="http://schema.org/Product">
                 <a href="${p.link}" target="_blank" rel="noopener noreferrer" itemprop="url" class="product-link">
-                  <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy" width="160" height="130">
+                  <div class="product-image-container">
+                    <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy">
+                  </div>
                   <div class="product-title" itemprop="name">${p.title}</div>
                 </a>
                 <meta itemprop="brand" content="${p.brand || 'Marca'}">
@@ -100,6 +112,12 @@
           
           // Mostrar productos destacados una vez cargados
           featuredList.classList.add('loaded');
+          
+          // Detectar cuando el scroll ha llegado al final
+          setTimeout(() => {
+            checkScrollEnd(featuredList);
+            featuredList.addEventListener('scroll', () => checkScrollEnd(featuredList));
+          }, 500);
 
           // 2. Categorías
           categoriesGrid.innerHTML = ''; // Limpiar contenedor

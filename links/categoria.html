@@ -41,11 +41,10 @@
       <a href="index.html" class="back-button" aria-label="Volver a la página principal">
         <span>← Volver</span>
       </a>
-      <h1 class="category-page-title" id="category-title">Productos de la categoría</h1>
     </div>
 
     <div class="category-title-container">
-      <h2 id="category-title-display">Categoría de productos</h2>
+      <h1 class="category-page-title" id="category-title">Productos de la categoría</h1>
     </div>
 
     <section class="categories-card">
@@ -72,7 +71,6 @@
       // Actualizar títulos
       document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
       document.getElementById('category-title').innerText = cat ? cat : 'Productos destacados';
-      document.getElementById('category-title-display').innerText = cat ? cat : 'Productos destacados';
 
       // Cargar productos y filtrar por categoría
       fetch('../data/products.json')
