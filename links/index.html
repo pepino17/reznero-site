@@ -1,4 +1,20 @@
-<!DOCTYPE html>
+<invoke name="view_line_range">
+<parameter name="AbsolutePath">d:\joan manero\Escritorio\JOAN\9. BNS\WEB\Windsurf\reznero-site\links\index.html</parameter>
+<parameter name="StartLine">0</parameter>
+<parameter name="EndLine">200</parameter>
+</invoke><invoke name="view_line_range">
+<parameter name="AbsolutePath">d:\joan manero\Escritorio\JOAN\9. BNS\WEB\Windsurf\reznero-site\links\categoria.html</parameter>
+<parameter name="StartLine">0</parameter>
+<parameter name="EndLine">200</parameter>
+</invoke><invoke name="view_line_range">
+<parameter name="AbsolutePath">d:\joan manero\Escritorio\JOAN\9. BNS\WEB\Windsurf\reznero-site\assets\css\style.css</parameter>
+<parameter name="StartLine">0</parameter>
+<parameter name="EndLine">200</parameter>
+</invoke><invoke name="view_line_range">
+<parameter name="AbsolutePath">d:\joan manero\Escritorio\JOAN\9. BNS\WEB\Windsurf\reznero-site\assets\css\style.css</parameter>
+<parameter name="StartLine">0</parameter>
+<parameter name="EndLine">200</parameter>
+</invoke><!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -74,6 +90,20 @@
         document.documentElement.classList.remove('hide-scroll-indicator');
       }
     }
+    
+    // Verificar en tiempo real si se llega al final del scroll
+    function setupScrollWatcher(elementId) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        // Comprobar inicialmente
+        checkScrollEnd(element);
+        
+        // Monitorear durante el scroll
+        element.addEventListener('scroll', function() {
+          checkScrollEnd(element);
+        });
+      }
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
       const featuredList = document.getElementById('featured-list');
@@ -117,9 +147,8 @@
           
           // Detectar cuando el scroll ha llegado al final
           setTimeout(() => {
-            checkScrollEnd(featuredList);
-            featuredList.addEventListener('scroll', () => checkScrollEnd(featuredList));
-          }, 500);
+            setupScrollWatcher('featured-list');
+          }, 300);
 
           // 2. Categorías
           categoriesGrid.innerHTML = ''; // Limpiar contenedor

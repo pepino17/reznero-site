@@ -12,6 +12,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #222;
   line-height: 1.5;
+  overflow-x: hidden; /* Prevenir scroll horizontal en todas las pantallas */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Título principal y header */
@@ -100,16 +103,17 @@ body {
   overflow-x: auto;
   gap: 16px;
   padding: 10px 5px;
-  justify-content: flex-start; /* Cambiado de center a flex-start para mejor visualización */
+  justify-content: flex-start;
   -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
   scrollbar-width: none; /* oculta scroll en Firefox */
   position: relative;
+  max-width: 100%;
 }
 
 /* Indicador de scroll horizontal */
 .featured-list::after {
   content: '\203A';
-  position: absolute; /* Cambiado a absolute para que solo aparezca en la sección */
+  position: absolute; /* Para que solo aparezca en la sección */
   right: 0;
   top: 50%;
   transform: translateY(-50%);
@@ -122,6 +126,7 @@ body {
   height: 100px;
   display: flex;
   align-items: center;
+  width: 40px; /* Ancho definido para la flecha */
 }
 
 /* Ocultar flecha al llegar al final usando JavaScript */
@@ -367,43 +372,98 @@ main > .social-icons {
 
 @media (max-width: 768px) {
   /* Sección principal */
+  body {
+    padding: 10px 0; /* Reducir padding para eliminar espacio innecesario en móvil */
+    width: 100%;
+    overflow-x: hidden; /* Prevenir scroll horizontal */
+  }
+  
   main {
-    padding: 12px; /* Reducir padding para maximizar espacio disponible */
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Prevenir scroll horizontal */
   }
   
   /* Tarjeta de destacados a ancho completo en móvil */
   .featured-card {
-    width: calc(100% + 24px); /* Ancho completo considerando el padding del main */
-    margin-left: -12px;
-    margin-right: -12px;
-    border-radius: 0; /* Sin bordes redondeados para cubrir todo el ancho */
-    padding: 16px 0 22px; /* Reducir padding lateral */
+    width: 100%; /* Ancho completo */
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 8px; /* Mantener bordes redondeados pero reducidos */
+    padding: 16px 0 22px; /* Padding vertical solamente */
+    box-sizing: border-box;
+    overflow: hidden; /* Asegurar que nada se desborde */
   }
   
   .featured-list {
-    padding-left: 12px; /* Ajustar padding para que el primer elemento no quede pegado */
-    padding-right: 12px;
+    padding-left: 15px; /* Padding izquierdo */
+    padding-right: 40px; /* Espacio para la flecha */
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory; /* Mejorar experiencia de scroll */
+    -ms-overflow-style: none; /* Para IE y Edge */
+    scrollbar-width: none; /* Para Firefox */
+  }
+  
+  .featured-list::-webkit-scrollbar {
+    display: none; /* Para Chrome, Safari y Opera */
+  }
+  
+  .featured-item {
+    width: 140px; /* Reducido para mejor fit en móvil */
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    min-height: 220px; /* Altura fija para consistencia */
+    margin-right: 2px; /* Reducir espacio entre elementos */
   }
   
   /* Ajustar cuadrícula de categorías en móvil */
+  .categories-section {
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
   .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 6px)); /* Exactamente 50% menos la mitad del gap */
     gap: 12px; /* Espacio fijo entre columnas */
     width: 100%;
+    padding: 0;
+    justify-content: center;
   }
   
   .category-card {
     width: 100%;
   }
   
+  .category-grid {
+    aspect-ratio: 1 / 1; /* Hacer las imágenes completamente cuadradas */
+  }
+  
   /* Ajustes para la página de categoría */
   .category-products {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, calc(50% - 6px)); /* Exactamente 45% del ancho disponible */
     gap: 12px;
+    padding: 0 15px; /* Padding lateral para evitar que las cards toquen los bordes */
+    justify-content: center;
   }
   
   .product-card {
     min-height: 220px;
+    width: 100%;
+  }
+  
+  .product-card .product-title {
+    font-size: 0.9rem;
+    min-height: 70px; /* Altura fija para nombre de producto */
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 8px;
   }
   
   /* Reordenar elementos en la página de categoría */
@@ -412,34 +472,51 @@ main > .social-icons {
     flex-direction: column;
   }
   
+  .header-wrapper {
+    margin-top: 10px;
+  }
+  
   .header-wrapper .social-icons {
     order: 1;
   }
   
   .category-page-title {
     order: 2;
-    margin-bottom: 12px;
+    margin: 15px 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
   }
   
   .category-page-header {
     order: 3;
-    margin-bottom: 16px;
+    margin-bottom: 20px; /* Más espacio antes de las tarjetas */
     margin-top: 0;
-    padding: 0 8px; /* Reducir padding lateral */
+    padding: 0 15px; /* Alinear con el padding de las tarjetas */
   }
   
   .categories-card {
     order: 4;
+    margin-top: 0;
   }
   
   .back-button {
-    margin: 8px 0 16px; /* Aumentado margen inferior */
+    margin: 0 0 16px 0; /* Más margen inferior */
+    align-self: flex-start; /* Alinear a la izquierda */
   }
   
   /* Asegurar que categorías tengan tamaños similares */
   .categories-section h2 {
     font-size: 1.6rem;
-    margin-bottom: 16px;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
+  
+  .categories-intro {
+    margin-bottom: 15px;
+    font-size: 0.9rem;
   }
 }
 
