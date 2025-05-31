@@ -53,28 +53,7 @@ body {
   height: 24px;
 }
 
-/* Banner de ofertas */
-.hero-banner {
-  background: white;
-  padding: 12px;
-  border-radius: 12px;
-  margin: 15px auto;
-  max-width: 600px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
-.banner-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 1rem;
-}
-
-.banner-icon {
-  font-size: 1.2rem;
-}
+/* Banner de ofertas eliminado */
 
 /* Tarjeta de Destacados */
 .featured-card {
@@ -133,6 +112,8 @@ body {
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
 .featured-item:hover {
@@ -140,27 +121,7 @@ body {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Estilo para destacar el item más vendido */
-.featured-highlight {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  position: relative;
-}
-
-.featured-highlight::before {
-  content: "🔥 Más vendido";
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: rgba(255,255,255,0.9);
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: #ff4757;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  z-index: 1;
-}
+/* Estilo para destacar productos eliminado */
 
 .featured-item img {
   width: 100%;
@@ -174,6 +135,17 @@ body {
   color: #333;
   text-align: center;
   line-height: 1.3;
+}
+
+/* Estilo para eliminar subrayado en enlaces */
+.product-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Evitar formateo browser de enlaces visitados */
+a:visited {
+  color: inherit;
 }
 
 /* Categorías: grid */
@@ -222,12 +194,7 @@ body {
   border-radius: 8px;
 }
 
-/* Estilo para imágenes placeholder */
-.placeholder-img {
-  background-color: rgba(240, 240, 240, 0.6);
-  border: 1px dashed #ddd;
-  opacity: 0.3;
-}
+/* Placeholders eliminados */
 
 .category-title {
   text-align: center;
@@ -277,8 +244,8 @@ footer {
 .back-button {
   background: white;
   border: none;
-  border-radius: 50%;
-  width: 36px;
+  border-radius: 20px;
+  padding: 0 16px;
   height: 36px;
   display: flex;
   align-items: center;
@@ -286,6 +253,8 @@ footer {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   cursor: pointer;
   text-decoration: none;
+  color: #333;
+  font-size: 0.9rem;
 }
 
 .category-page-title {
@@ -360,28 +329,18 @@ footer {
   margin-top: 10px;
 }
 
-.hero-banner {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  margin: 0 0 15px 0;
-  border-radius: 0 0 12px 12px;
-  transition: transform 0.3s ease;
-}
-
-/* Banner que desaparece al hacer scroll */
-.hero-banner.hidden {
-  transform: translateY(-100%);
-}
+/* Estilos de banner sticky eliminados */
 
 /* Ajustes para móvil */
 @media (max-width: 768px) {
   .featured-list {
     justify-content: flex-start;
+    padding: 10px 5px;
   }
   
   .featured-item {
     width: 140px;
+    margin: 0 8px;
   }
   
   .categories-grid {
@@ -391,11 +350,19 @@ footer {
   
   .category-products {
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 12px;
+    padding: 0 4px;
+  }
+  
+  .product-card {
+    margin-bottom: 12px;
+    width: 100%;
   }
   
   .product-card img {
     height: 140px;
+    width: 100%;
+    object-fit: contain;
   }
 }
 
