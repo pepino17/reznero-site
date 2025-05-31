@@ -101,7 +101,7 @@ body {
 
 /* Tarjeta de Destacados */
 .featured-card {
-  background: #f3eaff;
+  background: #f3eaff; /* Color pastel lavanda que se mantiene en todos los tamaños */
   padding: 16px 0 22px; /* Sin padding lateral */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -270,12 +270,12 @@ body {
     overflow-x: hidden; /* Prevenir scroll horizontal */
   }
   
-  /* Tarjeta de destacados a ancho completo en móvil */
+  /* Tarjeta de destacados para móvil con bordes redondeados preservados */
   .featured-card {
-    width: 100vw; /* Ancho completo del viewport */
-    margin-left: -15px; /* Compensar el padding del body */
-    margin-right: -15px;
-    border-radius: 0; /* Sin bordes en móvil para aprovechar todo el ancho */
+    width: calc(100% - 16px); /* Ancho casi completo pero con margen para mostrar bordes */
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 12px; /* Mantener los bordes redondeados en móvil */
     padding: 16px 0 5px; /* Padding vertical reducido para dejar espacio a los dots */
     box-sizing: border-box;
     overflow: hidden; /* Asegurar que nada se desborde */
@@ -305,7 +305,7 @@ body {
   }
   
   .featured-item {
-    width: calc(50vw - 24px); /* Exactamente la mitad del viewport menos padding y gap */
+    width: calc(50% - 16px); /* La mitad del contenedor menos gap */
     flex-shrink: 0;
     scroll-snap-align: start; /* Alinear al inicio para mostrar completa la primera tarjeta */
     min-height: 220px; /* Altura fija para consistencia */
@@ -338,8 +338,8 @@ body {
   .categories-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important; /* Forzar dos columnas */
-    gap: 8px;
-    padding: 0 8px;
+    gap: 6px;
+    padding: 0 4px; /* Reducir padding lateral para maximizar espacio útil */
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
@@ -353,7 +353,7 @@ body {
   }
   
   .category-grid {
-    aspect-ratio: 1 / 1; /* Hacer las imágenes completamente cuadradas */
+    aspect-ratio: 1 / 0.8; /* Hacer las imágenes más cuadradas y menos altas */
   }
   
   /* Ajustes para la página de categoría */
