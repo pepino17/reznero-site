@@ -80,11 +80,27 @@ body {
 /* — Destacados: lista horizontal — */
 .featured-list {
   display: flex;
-  justify-content: center;
   overflow-x: auto;
   gap: 16px;
   padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
+  scrollbar-width: none;             /* oculta scroll en Firefox */
 }
+.featured-list::-webkit-scrollbar {
+  display: none;                     /* oculta scroll en Chrome/Safari */
+}
+/* Por defecto (móvil): alineado a la izquierda */
+.featured-list {
+  justify-content: flex-start;
+}
+
+/* En escritorio (a partir de 768px): centrado */
+@media (min-width: 768px) {
+  .featured-list {
+    justify-content: center;
+  }
+}
+
 
 .featured-item {
   flex: 0 0 auto;
