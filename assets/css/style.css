@@ -165,19 +165,13 @@ body {
 .featured-list {
   display: flex;
   overflow-x: auto;
-  gap: 16px;
-  padding: 10px 16px; /* Padding uniforme a ambos lados */
-  justify-content: center; /* Centrar en desktop */
-  -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
-  scrollbar-width: none; /* oculta scroll en Firefox */
-  position: relative;
-  width: 100%;
-  max-width: 900px; /* Limitar el ancho máximo para centrar mejor */
-  margin: 0 auto; /* Centrado perfecto */
-  box-sizing: border-box;
   scroll-snap-type: x mandatory;
-  -ms-overflow-style: none; /* IE and Edge */
+  -webkit-overflow-scrolling: touch;
+  padding: 0 0 10px 0;
   scrollbar-width: none; /* Firefox */
+  position: relative;
+  scroll-behavior: smooth;
+  margin: 0 6px;
 }
 
 .featured-list::-webkit-scrollbar {
@@ -227,7 +221,7 @@ body {
 /* Media queries para móvil */
 @media (max-width: 768px) {
   /* Estilos para página de categoría específica en móvil */
-  #category-products {
+  #category-products, .category-products {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
@@ -343,9 +337,9 @@ body {
   /* Ajustar cuadrícula de categorías en móvil - 2 columnas */
   .categories-grid {
     display: grid;
-    grid-template-columns: repeat(2, 45%);
+    grid-template-columns: repeat(2, calc(50% - 4px)) !important; /* Forzar dos columnas */
     gap: 8px;
-    padding: 0 12px;
+    padding: 0 8px;
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
@@ -363,11 +357,11 @@ body {
   }
   
   /* Ajustes para la página de categoría */
-  .category-products, #category-products {
+  .category-products, #category-products, .category-products {
     display: grid;
     grid-template-columns: repeat(2, calc(50% - 4px));
     gap: 8px;
-    padding: 0 14px; /* Padding lateral reducido */
+    padding: 0 4%; /* Padding lateral muy reducido (8-10% total) */
     justify-content: center;
     max-width: 100%;
     box-sizing: border-box;
@@ -670,15 +664,12 @@ main > .social-icons {
   
   /* Ajustar el carrusel en desktop para eliminar espacios muertos */
   .featured-card {
-    padding: 16px 0 22px;
+    background: rgba(222, 207, 242, 0.4);
     border-radius: 12px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 20px 4px;
+    margin: 0 4px 25px 4px;
+    box-shadow: none;
+    width: calc(100% - 8px);
   }
   
   .category-grid img {
