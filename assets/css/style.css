@@ -40,15 +40,14 @@ body {
 
 /* — Tarjeta de Destacados — */
 .featured-card {
-  background: #fff;
-  padding: 12px 12px;            /* ajusta 12px arriba/abajo y 24px lados */
+  background: #fffde7;   /* ← amarillo pastel suave, puedes cambiar a otro pastel */
+  padding: 12px 12px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  max-width: 1100px;              /* ancho máximo */
-  margin: 30px auto;             /* centrado y espacio arriba/abajo */
-  min-height: 50px;             /* altura mínima, cámbiala si quieres */
+  max-width: 1100px;
+  margin: 30px auto;
+  min-height: 50px;
 }
-
 .featured-card h2 {
   text-align: center;
   font-size: 1.6rem;
@@ -89,20 +88,21 @@ body {
 
 .featured-item {
   flex: 0 0 auto;
-  width: 180px;                /* Caja fija como antes */
+  width: 180px;
   overflow: hidden;
   text-align: center;
   transition: transform 0.2s;
-  border: 2px solid #222;      /* Marco negro */
+  /* border: 2px solid #222; */    /* ← QUITA o comenta esta línea */
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   margin: 2px 0;
   padding-bottom: 10px;
-  display: flex;               /* ← Importante: para mantener todo alineado */
+  display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .featured-item:hover {
   transform: translateY(-4px);
 }
