@@ -229,10 +229,11 @@ body {
   /* Estilos para página de categoría específica en móvil */
   #category-products {
     display: grid;
-    grid-template-columns: repeat(2, 45%);
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
-    padding: 0 12px;
+    padding: 0 14px;
     justify-content: center;
+    max-width: 100%;
   }
   
   .product-card {
@@ -342,10 +343,12 @@ body {
   /* Ajustar cuadrícula de categorías en móvil - 2 columnas */
   .categories-grid {
     display: grid;
-    grid-template-columns: repeat(2, 45%);
+    grid-template-columns: repeat(2, 1fr);
     gap: 8px;
     padding: 0 12px;
     justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .category-card {
