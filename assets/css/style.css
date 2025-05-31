@@ -426,34 +426,35 @@ body {
 @media (max-width: 420px) {
   /* 1. TARJETAS DE CATEGORÍAS CUADRADAS */
   .category-card {
-    padding: 8px 8px 0 8px;
+    padding: 8px 8px 8px 8px; /* Added bottom padding */
     margin: 0 3px 10px 3px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 220px;
+    /* max-height: 220px; Removed to allow card to grow */
     min-height: 220px;
     background: white;
   }
   
-  .category-grid {
+  /* Renamed from .category-grid to .category-image-grid to match HTML and other CSS */
+  .category-image-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 5px;
+    gap: 1px; /* Reduced gap for images to almost touch */
     width: 100% !important;
     aspect-ratio: 1/1;
-    padding: 10px;
+    padding: 2px; /* Reduced padding to give images more space */
     margin-bottom: 5px;
   }
   
-  .category-grid img {
+  .category-image-grid img {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
-    padding: 5px;
+    padding: 0px; /* Removed padding from images themselves */
     margin: 0;
   }
   
