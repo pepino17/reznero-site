@@ -92,14 +92,20 @@ body {
   overflow: hidden;
   text-align: center;
   transition: transform 0.2s;
+  /* Nuevo: Marco tipo tarjeta */
+  border: 2px solid #222;           /* Borde negro */
+  border-radius: 12px;              /* Bordes redondeados */
+  background: #fff;                 /* Fondo blanco */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07); /* Sombra ligera opcional */
+  margin: 2px 0;                    /* Pequeño margen vertical */
+  padding-bottom: 10px;             /* Espacio para el título */
 }
 .featured-item:hover {
   transform: translateY(-4px);
 }
 .featured-item img {
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
+  border-bottom: 1px solid #eee;    /* Línea sutil bajo la imagen (opcional) */
+  border-radius: 12px 12px 0 0;     /* Bordes redondeados arriba */
 }
 .featured-item p {
   padding: 8px;
