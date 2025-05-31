@@ -1,21 +1,456 @@
-<!DOCTYPE html>
+:root {
+  --background-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  --card-bg-white: #ffffff;
+  --card-bg-featured: #f3eaff;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body {
+  background: var(--background-gradient);
+}
+
+.featured-card {
+  background: var(--card-bg-featured);
+}
+
+.categories-card, .product-card {
+  background: var(--card-bg-white);
+}.featured-card, .categories-card {
+  max-width: 1100px;
+  margin: 20px auto;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+}
+
+.page-title, .featured-card h2, .categories-card h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-title, .category-title {
+  color: #333;
+  text-align: center;
+  font-weight: normal;
+}
+
+.featured-item a:hover, .category-card:hover {
+  text-decoration: none;
+}.featured-item:nth-child(3) {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* Badge para el producto más vendido */
+.featured-item:nth-child(3)::before {
+  content: "🔥 Más vendido";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.9);
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #ff4757;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}.featured-list {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 10px 5px;
+  justify-content: center;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.featured-item {
+  flex: 0 0 auto;
+  width: 160px;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+/* Mostrar parcialmente la quinta tarjeta */
+.featured-list::after {
+  content: "";
+  flex: 0 0 40px;
+}<section class="categories-card">
+  <h2>Categorías</h2>
+  <p class="categories-intro">Encuentra tu próximo favorito en un clic</p>
+  <div class="categories-grid" id="categories-grid"></div>
+</section>.categories-intro {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1rem;
+}// En la generación de productos destacados
+data.slice(-5).reverse().forEach(p => {
+  const div = document.createElement('div');
+  div.className = 'featured-item';
+  div.innerHTML = `
+    <a href="${p.link}" target="_blank" rel="noopener noreferrer">
+      <img src="${p.image}" alt="${p.title} - ${p.category}" loading="lazy">
+      <div class="product-title">${p.title}</div>
+    </a>
+  `;
+  featuredList.appendChild(div);
+});<!-- En index.html -->
+<h1 class="page-title">Selección de Productos de Amazon</h1>
+<!-- Secciones -->
+<h2>Productos Destacados</h2>
+<h2>Categorías</h2>
+
+<!-- En la página de categoría -->
+<h1 class="category-page-title" id="category-title">Accesorios de cocina</h1><head>
+  <title>Selección de Productos de Amazon | Cocina y Hogar</title>
+  <meta name="description" content="Descubre los mejores productos de cocina, utensilios y gadgets en Amazon con nuestras selecciones destacadas y categorías. Compras 100% seguras y ofertas diarias.">
+  <meta name="theme-color" content="#e0eafc">
+  <!-- Open Graph para redes sociales -->
+  <meta property="og:title" content="Selección de Productos de Amazon | Cocina y Hogar">
+  <meta property="og:description" content="Descubre los mejores productos de cocina en Amazon. Ofertas diarias y envío rápido.">
+  <meta property="og:image" content="../assets/img/og-image.jpg">
+</head>.featured-card {
+  background: #f3eaff;
+  padding: 20px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 1100px;
+  margin: 20px auto;
+}
+
+.featured-item {
+  flex: 0 0 auto;
+  width: 160px;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding-bottom: 8px;
+  margin: 0 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}// En la generación de categorías
+categories.forEach(cat => {
+  const items = data
+    .filter(p => p.category === cat)
+    .slice(-4)
+    .reverse();
+  
+  // Crear un array con exactamente 4 elementos (usando placeholders si es necesario)
+  const displayItems = [...items];
+  while (displayItems.length < 4) {
+    displayItems.push({
+      image: "../assets/img/placeholder-light.png",
+      title: "Placeholder",
+      isPlaceholder: true
+    });
+  }
+  
+  const card = document.createElement('a');
+  card.className = 'category-card';
+  card.href = `categoria.html?category=${encodeURIComponent(cat)}`;
+  card.innerHTML = `
+    <div class="category-grid">
+      ${displayItems.map(p => `
+        <img src="${p.image}" alt="${p.isPlaceholder ? 'Placeholder' : p.title}" 
+             class="${p.isPlaceholder ? 'placeholder-img' : ''}"
+             loading="lazy">
+      `).join('')}
+    </div>
+    <div class="category-title">${cat}</div>
+  `;
+  grid.appendChild(card);
+});.category-grid img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.placeholder-img {
+  opacity: 0.3;
+  background: #f8f8f8;
+}
+
+.category-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+}@media (max-width: 768px) {
+  .featured-list {
+    justify-content: flex-start;
+    padding-left: 16px;
+    padding-right: 16px;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .featured-item {
+    width: 70vw;
+    max-width: 240px;
+    scroll-snap-align: start;
+  }
+  
+  .featured-item img {
+    height: 130px;
+    aspect-ratio: 3/4;
+  }
+}
+
+/* Para móviles más pequeños */
+@media (max-width: 480px) {
+  .featured-list {
+    padding-left: calc((100vw - 180px) / 2);
+  }
+}.back-button {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  text-decoration: none;
+  position: sticky;
+  top: 16px;
+  z-index: 10;
+  margin-top: 16px;
+}.category-products {
+  display: grid;
+  gap: 20px;
+}
+
+@media (min-width: 480px) {
+  .category-products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 479px) {
+  .category-products {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: contain;
+  background: #f8f8f8;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.product-card-title {
+  font-size: 1rem;
+  padding: 8px;
+  text-align: center;
+}<div class="hero-banner" id="offerBanner">
+  <div class="banner-content">
+    <span class="banner-icon">🔥</span>
+    <span>¡Ofertas exclusivas de Amazon cada día!</span>
+  </div>
+</div>.hero-banner {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 15px auto;
+  max-width: 600px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .hero-banner {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 0 15px 0;
+    border-radius: 0 0 12px 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .hero-banner.hidden {
+    transform: translateY(-100%);
+  }
+}// Banner que se oculta al hacer scroll
+let lastScrollTop = 0;
+const banner = document.getElementById('offerBanner');
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  if (scrollTop > lastScrollTop && scrollTop > 100) {
+    banner.classList.add('hidden');
+  } else {
+    banner.classList.remove('hidden');
+  }
+  
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+});.hero-banner {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 15px auto;
+  max-width: 600px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .hero-banner {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 0 15px 0;
+    border-radius: 0 0 12px 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .hero-banner.hidden {
+    transform: translateY(-100%);
+  }
+}<footer>
+  <div class="footer-content">
+    <p><span class="secure-icon">🔒</span> Sitio seguro con enlaces de afiliados a Amazon</p>
+    <p>Los precios y la disponibilidad pueden variar sin previo aviso</p>
+    <p>&copy; 2025 Todos los derechos reservados</p>
+  </div>
+</footer>footer {
+  margin-top: 30px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.footer-content {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 0 auto;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  footer {
+    position: sticky;
+    bottom: 0;
+    background: var(--background-gradient);
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .footer-content {
+    padding: 10px;
+    margin: 0 auto;
+  }
+}// Modificar la generación de productos destacados
+data.slice(-5).reverse().forEach(p => {
+  const div = document.createElement('div');
+  div.className = 'featured-item';
+  div.innerHTML = `
+    <div itemscope itemtype="http://schema.org/Product">
+      <a href="${p.link}" target="_blank" rel="noopener noreferrer" itemprop="url">
+        <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy">
+        <div class="product-title" itemprop="name">${p.title}</div>
+      </a>
+      <meta itemprop="brand" content="${p.brand || 'Marca'}">
+      <meta itemprop="category" content="${p.category}">
+      <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+        <meta itemprop="priceCurrency" content="EUR">
+        <meta itemprop="price" content="${p.price || ''}">
+        <link itemprop="availability" href="http://schema.org/InStock">
+      </div>
+    </div>
+  `;
+  featuredList.appendChild(div);
+});<!-- Para todas las imágenes generadas dinámicamente -->
+<img src="${p.image}" alt="${p.title}" loading="lazy" width="160" height="130">/* Asegurar que las imágenes mantengan sus proporciones */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.featured-item img, .category-grid img {
+  aspect-ratio: 1;
+  object-fit: cover;
+}.featured-list {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.featured-list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Indicador visual sutil de scroll horizontal */
+.featured-list::after {
+  content: "";
+  flex: 0 0 20px;
+}.placeholder-img {
+  background-color: rgba(240, 240, 240, 0.6);
+  border: 1px dashed #ddd;
+}@media (min-width: 1200px) {
+  .featured-card, .categories-card {
+    margin: 30px auto;
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title, .category-page-title {
+    font-size: 1.4rem;
+    margin: 15px 0;
+  }
+  
+  .social-icons a {
+    width: 48px;
+    height: 48px;
+  }
+}<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title id="page-title">Categoría</title>
+  <meta name="description" content="Descubre los mejores productos de cocina, utensilios y gadgets en Amazon con nuestras selecciones destacadas y categorías. Compras 100% seguras y ofertas diarias.">
+  <meta name="theme-color" content="#e0eafc">
+  <!-- Open Graph para redes sociales -->
+  <meta property="og:title" content="Selección de Productos de Amazon | Categorías">
+  <meta property="og:description" content="Descubre los mejores productos en Amazon. Ofertas diarias y envío rápido.">
+  <meta property="og:image" content="../assets/img/og-image.jpg">
   <link rel="stylesheet" href="../assets/css/style.css"/>
 </head>
 <body>
+  <!-- Banner de ofertas -->
+  <div class="hero-banner" id="offerBanner">
+    <div class="banner-content">
+      <span class="banner-icon">🔥</span>
+      <span>¡Ofertas exclusivas de Amazon cada día!</span>
+    </div>
+  </div>
+
   <div class="header-wrapper">
     <div class="social-icons">
-      <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank">
+      <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
         <img src="../assets/img/instagram.svg" alt="Instagram"/>
       </a>
-      <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank">
+      <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
         <img src="../assets/img/youtube.svg" alt="YouTube"/>
       </a>
-      <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank">
+      <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
         <img src="../assets/img/telegram.svg" alt="Telegram"/>
       </a>
     </div>
@@ -23,7 +458,7 @@
 
   <main>
     <div class="category-page-header">
-      <a href="index.html" class="back-button">
+      <a href="index.html" class="back-button" aria-label="Volver a la página principal">
         <span>←</span>
       </a>
       <h1 class="category-page-title" id="category-title">Productos de la categoría</h1>
@@ -37,7 +472,8 @@
   <footer>
     <div class="footer-content">
       <p><span class="secure-icon">🔒</span> Sitio seguro con enlaces de afiliados a Amazon</p>
-      <p>Los precios y la disponibilidad pueden variar</p>
+      <p>Los precios y la disponibilidad pueden variar sin previo aviso</p>
+      <p>&copy; 2025 Todos los derechos reservados</p>
     </div>
   </footer>
 
@@ -50,7 +486,23 @@
     document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
     document.getElementById('category-title').innerText = cat ? cat : 'Categoría';
 
-    // 3. Carga productos y filtra por categoría
+    // 3. Banner que se oculta al hacer scroll
+    let lastScrollTop = 0;
+    const banner = document.getElementById('offerBanner');
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        banner.classList.add('hidden');
+      } else {
+        banner.classList.remove('hidden');
+      }
+      
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+
+    // 4. Carga productos y filtra por categoría
     fetch('../data/products.json')
       .then(res => res.json())
       .then(data => {
@@ -68,9 +520,18 @@
             card.target = "_blank";
             card.rel = "noopener noreferrer";
             card.innerHTML = `
-              <img src="${p.image}" alt="${p.title}">
-              <div class="product-card-content">
-                <div class="product-card-title">${p.title}</div>
+              <div itemscope itemtype="http://schema.org/Product">
+                <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy" width="200" height="200">
+                <div class="product-card-content">
+                  <div class="product-card-title" itemprop="name">${p.title}</div>
+                </div>
+                <meta itemprop="brand" content="${p.brand || 'Marca'}">
+                <meta itemprop="category" content="${p.category}">
+                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                  <meta itemprop="priceCurrency" content="EUR">
+                  <meta itemprop="price" content="${p.price || ''}">
+                  <link itemprop="availability" href="http://schema.org/InStock">
+                </div>
               </div>
             `;
             productsDiv.appendChild(card);
