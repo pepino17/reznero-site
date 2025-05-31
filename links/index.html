@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Productos UTINEX - Tienda Afiliada Amazon</title>
+  <title>UTINEX - Tu Tienda de Cocina</title>
   <link rel="stylesheet" href="../assets/css/style.css"/>
   <link rel="icon" type="image/png" href="../assets/img/logo-marca.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Descubre los mejores productos de cocina en UTINEX. Compra en Amazon con total confianza. Ofertas diarias y envío rápido.">
 </head>
 <body>
   <header>
@@ -14,32 +16,37 @@
         <img 
           src="../assets/img/logo-marca.png" 
           alt="UTINEX - Tu Tienda de Cocina" 
-          style="height: 60px;"
         >
       </div>
       <div class="social-icons">
-        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank">
+        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
           <img src="../assets/img/instagram.svg" alt="Instagram"/>
         </a>
-        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank">
+        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
           <img src="../assets/img/youtube.svg" alt="YouTube"/>
         </a>
-        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank">
+        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
           <img src="../assets/img/telegram.svg" alt="Telegram"/>
         </a>
+      </div>
+    </div>
+    <div class="hero-banner">
+      <div class="banner-content">
+        <span class="banner-icon">🔥</span>
+        <span class="banner-text">¡Ofertas exclusivas de Amazon cada día!</span>
       </div>
     </div>
   </header>
 
   <main>
-    <!-- Destacados en su tarjeta estrecha -->
+    <!-- Sección de Destacados -->
     <section class="featured-card" id="featured-section">
       <h2>Productos Destacados</h2>
       <div class="featured-list" id="featured-list"></div>
     </section>
 
-    <!-- Categorías en su tarjeta -->
-    <section class="categories-section categories-card">
+    <!-- Sección de Categorías -->
+    <section class="categories-card">
       <h2>Categorías</h2>
       <div class="categories-grid" id="categories-grid"></div>
     </section>
@@ -47,18 +54,49 @@
 
   <footer>
     <div class="footer-content">
-      <p>&copy; 2025 UTINEX. Todos los derechos reservados.</p>
-      <p>Esta página es un programa de afiliados de Amazon. Los productos se compran directamente en Amazon.</p>
+      <div class="footer-section">
+        <p>Compras 100% seguras en Amazon</p>
+        <p><img src="../assets/img/lock.svg" alt="Seguro" style="width: 20px; height: 20px; vertical-align: middle;"> Garantía de Amazon</p>
+      </div>
+      <div class="footer-section">
+        <p>Síguenos en:</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
+            Instagram
+          </a>
+          <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
+            YouTube
+          </a>
+          <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
+            Telegram
+          </a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <p>&copy; 2025 UTINEX. Todos los derechos reservados.</p>
+        <p>Esta página es un programa de afiliados de Amazon. Los productos se compran directamente en Amazon.</p>
+      </div>
     </div>
   </footer>
 
   <script>
+    // Función para obtener los últimos 5 productos
+    function getLatestProducts(data) {
+      return data.slice(-5).reverse();
+    }
+
+    // Función para obtener productos por categoría
+    function getProductsByCategory(data, category) {
+      return data.filter(p => p.category === category);
+    }
+
     fetch('../data/products.json')
       .then(res => res.json())
       .then(data => {
-        // 1) Destacados: últimos 5
+        // Destacados: últimos 5 productos
         const featuredList = document.getElementById('featured-list');
-        data.slice(-5).reverse().forEach(p => {
+        const latestProducts = getLatestProducts(data);
+        latestProducts.forEach(p => {
           const div = document.createElement('div');
           div.className = 'featured-item';
           div.innerHTML = `
@@ -66,34 +104,35 @@
               <img src="${p.image}" alt="${p.title}">
               <div class="product-title">${p.title}</div>
               <div class="product-info">
-                <div class="price">${p.price}</div>
-                <div class="rating">${p.rating} estrellas</div>
+                <span class="price">${p.price}</span>
+                <span class="rating">${p.rating} estrellas</span>
               </div>
             </a>
           `;
           featuredList.appendChild(div);
         });
 
-        // 2) Categorías: collage de 4 por categoría
+        // Categorías
         const categories = [...new Set(data.map(p => p.category))];
         const grid = document.getElementById('categories-grid');
+        
         categories.forEach(cat => {
-          const items = data
-            .filter(p => p.category === cat)
-            .slice(-4)
-            .reverse();
-          
+          const items = getProductsByCategory(data, cat);
           const card = document.createElement('a');
           card.className = 'category-card';
           card.href = `categoria.html?category=${encodeURIComponent(cat)}`;
+          
+          // Asegurarse de que siempre haya 4 imágenes
+          const displayedItems = items.slice(-4).reverse();
+          const fillerCount = 4 - displayedItems.length;
+          
           card.innerHTML = `
             <div class="category-grid">
-              ${items.map(p => `
+              ${displayedItems.map(p => `
                 <img src="${p.image}" alt="${p.title}">
-                <div class="product-caption">
-                  <span class="product-title">${p.title}</span>
-                  <span class="product-price">${p.price}</span>
-                </div>
+              `).join('')}
+              ${Array(fillerCount).fill('').map(() => `
+                <img src="../assets/img/placeholder.png" alt="Placeholder">
               `).join('')}
             </div>
             <div class="category-title">${cat}</div>
