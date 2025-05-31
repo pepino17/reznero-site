@@ -358,91 +358,66 @@ body {
   }
   
   .category-grid {
-    aspect-ratio: 1 / 1; /* Hacer las imágenes completamente cuadradas */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 4px;
-    padding: 6px; /* Añadir padding interno para que las imágenes sean más grandes */
+    gap: 6px;
+    padding: 8px; /* Aumentado el padding para más espacio */
+    aspect-ratio: 1/1; /* Asegurar que el grid sea cuadrado */
   }
   
-  /* Ajustes para la página de categoría */
-  .category-products, #category-products, .category-products {
-    display: grid;
-    grid-template-columns: repeat(2, calc(50% - 4px));
-    gap: 8px;
-    padding: 0 4%; /* Padding lateral muy reducido (8-10% total) */
-    justify-content: center;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .product-card {
-    min-height: 220px;
+  .category-grid img {
     width: 100%;
-  }
-  
-  .product-card .product-title {
-    font-size: 0.9rem;
-    min-height: 70px; /* Altura fija para nombre de producto */
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px 8px;
-  }
-  
-  /* Reordenar elementos en la página de categoría */
-  main {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .header-wrapper {
-    margin-top: 10px;
-  }
-  
-  .header-wrapper .social-icons {
-    order: 1;
-  }
-  
-  .category-page-title {
-    order: 2;
-    margin: 15px 0;
-    font-size: 1.6rem;
-    font-weight: 700;
-    background: transparent;
-    box-shadow: none;
+    height: auto;
+    max-width: 90%; /* Aumentado para que se vean mejor */
+    max-height: 90%;
+    object-fit: contain;
+    margin: 1px;
     padding: 0;
   }
   
-  .category-page-header {
-    order: 3;
-    margin-bottom: 20px; /* Más espacio antes de las tarjetas */
-    margin-top: 0;
-    padding: 0 15px; /* Alinear con el padding de las tarjetas */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 0 8px !important;
+    width: 100% !important;
   }
   
-  .categories-card {
-    order: 4;
-    margin-top: 0;
+  .category-title {
+    padding: 8px 4px;
+    margin-top: 5px;
+    min-height: 50px;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
-  .back-button {
-    margin: 0 0 16px 0; /* Más margen inferior */
-    align-self: flex-start; /* Alineado a la izquierda */
+  /* 2. BORDES REDONDEADOS VISIBLES EN PRODUCTOS DESTACADOS */
+  .featured-card {
+    background: #f3eaff !important; /* Color pastel lavanda unificado */
+    margin: 0 10px 20px 10px !important;
+    width: calc(100% - 20px) !important;
+    padding: 15px 10px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
   }
   
-  /* Asegurar que categorías tengan tamaños similares */
-  .categories-section h2 {
-    font-size: 1.6rem;
-    margin-bottom: 5px;
-    font-weight: 700;
+  .featured-title {
+    padding: 0 5px;
+    margin-bottom: 10px;
   }
   
-  .categories-intro {
-    margin-bottom: 15px;
+  .featured-list {
+    margin: 0 5px !important;
+  }
+  
+  .product-title {
+    margin-top: 5px;
     font-size: 0.9rem;
   }
 }
@@ -477,10 +452,11 @@ body {
   }
   
   .category-grid img {
-    width: 47% !important;
-    height: 78px !important;
+    width: 65% !important;
+    height: auto !important;
+    max-height: 90px !important;
     object-fit: contain !important;
-    margin: 1px;
+    margin: 4px;
     padding: 0;
   }
   
