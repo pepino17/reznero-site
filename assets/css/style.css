@@ -62,13 +62,14 @@ body {
 /* Tarjeta de Destacados */
 .featured-card {
   background: #f3eaff;
-  padding: 16px 16px 22px;
+  padding: 16px 0 22px; /* Eliminado padding lateral */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 1100px;
   margin: 20px auto;
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 
 .featured-card h2 {
@@ -102,37 +103,47 @@ body {
   display: flex;
   overflow-x: auto;
   gap: 16px;
-  padding: 10px 5px;
+  padding: 10px 16px 10px 16px; /* Padding horizontal uniforme */
   justify-content: flex-start;
   -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
   scrollbar-width: none; /* oculta scroll en Firefox */
   position: relative;
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Indicador de scroll horizontal */
 .featured-list::after {
   content: '\203A';
-  position: absolute; /* Para que solo aparezca en la sección */
+  position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
+  bottom: 0;
   font-size: 2rem;
   color: rgba(0,0,0,0.4);
-  background: linear-gradient(to right, transparent, rgba(243,234,255,0.8) 40%);
-  padding: 15px 5px 15px 30px;
+  background: linear-gradient(to right, transparent, rgba(243,234,255,0.9) 50%);
+  padding: 0 5px 0 25px;
   pointer-events: none;
   z-index: 10;
-  height: 100px;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   width: 40px; /* Ancho definido para la flecha */
+  opacity: 0; /* Inicialmente oculta */
+  transition: opacity 0.3s ease;
+}
+
+/* Mostrar la flecha solo cuando hay contenido para desplazar */
+.featured-list:not(.scroll-end):hover::after,
+.featured-list:not(.scroll-end):active::after {
+  opacity: 1;
 }
 
 /* Ocultar flecha al llegar al final usando JavaScript */
 .featured-list.scroll-end::after,
 html.hide-scroll-indicator .featured-list::after {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .featured-list::-webkit-scrollbar {
