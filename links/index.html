@@ -8,10 +8,7 @@
 </head>
 <body>
   <header>
-    <!-- Título libre, un poco más grande -->
     <h1 class="page-title">Productos Recomendados</h1>
-
-    <!-- Redes sociales SIN recuadro -->
     <div class="social-icons">
       <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank">
         <img src="../assets/img/instagram.svg" alt="Instagram"/>
@@ -65,14 +62,14 @@
             .filter(p => p.category === cat)
             .slice(-4)
             .reverse();
-          const card = document.createElement('div');
+          const card = document.createElement('a');
           card.className = 'category-card';
+          card.href = `?category=${encodeURIComponent(cat)}`;
           card.innerHTML = `
             <h3>${cat}</h3>
             <div class="category-grid">
               ${items.map(p => `<img src="${p.image}" alt="${p.title}">`).join('')}
             </div>
-            <a href="?category=${encodeURIComponent(cat)}">Ver más</a>
           `;
           grid.appendChild(card);
         });
