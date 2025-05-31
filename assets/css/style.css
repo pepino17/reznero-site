@@ -101,7 +101,7 @@ body {
 
 /* Tarjeta de Destacados */
 .featured-card {
-  background: #f3eaff; /* Color pastel lavanda que se mantiene en todos los tamaños */
+  background: #f3eaff !important; /* Color pastel lavanda que se mantiene en todos los tamaños - forzado con !important */
   padding: 16px 0 22px; /* Sin padding lateral */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -172,6 +172,7 @@ body {
   position: relative;
   scroll-behavior: smooth;
   margin: 0 6px;
+  background-color: transparent; /* Asegurar que no haya fondo que interfiera */
 }
 
 .featured-list::-webkit-scrollbar {
@@ -279,6 +280,7 @@ body {
     padding: 16px 0 5px; /* Padding vertical reducido para dejar espacio a los dots */
     box-sizing: border-box;
     overflow: hidden; /* Asegurar que nada se desborde */
+    background: #f3eaff !important; /* Asegurar color consistente en móvil */
   }
   
   .featured-list {
@@ -350,10 +352,18 @@ body {
     width: 100%;
     margin: 0;
     box-sizing: border-box;
+    min-height: 180px; /* Altura mínima para asegurar que el texto quepa */
+    display: flex;
+    flex-direction: column;
   }
   
   .category-grid {
-    aspect-ratio: 1 / 0.8; /* Hacer las imágenes más cuadradas y menos altas */
+    aspect-ratio: 1 / 1; /* Hacer las imágenes completamente cuadradas */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 4px;
+    padding: 6px; /* Añadir padding interno para que las imágenes sean más grandes */
   }
   
   /* Ajustes para la página de categoría */
@@ -421,7 +431,7 @@ body {
   
   .back-button {
     margin: 0 0 16px 0; /* Más margen inferior */
-    align-self: flex-start; /* Alinear a la izquierda */
+    align-self: flex-start; /* Alineado a la izquierda */
   }
   
   /* Asegurar que categorías tengan tamaños similares */
@@ -448,8 +458,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 180px;
-    min-height: 180px;
+    max-height: 190px;
+    min-height: 190px;
     background: white;
   }
   
@@ -463,13 +473,15 @@ body {
     align-items: center;
     padding: 5px 0;
     overflow: hidden;
+    margin-bottom: 5px;
   }
   
   .category-grid img {
-    width: 50% !important;
-    height: 50px !important;
+    width: 48% !important;
+    height: 58px !important;
     object-fit: contain !important;
-    margin: 2px;
+    margin: 1px;
+    padding: 2px;
   }
   
   .categories-grid {
@@ -481,17 +493,21 @@ body {
   }
   
   .category-title {
-    padding: 5px 2px;
+    padding: 8px 4px;
     margin-top: 5px;
-    height: auto;
+    min-height: 50px;
     font-size: 0.9rem;
+    line-height: 1.2;
     text-align: center;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* 2. BORDES REDONDEADOS VISIBLES EN PRODUCTOS DESTACADOS */
   .featured-card {
-    background: rgba(222, 207, 242, 0.4) !important;
+    background: #f3eaff !important; /* Color pastel lavanda unificado */
     margin: 0 10px 20px 10px !important;
     width: calc(100% - 20px) !important;
     padding: 15px 10px !important;
@@ -533,7 +549,6 @@ a:visited {
   margin-top: 16px;
   width: 100%;
 }
-
 
 .category-card {
   display: block;
