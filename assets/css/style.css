@@ -81,32 +81,40 @@ body {
 /* — Destacados: lista horizontal — */
 .featured-list {
   display: flex;
-  justify-content: center; /* <-- Esta línea centra los productos */
+  justify-content: center;
   overflow-x: auto;
   gap: 16px;
   padding-bottom: 8px;
 }
+
 .featured-item {
   flex: 0 0 auto;
-  width: 180px;
+  width: 180px;                /* Caja fija como antes */
   overflow: hidden;
   text-align: center;
   transition: transform 0.2s;
-  /* Nuevo: Marco tipo tarjeta */
-  border: 2px solid #222;           /* Borde negro */
-  border-radius: 12px;              /* Bordes redondeados */
-  background: #fff;                 /* Fondo blanco */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07); /* Sombra ligera opcional */
-  margin: 2px 0;                    /* Pequeño margen vertical */
-  padding-bottom: 10px;             /* Espacio para el título */
+  border: 2px solid #222;      /* Marco negro */
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin: 2px 0;
+  padding-bottom: 10px;
+  display: flex;               /* ← Importante: para mantener todo alineado */
+  flex-direction: column;
+  align-items: center;
 }
 .featured-item:hover {
   transform: translateY(-4px);
 }
 .featured-item img {
-  border-bottom: 1px solid #eee;    /* Línea sutil bajo la imagen (opcional) */
-  border-radius: 12px 12px 0 0;     /* Bordes redondeados arriba */
+  width: 100%;                 /* Imagen ocupa el ancho de la caja */
+  height: 120px;               /* Alto fijo, igual que antes */
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+  border-radius: 10px 10px 0 0;
+  display: block;
 }
+
 .featured-item p {
   padding: 8px;
   font-size: 0.9rem;
@@ -167,7 +175,6 @@ body {
   margin: 10px 0 0 0;
   font-weight: normal;
   text-decoration: none;
-  /* Si algún navegador sigue mostrando azul/subrayado */
 }
 .featured-item a {
   text-decoration: none !important;
