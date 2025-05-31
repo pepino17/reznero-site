@@ -438,47 +438,79 @@ body {
 }
 
 /* Media queries para pantallas muy estrechas (menores a 376px) */
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   /* 1. TARJETAS DE CATEGORÍAS CUADRADAS */
   .category-card {
-    padding: 0;
-    margin: 0 1px 10px 1px;
+    padding: 10px;
+    margin: 0 3px 10px 3px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 180px;
+    min-height: 180px;
+    background: white;
   }
   
   .category-grid {
-    max-height: 100px !important;
-    height: 100px !important;
+    max-height: 120px !important;
+    height: 120px !important;
+    width: 100% !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
     overflow: hidden;
-    padding: 4px;
   }
   
   .category-grid img {
-    width: 70% !important;
-    height: 40px !important;
-    object-fit: contain;
+    width: 50% !important;
+    height: 50px !important;
+    object-fit: contain !important;
+    margin: 2px;
   }
   
   .categories-grid {
-    padding: 0 2px;
-    gap: 6px;
+    display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 0 8px !important;
+    width: 100% !important;
   }
   
   .category-title {
-    padding: 4px 2px;
-    margin-top: 0;
+    padding: 5px 2px;
+    margin-top: 5px;
     height: auto;
     font-size: 0.9rem;
+    text-align: center;
+    width: 100%;
   }
   
   /* 2. BORDES REDONDEADOS VISIBLES EN PRODUCTOS DESTACADOS */
   .featured-card {
     background: rgba(222, 207, 242, 0.4) !important;
-    margin: 0 8px 25px 8px;
-    width: calc(100% - 16px);
-    padding: 15px 8px;
-    border-radius: 12px;
+    margin: 0 10px 20px 10px !important;
+    width: calc(100% - 20px) !important;
+    padding: 15px 10px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+  
+  .featured-title {
+    padding: 0 5px;
+    margin-bottom: 10px;
+  }
+  
+  .featured-list {
+    margin: 0 5px !important;
+  }
+  
+  .product-title {
+    margin-top: 5px;
+    font-size: 0.9rem;
   }
 }
 
