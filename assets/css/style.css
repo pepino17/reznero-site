@@ -226,6 +226,18 @@ body {
 
 /* Media queries para móvil */
 @media (max-width: 768px) {
+  /* Estilos para página de categoría específica en móvil */
+  #category-products {
+    display: grid;
+    grid-template-columns: repeat(2, 45%);
+    gap: 8px;
+    padding: 0 12px;
+    justify-content: center;
+  }
+  
+  .product-card {
+    width: 100%;
+  }
   /* Ajustes de encabezado para móvil - orden correcto */
   .header-wrapper {
     flex-direction: column;
@@ -327,12 +339,13 @@ body {
     margin-bottom: 20px;
   }
   
-  /* Ajustar cuadrícula de categorías en móvil */
+  /* Ajustar cuadrícula de categorías en móvil - 2 columnas */
   .categories-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 45%);
     gap: 8px;
     padding: 0 12px;
+    justify-content: center;
   }
   
   .category-card {
