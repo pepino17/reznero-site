@@ -438,8 +438,8 @@ body {
     background: white;
   }
   
-  /* Renamed from .category-grid to .category-image-grid to match HTML and other CSS */
-  .category-image-grid {
+  /* Using proper class name to match HTML */
+  .category-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
@@ -450,7 +450,7 @@ body {
     margin-bottom: 5px;
   }
   
-  .category-image-grid img {
+  .category-grid img {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
