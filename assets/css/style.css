@@ -79,7 +79,8 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  overflow: hidden;
+  overflow: visible; /* Cambiado a visible para permitir que el dropdown aparezca */
+  z-index: 100; /* Asegurar que el dropdown quede por encima de otros elementos */
 }
 
 .search-icon {
@@ -110,10 +111,6 @@ body {
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  /* Asegurar que no haya espacios adicionales en desktop */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .featured-card h2 {
@@ -169,17 +166,18 @@ body {
   display: flex;
   overflow-x: auto;
   gap: 16px;
-  padding: 10px 0 10px 16px; /* Sin padding derecho para evitar espacio muerto */
-  justify-content: flex-start;
+  padding: 10px 16px; /* Padding uniforme a ambos lados */
+  justify-content: center; /* Centrar en desktop */
   -webkit-overflow-scrolling: touch; /* suaviza scroll en iOS */
   scrollbar-width: none; /* oculta scroll en Firefox */
   position: relative;
-  width: 100%; /* Asegurar que ocupe todo el ancho */
+  width: 100%;
+  max-width: 900px; /* Limitar el ancho máximo para centrar mejor */
+  margin: 0 auto; /* Centrado perfecto */
   box-sizing: border-box;
   scroll-snap-type: x mandatory;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  margin-right: 0; /* Evitar espacio a la derecha */
 }
 
 .featured-list::-webkit-scrollbar {
@@ -199,6 +197,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 210px; /* Asegura altura mínima para mostrar texto completo */
+  scroll-snap-align: center; /* Mejora el comportamiento del scroll */
 }
 
 .featured-item:hover {
@@ -271,9 +270,9 @@ body {
   .featured-item {
     width: calc(50vw - 24px); /* Exactamente la mitad del viewport menos padding y gap */
     flex-shrink: 0;
-    scroll-snap-align: start; /* Alinear al inicio para mejor control de dots */
+    scroll-snap-align: center; /* Volver a center para mejor alineamiento móvil */
     min-height: 220px; /* Altura fija para consistencia */
-    margin-right: 12px; /* Espacio entre elementos */
+    margin-right: 0; /* Sin margen adicional */
   }
   
   /* Último item en el carrusel sin margen derecho para eliminar espacio muerto */
@@ -598,25 +597,22 @@ main > .social-icons {
 
 /* Media queries para desktop */
 @media (min-width: 769px) {
-  /* Restaurar flecha en desktop y ocultar dots */
+  /* Eliminar flecha en desktop para evitar espacios innecesarios */
   .featured-list::after {
-    content: '\203A';
-    display: flex;
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    font-size: 2rem;
-    color: rgba(0,0,0,0.4);
-    background: linear-gradient(to right, transparent, rgba(243,234,255,0.9) 50%);
-    padding: 0 5px 0 25px;
-    pointer-events: none;
-    z-index: 10;
-    align-items: center;
-    justify-content: flex-end;
-    width: 50px; /* Aumentar el ancho para mejor cobertura */
-    opacity: 1;
-    transition: opacity 0.3s ease;
+    display: none; /* Ocultamos la flecha completamente */
+  }
+  
+  /* Ajustes específicos para pantallas de escritorio */
+  .featured-list {
+    overflow-x: visible; /* Mostramos todos los elementos sin scroll */
+    flex-wrap: nowrap; /* Forzar que permanezcan en línea */
+    justify-content: center; /* Centrar perfectamente */
+    gap: 20px; /* Aumentar separación entre tarjetas */
+  }
+  
+  /* Ajustar el tamaño para que quepan exactamente 5 tarjetas en desktop */
+  .featured-item {
+    width: 166px; /* Tamaño fijo para desktop - exactamente para que quepan 5 */
     margin-right: 0;
   }
   
@@ -636,6 +632,9 @@ main > .social-icons {
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .category-grid img {
@@ -645,4 +644,60 @@ main > .social-icons {
   .featured-item img {
     height: 150px;
   }
+}
+
+/* Estilos para el dropdown de resultados de búsqueda */
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  margin-top: 4px;
+  border: 1px solid #f0f0f0;
+  display: none;
+}
+
+.search-results.visible {
+  display: block;
+}
+
+.search-result-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.search-result-item:hover {
+  background-color: #f8f5ff;
+}
+
+.search-result-item .result-title {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.search-result-item .result-category {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 3px;
+}
+
+.no-results {
+  padding: 15px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
 }

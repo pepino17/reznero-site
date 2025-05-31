@@ -34,7 +34,8 @@
             <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M21 21L16.65 16.65" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <input type="text" placeholder="Buscar productos..." aria-label="Buscar productos">
+          <input type="text" id="searchInput" placeholder="Buscar productos..." aria-label="Buscar productos">
+          <div class="search-results" id="searchResults"></div>
         </div>
       </div>
     </div>
@@ -75,6 +76,12 @@
     fetch('../data/products.json')
       .then(response => response.json())
       .then(data => {
+        // Almacenar datos en variable global para búsqueda
+        window.allProducts = data;
+        
+        // Implementar funcionalidad de búsqueda
+        setupSearch(data);
+        
         // Cargar productos destacados (últimos 5 productos)
         const featuredList = document.getElementById('featuredList');
         const dotsContainer = document.getElementById('carouselDots');
@@ -86,9 +93,9 @@
           const div = document.createElement('div');
           div.className = 'featured-item';
           div.innerHTML = `
-            <a href="${p.url || '#'}" class="product-link" target="_blank">
-              <img src="${p.image}" alt="${p.name}" loading="lazy">
-              <div class="product-title">${p.name}</div>
+            <a href="${p.link}" class="product-link" target="_blank" rel="noopener noreferrer">
+              <img src="${p.image}" alt="${p.title}" loading="lazy">
+              <div class="product-title">${p.title}</div>
             </a>
           `;
           featuredList.appendChild(div);
@@ -251,6 +258,91 @@
         });
       }
     });
+    // Función para implementar la búsqueda en tiempo real
+    function setupSearch(products) {
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      
+      // Función para normalizar texto (quitar acentos, convertir a minúsculas)
+      function normalizeText(text) {
+        return text.toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+      }
+      
+      // Filtrar productos basados en el texto de búsqueda
+      function filterProducts(query) {
+        if (!query || query.length < 2) {
+          searchResults.innerHTML = '';
+          searchResults.classList.remove('visible');
+          return;
+        }
+        
+        const normalizedQuery = normalizeText(query);
+        
+        // Filtrar productos que coincidan con la consulta
+        const filteredProducts = products.filter(product => {
+          const normalizedTitle = normalizeText(product.title);
+          const normalizedCategory = normalizeText(product.category);
+          
+          return normalizedTitle.includes(normalizedQuery) || 
+                 normalizedCategory.includes(normalizedQuery);
+        });
+        
+        // Mostrar resultados
+        if (filteredProducts.length > 0) {
+          searchResults.innerHTML = '';
+          
+          // Limitar a 5 resultados para no saturar
+          const displayProducts = filteredProducts.slice(0, 5);
+          
+          displayProducts.forEach(product => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.innerHTML = `
+              <div class="result-title">${product.title}</div>
+              <div class="result-category">${product.category}</div>
+            `;
+            
+            // Al hacer click en un resultado, ir a la página del producto
+            resultItem.addEventListener('click', () => {
+              window.open(product.link, '_blank', 'noopener,noreferrer');
+            });
+            
+            searchResults.appendChild(resultItem);
+          });
+          
+          searchResults.classList.add('visible');
+        } else {
+          // Mostrar mensaje si no hay resultados
+          searchResults.innerHTML = '<div class="no-results">No se encontraron productos</div>';
+          searchResults.classList.add('visible');
+        }
+      }
+      
+      // Escuchar eventos de búsqueda
+      searchInput.addEventListener('input', () => {
+        filterProducts(searchInput.value.trim());
+      });
+      
+      // Cerrar resultados al hacer click fuera
+      document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+          searchResults.classList.remove('visible');
+        }
+      });
+      
+      // Manejar evento de tecla Enter
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && searchResults.classList.contains('visible')) {
+          // Abrir el primer resultado si existe
+          const firstResult = searchResults.querySelector('.search-result-item');
+          if (firstResult) {
+            firstResult.click();
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>

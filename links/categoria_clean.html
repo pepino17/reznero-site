@@ -118,6 +118,104 @@
           categoryProducts.classList.add('loaded');
         });
     });
+    // Función para implementar la búsqueda en tiempo real
+    function setupSearch(products) {
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      
+      // Función para normalizar texto (quitar acentos, convertir a minúsculas)
+      function normalizeText(text) {
+        return text.toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+      }
+      
+      // Filtrar productos basados en el texto de búsqueda
+      function filterProducts(query) {
+        if (!query || query.length < 2) {
+          searchResults.innerHTML = '';
+          searchResults.classList.remove('visible');
+          return;
+        }
+        
+        const normalizedQuery = normalizeText(query);
+        
+        // Filtrar productos de la misma categoría que coincidan con la consulta
+        const categoryName = new URLSearchParams(window.location.search).get('category');
+        
+        const filteredProducts = products.filter(product => {
+          // Verificar que pertenezca a la categoría actual
+          if (categoryName && normalizeText(product.category) !== normalizeText(categoryName)) {
+            return false;
+          }
+          
+          const normalizedTitle = normalizeText(product.title);
+          return normalizedTitle.includes(normalizedQuery);
+        });
+        
+        // Mostrar resultados en el dropdown
+        if (filteredProducts.length > 0) {
+          searchResults.innerHTML = '';
+          
+          // Limitar a 5 resultados para no saturar
+          const displayProducts = filteredProducts.slice(0, 5);
+          
+          displayProducts.forEach(product => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.innerHTML = `
+              <div class="result-title">${product.title}</div>
+              <div class="result-category">${product.category}</div>
+            `;
+            
+            // Al hacer click en un resultado, ir a la página del producto
+            resultItem.addEventListener('click', () => {
+              window.open(product.link, '_blank', 'noopener,noreferrer');
+            });
+            
+            searchResults.appendChild(resultItem);
+          });
+          
+          searchResults.classList.add('visible');
+        } else {
+          // Mostrar mensaje si no hay resultados
+          searchResults.innerHTML = '<div class="no-results">No se encontraron productos</div>';
+          searchResults.classList.add('visible');
+        }
+      }
+      
+      // Escuchar eventos de búsqueda
+      searchInput.addEventListener('input', () => {
+        filterProducts(searchInput.value.trim());
+      });
+      
+      // Cerrar resultados al hacer click fuera
+      document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+          searchResults.classList.remove('visible');
+        }
+      });
+      
+      // Manejar evento de tecla Enter
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && searchResults.classList.contains('visible')) {
+          // Abrir el primer resultado si existe
+          const firstResult = searchResults.querySelector('.search-result-item');
+          if (firstResult) {
+            firstResult.click();
+          }
+        }
+      });
+    }
+    
+    // Cargar todos los productos para la búsqueda
+    fetch('../data/products.json')
+      .then(response => response.json())
+      .then(data => {
+        window.allProducts = data;
+        setupSearch(data);
+      })
+      .catch(error => console.error('Error cargando productos para búsqueda:', error));
   </script>
 </body>
 </html>
