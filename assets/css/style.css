@@ -101,7 +101,7 @@ body {
 
 /* Tarjeta de Destacados */
 .featured-card {
-  background: #f0f4f9 !important; /* Color pastel lavanda que se mantiene en todos los tamaños - forzado con !important */
+  background: #EDE0FF !important; /* Color lavanda pastel unificado para todos los tamaños de pantalla */
   padding: 16px 0 22px; /* Sin padding lateral */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -761,7 +761,7 @@ main > .social-icons {
   
   /* Ajustar el carrusel en desktop para eliminar espacios muertos */
   .featured-card {
-    background: rgba(222, 207, 242, 0.4);
+    /* background color eliminado para usar el valor global con !important */
     border-radius: 12px;
     padding: 20px 4px;
     margin: 0 8px 25px 8px;
