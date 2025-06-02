@@ -657,14 +657,14 @@ footer {
 
 .category-page-title {
   font-size: 1.6rem; /* Aumentado para que coincida con Productos Destacados */
-  color: #333;
+  color: #FFFFFF;
   text-align: center;
   width: 100%;
   font-weight: 700;
   padding: 10px 0;
   margin: 0 auto 16px auto; /* Añadido margen inferior */
   max-width: 800px;
-  background: transparent; /* Sin fondo */
+  background: #8C8C8C; /* fondo targeta categoria  letra*/
 }
 
 main {
@@ -728,7 +728,7 @@ main > .social-icons {
   align-items: center;
   justify-content: center;
   min-height: 60px; /* Altura mínima para asegurar que el texto no se corte */
-  background: #D1D1D1; /* fondo targeta producto letra*/
+  background: #FFFFFF; /* fondo targeta producto letra*/
 }
 
 /* Media queries para desktop */
