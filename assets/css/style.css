@@ -8,7 +8,7 @@
 /* Fondo suave tipo Linktree */
 body {
   padding: 20px 15px; 
-  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  background: #F7F8FA; /* gris muy claro para mayor confianza */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #222;
   line-height: 1.5;
@@ -29,7 +29,7 @@ body {
 .page-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
+  color: #1C1C1E; /* Color titulo */
   text-align: center;
   margin: 0;
   padding: 0;
@@ -50,12 +50,13 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #f0f4f9;
-  transition: transform 0.2s;
+  background: #f0f4f9; /* Color fondo iconos redes sociales */
+  transition: transform 0.2s, color 0.3s;
 }
 
 .social-icons a:hover {
   transform: scale(1.1);
+  color: #007AFF;
 }
 
 .social-icons img {
@@ -78,6 +79,7 @@ body {
   align-items: center;
   background: white;
   border-radius: 12px;
+  border: 1px solid #D1D1D6;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   overflow: visible; /* Cambiado a visible para permitir que el dropdown aparezca */
   z-index: 100; /* Asegurar que el dropdown quede por encima de otros elementos */
@@ -101,7 +103,7 @@ body {
 
 /* Tarjeta de Destacados */
 .featured-card {
-  background: #EDE0FF !important; /* Color lavanda pastel unificado para todos los tamaños de pantalla */
+  background: #F0F4FF !important; /* Azul muy suave (casi imperceptible) que refuerza el concepto de confianza */
   padding: 16px 0 22px; /* Sin padding lateral */
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -119,7 +121,7 @@ body {
   margin-bottom: 16px;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
+  color: #1C1C1E; /* color letra */
 }
 
 /* Dots para el carrusel */
@@ -158,7 +160,7 @@ body {
   text-align: center;
   margin-top: 0;
   margin-bottom: 22px;
-  color: #333;
+  color: #1C1C1E; /* color letra */
 }
 
 /* Destacados: lista horizontal */
@@ -185,7 +187,7 @@ body {
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
   color: inherit;
@@ -209,7 +211,7 @@ body {
 .featured-item .product-title {
   padding: 14px 10px;
   font-size: 1.05rem;
-  color: #222;
+  color: #222; /* color letra */
   text-align: center;
   line-height: 1.4;
   font-weight: 600;
@@ -280,7 +282,7 @@ body {
     padding: 16px 0 5px; /* Padding vertical reducido para dejar espacio a los dots */
     box-sizing: border-box;
     overflow: hidden; /* Asegurar que nada se desborde */
-    background: #f3eaff !important; /* Asegurar color consistente en móvil */
+    background: #f3eaff !important; /* Color targeta destacados */
   }
   
   .featured-list {
@@ -367,20 +369,20 @@ body {
   }
   
   .category-grid img {
-    width: 100%;
-    height: auto;
-    max-width: 90%; /* Aumentado para que se vean mejor */
-    max-height: 90%;
-    object-fit: contain;
-    margin: 1px;
-    padding: 0;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* Changed from contain to cover to eliminate white space */
+    padding: 0; /* Removed padding from images themselves */
+    margin: 0;
+    display: block; /* Prevent inline element spacing */
+    border: none; /* Remove any possible borders */
   }
   
   .categories-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
-    padding: 0 8px !important;
+    gap: 10px !important; /* Further reduced gap between category cards */
+    padding: 0 8px !important; /* Minimal side padding for maximum width */
     width: 100% !important;
   }
   
@@ -558,7 +560,7 @@ a:visited {
   display: block;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   overflow: hidden;
   text-decoration: none;
   color: #222;
@@ -586,13 +588,14 @@ a:visited {
 }
 
 .category-title {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   font-size: 1.1rem;
-  color: #222;
+  color: #1C1C1E;
   padding: 12px 8px;
-  background: transparent;
-  font-weight: 600;
-  margin: 0;
+  background: #EFF0F2; /* fondo targeta categoria letra*/
 }
 
 /* Footer */
@@ -600,17 +603,19 @@ footer {
   margin-top: 30px;
   text-align: center;
   padding: 20px 0;
-  border-top: 1px solid #d0d8e8; /* Subtle top border for separation */
+  border-top: 1px solid #C6C6C8; /* Subtle top border for separation */
 }
 
 .footer-content {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
+  background: #EFF0F2;
+  border-top: 1px solid #C6C6C8;
+  padding: 20px 15px;
+  text-align: center;
+  border-radius: 0 0 12px 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   max-width: 800px;
   margin: 0 auto;
-  color: #666;
+  color: #4A4A4C;
   font-size: 0.9rem;
   line-height: 1.5;
 }
@@ -637,18 +642,16 @@ footer {
 }
 
 .back-button {
-  background: white;
-  border: none;
-  border-radius: 20px;
-  padding: 0 16px;
-  height: 36px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  margin-top: 20px;
+  padding: 5px 12px;
+  background: #007AFF;
+  border-radius: 100px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   cursor: pointer;
   text-decoration: none;
-  color: #333;
+  color: #FFFFFF;
   font-size: 0.9rem;
   align-self: flex-start; /* Alineado a la izquierda pero no posición absoluta */
   z-index: 2;
@@ -657,14 +660,14 @@ footer {
 
 .category-page-title {
   font-size: 1.6rem; /* Aumentado para que coincida con Productos Destacados */
-  color: #333;
+  color: #1C1C1E;
   text-align: center;
   width: 100%;
   font-weight: 700;
   padding: 10px 0;
   margin: 0 auto 16px auto; /* Añadido margen inferior */
   max-width: 800px;
-  background: transparent; /* Sin fondo */
+  background: transparent; /* fondo tirulo categorias*/
 }
 
 main {
@@ -688,7 +691,7 @@ main > .social-icons {
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -703,7 +706,7 @@ main > .social-icons {
 .product-image-container {
   width: 100%;
   padding: 15px;
-  background: #f8f8f8;
+  background: #FFFFFF; /* fondo targeta producto imagen*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -728,6 +731,7 @@ main > .social-icons {
   align-items: center;
   justify-content: center;
   min-height: 60px; /* Altura mínima para asegurar que el texto no se corte */
+  background: #FFFFFF; /* fondo targeta producto letra*/
 }
 
 /* Media queries para desktop */
@@ -793,7 +797,7 @@ main > .social-icons {
   overflow-y: auto;
   z-index: 1000;
   margin-top: 4px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #D1D1D6;
   display: none;
 }
 
@@ -803,7 +807,7 @@ main > .social-icons {
 
 .search-result-item {
   padding: 10px 15px;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid #C6C6C8;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -814,12 +818,12 @@ main > .social-icons {
 }
 
 .search-result-item:hover {
-  background-color: #f8f5ff;
+  background-color: #F0F4FF;
 }
 
 .search-result-item .result-title {
   font-size: 0.9rem;
-  color: #333;
+  color: #1C1C1E;
   font-weight: 500;
 }
 
@@ -832,6 +836,6 @@ main > .social-icons {
 .no-results {
   padding: 15px;
   text-align: center;
-  color: #666;
+  color: #4A4A4C;
   font-style: italic;
 }
