@@ -657,14 +657,14 @@ footer {
 
 .category-page-title {
   font-size: 1.6rem; /* Aumentado para que coincida con Productos Destacados */
-  color: #FFFFFF;
+  color: #333;
   text-align: center;
   width: 100%;
   font-weight: 700;
   padding: 10px 0;
   margin: 0 auto 16px auto; /* Añadido margen inferior */
   max-width: 800px;
-  background: #8C8C8C; /* fondo targeta categoria  letra*/
+  background: /transparent; /* fondo targeta categoria  letra*/
 }
 
 main {
