@@ -664,7 +664,7 @@ footer {
   padding: 10px 0;
   margin: 0 auto 16px auto; /* Añadido margen inferior */
   max-width: 800px;
-  background: /transparent; /* fondo targeta categoria  letra*/
+  background: transparent; /* fondo targeta categoria  letra*/
 }
 
 main {
