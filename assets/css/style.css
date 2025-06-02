@@ -8,7 +8,7 @@
 /* Fondo suave tipo Linktree */
 body {
   padding: 20px 15px; 
-  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); /* Color fondo paguina WEB */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: #222;
   line-height: 1.5;
@@ -29,7 +29,7 @@ body {
 .page-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
+  color: #333; /* Color titulo */
   text-align: center;
   margin: 0;
   padding: 0;
@@ -50,7 +50,7 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #f0f4f9;
+  background: #f0f4f9; /* Color fondo iconos redes sociales */
   transition: transform 0.2s;
 }
 
@@ -119,7 +119,7 @@ body {
   margin-bottom: 16px;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
+  color: #333; /* color letra */
 }
 
 /* Dots para el carrusel */
@@ -158,7 +158,7 @@ body {
   text-align: center;
   margin-top: 0;
   margin-bottom: 22px;
-  color: #333;
+  color: #333; /* color letra */
 }
 
 /* Destacados: lista horizontal */
@@ -209,7 +209,7 @@ body {
 .featured-item .product-title {
   padding: 14px 10px;
   font-size: 1.05rem;
-  color: #222;
+  color: #222; /* color letra */
   text-align: center;
   line-height: 1.4;
   font-weight: 600;
@@ -280,7 +280,7 @@ body {
     padding: 16px 0 5px; /* Padding vertical reducido para dejar espacio a los dots */
     box-sizing: border-box;
     overflow: hidden; /* Asegurar que nada se desborde */
-    background: #f3eaff !important; /* Asegurar color consistente en móvil */
+    background: #f3eaff !important; /* Color targeta destacados */
   }
   
   .featured-list {
@@ -703,7 +703,7 @@ main > .social-icons {
 .product-image-container {
   width: 100%;
   padding: 15px;
-  background: #f8f8f8;
+  background: #FFFFFF; /* fondo targeta producto*/
   display: flex;
   justify-content: center;
   align-items: center;
