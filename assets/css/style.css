@@ -231,19 +231,21 @@ body {
   padding: 8px;
 }
 
-.featured-title {
-  padding: 12px 10px;
+/* Estilo para los títulos de productos destacados */
+.featured-item .product-title {
+  /* Exactamente los mismos estilos que .product-card .product-title */
   font-size: 16px;
   font-weight: 600;
   text-align: center;
-  color: #1C1C1E;
-  background: #FFFFFF;
+  padding: 12px 10px;
+  line-height: 1.4;
   display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 1.4;
-  flex-grow: 1;
   min-height: 60px;
+  background: #FFFFFF;
+  color: #1C1C1E;
+  flex-grow: 1;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -457,6 +459,8 @@ main > .social-icons {
 .product-link {
   text-decoration: none;
   color: inherit;
+  display: block;
+  height: 100%;
 }
 
 /* Evitar formateo browser de enlaces visitados */
