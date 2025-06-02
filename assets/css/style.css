@@ -82,28 +82,40 @@ body {
   display: flex;
   align-items: center;
   background: white;
-  border-radius: 6px;
+  border-radius: 10px;
   border: 1px solid #D1D1D6;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   overflow: visible; /* Cambiado a visible para permitir que el dropdown aparezca */
   z-index: 100; /* Asegurar que el dropdown quede por encima de otros elementos */
+  height: 46px;
 }
 
 .search-icon {
   position: absolute;
-  left: 12px;
+  left: 16px;
   pointer-events: none;
   color: #8E8E93;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-bar input {
   width: 100%;
+  height: 100%;
   border: none;
-  padding: 12px 48px 12px 16px;
+  padding: 0 16px 0 44px;
   font-size: 16px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   outline: none;
-  border-radius: 6px;
+  border-radius: 10px;
+  color: #1C1C1E;
+}
+
+.search-bar input::placeholder {
+  color: #8E8E93;
+  opacity: 0.8;
 }
 
 /* Tarjeta de Destacados */
