@@ -703,7 +703,7 @@ main > .social-icons {
 .product-image-container {
   width: 100%;
   padding: 15px;
-  background: #FFFFFF; /* fondo targeta producto*/
+  background: #FFFFFF; /* fondo targeta producto imagen*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -728,6 +728,7 @@ main > .social-icons {
   align-items: center;
   justify-content: center;
   min-height: 60px; /* Altura mínima para asegurar que el texto no se corte */
+  background: #D1D1D1; /* fondo targeta producto letra*/
 }
 
 /* Media queries para desktop */
