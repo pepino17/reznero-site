@@ -89,9 +89,8 @@
         // Store data in global variable for search
         window.allProducts = data;
         
-        // Setup search functionality with empty initial data
-        // The search will use window.allProducts
-        setupSearch();
+        // Setup search functionality with the loaded products
+        setupSearch(window.allProducts);
         
         // Load featured products (last 6 products)
         const featuredList = document.getElementById('featuredList');
