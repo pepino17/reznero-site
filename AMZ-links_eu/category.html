@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTJG5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NE3GGCJTJG5');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title id="page-title">Category</title>
+  <meta name="description" content="Discover the best kitchen products, utensils and gadgets on Amazon with our featured selections and categories. 100% secure shopping and daily deals.">
+  <meta name="theme-color" content="#e0eafc">
+  <!-- Open Graph for social media -->
+  <meta property="og:title" content="Amazon Product Selection | Categories">
+  <meta property="og:description" content="Discover the best products on Amazon. Daily deals and fast shipping.">
+  <meta property="og:image" content="../assets/img/og-image.jpg">
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <style>
+    .hidden-loading {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .loaded {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-wrapper">
+      <div class="social-icons">
+        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/instagram.svg" alt="Instagram"/>
+        </a>
+        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/youtube.svg" alt="YouTube"/>
+        </a>
+        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/telegram.svg" alt="Telegram"/>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="category-page-title" id="category-title">Category Products</h1>
+    
+    <div class="category-page-header">
+      <a href="index.html" class="back-button" aria-label="Back to home page">
+        <span>← Back</span>
+      </a>
+    </div>
+
+    <section class="categories-card">
+      <div class="category-products hidden-loading" id="category-products"><!-- Content loaded dynamically --></div>
+    </section>
+  </main>
+
+<footer>
+  <div class="footer-content">
+    <p><strong>Find kitchen utensils, accessories, organization, and small appliances on Amazon.</strong></p>
+    <p>This site uses <em>Amazon affiliate links</em>. <br>Prices and availability are subject to change without notice.</p>
+    <p>© 2025 – All rights reserved.<br>Designed for cooking enthusiasts.</p>
+  </div>
+</footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryProducts = document.getElementById('category-products');
+      
+      // Get category from URL
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get('category');
+      
+      // Update titles
+      document.getElementById('page-title').innerText = cat ? `Amazon Product Selection - ${cat}` : 'Amazon Product Selection';
+      document.getElementById('category-title').innerText = cat ? cat : 'Featured Products';
+
+      // Load products and filter by category
+      fetch('data/products.json')
+        .then(res => res.json())
+        .then(data => {
+          // Filter by category if specified
+          const filteredProducts = cat 
+            ? data.filter(p => p.category === cat)
+            : data.slice(-8); // If no category, show last 8
+
+          categoryProducts.innerHTML = ''; // Clear previous content
+          
+          // If no products, show message
+          if (filteredProducts.length === 0) {
+            categoryProducts.innerHTML = '<p class="no-products">No products in this category.</p>';
+            categoryProducts.classList.add('loaded');
+            return;
+          }
+
+          // Generate product cards
+          filteredProducts.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+              <div itemscope itemtype="http://schema.org/Product">
+                <a href="${p.link}" target="_blank" rel="noopener noreferrer" itemprop="url" class="product-link">
+                  <div class="product-image-container">
+                    <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy">
+                  </div>
+                  <div class="product-title" itemprop="name">${p.title}</div>
+                </a>
+                <meta itemprop="brand" content="${p.brand || 'Brand'}">
+                <meta itemprop="category" content="${p.category}">
+                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                  <meta itemprop="priceCurrency" content="GBP">
+                  <meta itemprop="price" content="${p.price || ''}">
+                  <link itemprop="availability" href="http://schema.org/InStock">
+                </div>
+              </div>
+            `;
+            categoryProducts.appendChild(card);
+          });
+          
+          // Show content once loaded
+          categoryProducts.classList.add('loaded');
+        })
+        .catch(err => {
+          console.error('Error loading products:', err);
+          categoryProducts.innerHTML = '<p class="error-message">Error loading products. Please try again later.</p>';
+          categoryProducts.classList.add('loaded');
+        });
+    });
+  </script>
+</body>
+</html>

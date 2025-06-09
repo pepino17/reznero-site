@@ -182,45 +182,49 @@ body {
   color: #1C1C1E; /* color letra */
 }
 
-/* Destacados: lista horizontal */
+/* Featured Products Carousel */
+.featured-card {
+  padding: 24px 16px; /* Added horizontal padding */
+  margin: 20px auto;
+  max-width: 1100px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.featured-list-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+}
+
 .featured-list {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 0 0 10px 0;
-  scrollbar-width: none; /* Firefox */
-  position: relative;
   scroll-behavior: smooth;
-  margin: 0 6px;
-  background-color: transparent; /* Asegurar que no haya fondo que interfiera */
+  scrollbar-width: none; /* Firefox */
+  padding: 0 16px 16px; /* Added horizontal padding */
+  margin: 0 -16px; /* Compensate for padding */
+  position: relative;
 }
 
 .featured-list::-webkit-scrollbar {
-  display: none; /* oculta scroll en Chrome/Safari */
+  display: none; /* Hide scrollbar in WebKit browsers */
 }
 
 .featured-item {
-  flex: 0 0 auto;
-  width: 140px;
-  margin-right: 14px;
-  scroll-snap-align: center;
+  flex: 0 0 calc(50% - 14px); /* 2 items visible on mobile */
+  margin: 0 7px;
+  scroll-snap-align: start;
   background: white;
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-.featured-item:last-child {
-  margin-right: 0;
-}
-
-.featured-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+  position: relative;
 }
 
 .featured-item img {
@@ -228,7 +232,51 @@ body {
   height: 140px;
   object-fit: contain;
   background: white;
-  padding: 8px;
+  padding: 12px;
+  display: block;
+}
+
+/* Dots navigation */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 0 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.carousel-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.carousel-dots .dot.active {
+  background-color: rgba(0, 0, 0, 0.6);
+  transform: scale(1.2);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .featured-item {
+    flex: 0 0 calc(33.333% - 14px); /* 3 items on tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .featured-item {
+    flex: 0 0 calc(25% - 16px); /* 4 items on desktop */
+  }
+  
+  .featured-list {
+    padding: 0 24px 16px;
+    margin: 0 -24px;
+  }
 }
 
 /* Estilo para los títulos de productos destacados */

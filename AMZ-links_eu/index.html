@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTG5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NE3GGCJTG5');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title id="page-title">Amazon Product Selection</title>
+  <meta name="description" content="Discover the best kitchen products, utensils and gadgets on Amazon with our featured selections and categories. 100% secure shopping and daily deals.">
+  <meta name="theme-color" content="#e0eafc">
+  <!-- Open Graph for social media -->
+  <meta property="og:title" content="Amazon Product Selection">
+  <meta property="og:description" content="Discover the best products on Amazon. Daily deals and fast shipping.">
+  <meta property="og:image" content="../assets/img/og-image.jpg">
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+</head>
+<body>
+  <header>
+    <div class="header-wrapper">
+      <h1 class="page-title">Amazon Product Selection</h1>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/instagram.svg" alt="Instagram"/>
+        </a>
+        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/youtube.svg" alt="YouTube"/>
+        </a>
+        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/telegram.svg" alt="Telegram"/>
+        </a>
+      </div>
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-bar">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 21L16.65 16.65" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search products">
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Featured Products Section -->
+    <div class="featured-card">
+      <h2>Featured Products</h2>
+      <div class="featured-list-container">
+        <div class="featured-list" id="featuredList">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+      <!-- Dots for mobile navigation -->
+      <div class="carousel-dots" id="carouselDots">
+        <!-- Generated dynamically -->
+      </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="categories-section">
+      <h2>Categories</h2>
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p><strong>Find kitchen utensils, accessories, organization, and small appliances on Amazon.</strong></p>
+      <p>This site uses <em>Amazon affiliate links</em>. <br>Prices and availability are subject to change without notice.</p>
+      <p>© 2025 – All rights reserved.<br>Designed for cooking enthusiasts.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Load data
+    fetch('data/products.json')
+      .then(response => response.json())
+      .then(data => {
+        // Store data in global variable for search
+        window.allProducts = data;
+        
+        // Setup search functionality with empty initial data
+        // The search will use window.allProducts
+        setupSearch();
+        
+        // Load featured products (last 6 products)
+        const featuredList = document.getElementById('featuredList');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        // Use last 6 unique products in reverse order as featured
+        const uniqueProducts = [];
+        const seenProducts = new Set();
+        
+        // Filter out duplicates by product title
+        for (let i = data.length - 1; i >= 0; i--) {
+          const product = data[i];
+          if (!seenProducts.has(product.title)) {
+            seenProducts.add(product.title);
+            uniqueProducts.push(product);
+            if (uniqueProducts.length >= 6) break;
+          }
+        }
+        
+        // Clear any existing items
+        featuredList.innerHTML = '';
+        
+        // Add featured products
+        uniqueProducts.forEach((p, index) => {
+          const div = document.createElement('div');
+          div.className = 'featured-item';
+          div.innerHTML = `
+            <a href="${p.link}" class="product-link" target="_blank" rel="noopener noreferrer">
+              <img src="${p.image}" alt="${p.title}" loading="lazy">
+              <div class="product-title">${p.title}</div>
+            </a>
+          `;
+          featuredList.appendChild(div);
+        });
+        
+        // Store the featured products for dot navigation
+        const featuredProducts = uniqueProducts;
+        
+        // Function to update dots based on scroll position
+        function updateDots() {
+          const scrollPosition = featuredList.scrollLeft;
+          const itemWidth = featuredList.children[0].offsetWidth + 14; // Width + margin
+          const currentIndex = Math.round(scrollPosition / itemWidth);
+          
+          // Update active dot
+          const dots = dotsContainer.querySelectorAll('.dot');
+          dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+          });
+        }
+        
+        // Create indicator dots for mobile navigation
+        const itemsPerView = window.innerWidth < 768 ? 2 : (window.innerWidth < 1024 ? 3 : 4);
+        const dotCount = Math.ceil(featuredProducts.length / itemsPerView);
+        
+        // Clear existing dots
+        dotsContainer.innerHTML = '';
+        
+        for (let i = 0; i < dotCount; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'dot' + (i === 0 ? ' active' : '');
+          dot.addEventListener('click', () => {
+            // Scroll to corresponding set of items
+            const itemWidth = featuredList.children[0].offsetWidth + 14; // Width + margin
+            const scrollPos = i * itemWidth * itemsPerView;
+            featuredList.scrollTo({ left: scrollPos, behavior: 'smooth' });
+          });
+          
+          dotsContainer.appendChild(dot);
+        }
+        
+        // Update dots on scroll
+        let scrollTimeout;
+        featuredList.addEventListener('scroll', () => {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(updateDots, 100);
+        });
+        
+        // Update dots on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(updateDots, 250);
+        });
+        
+        // Ensure carousel shows complete first cards on mobile
+        setTimeout(() => {
+          // Force initial scroll position to 0 for first card to be fully visible
+          featuredList.scrollLeft = 0;
+          
+          // Add loaded class when carousel is initialized
+          featuredList.classList.add('loaded');
+          
+          // Double check for mobile devices
+          if (window.innerWidth <= 768) {
+            // Ensure no initial scroll
+            featuredList.style.scrollBehavior = 'auto';
+            featuredList.scrollLeft = 0;
+            
+            // Restore smooth scroll behavior
+            setTimeout(() => {
+              featuredList.style.scrollBehavior = 'smooth';
+            }, 50);
+          }
+        }, 100);
+        
+        // Detect scroll end and update dots
+        checkScrollEnd();
+        updateActiveDot();
+        
+        // Load categories
+        const categories = [...new Set(data.map(p => p.category))];
+        const categoriesGrid = document.getElementById('categoriesGrid');
+        
+        // Clear any existing content
+        categoriesGrid.innerHTML = '';
+        
+        categories.forEach(category => {
+          // Get all products in this category
+          const categoryProducts = data.filter(p => p.category === category);
+          
+          // Get up to 4 unique images for the category
+          const uniqueImages = [];
+          const imageSet = new Set();
+          
+          for (const product of categoryProducts) {
+            if (!imageSet.has(product.image)) {
+              imageSet.add(product.image);
+              uniqueImages.push(product.image);
+              
+              if (uniqueImages.length >= 4) {
+                break;
+              }
+            }
+          }
+          
+          // Create category card
+          const categoryCard = document.createElement('a');
+          categoryCard.href = `category.html?category=${encodeURIComponent(category)}`;
+          categoryCard.className = 'category-card';
+          
+          // Create image grid
+          const imageGrid = document.createElement('div');
+          imageGrid.className = 'category-grid';
+          
+          // Add images to grid (always 4 items, repeating if necessary)
+          for (let i = 0; i < 4; i++) {
+            const img = document.createElement('img');
+            const imgIndex = i % uniqueImages.length;
+            img.src = uniqueImages[imgIndex];
+            img.alt = '';
+            img.loading = 'lazy';
+            imageGrid.appendChild(img);
+          }
+          
+          // Create category title
+          const title = document.createElement('div');
+          title.className = 'category-title';
+          title.textContent = category;
+          
+          // Assemble the card
+          categoryCard.appendChild(imageGrid);
+          categoryCard.appendChild(title);
+          categoriesGrid.appendChild(categoryCard);
+        });
+      })
+      .catch(error => console.error('Error loading products:', error));
+    
+    // Function to detect if scroll has reached the end
+    function checkScrollEnd() {
+      const featuredList = document.getElementById('featuredList');
+      
+      // Only if the element exists
+      if (featuredList) {
+        // Detect if at the end of scroll
+        const isAtEnd = featuredList.scrollWidth <= featuredList.scrollLeft + featuredList.clientWidth + 5;
+        
+        // Add or remove class as needed
+        if (isAtEnd) {
+          featuredList.classList.add('scroll-end');
+        } else {
+          featuredList.classList.remove('scroll-end');
+        }
+      }
+    }
+    
+    // Function to update the active dot based on scroll position
+    function updateActiveDot() {
+      const featuredList = document.getElementById('featuredList');
+      const dots = document.querySelectorAll('.dot');
+      
+      if (!featuredList || dots.length === 0) return;
+      
+      // Calculate which pair of products is currently visible
+      const scrollPosition = featuredList.scrollLeft;
+      const itemWidth = featuredList.clientWidth * 0.8; // 80% of container width
+      const activeDotIndex = Math.round(scrollPosition / itemWidth);
+      
+      // Update active dot
+      dots.forEach((dot, index) => {
+        if (index === activeDotIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+      
+      // Check if we've reached the end of the carousel
+      checkScrollEnd();
+    }
+    
+    // Listen for scroll events on the carousel
+    document.addEventListener('DOMContentLoaded', () => {
+      const featuredList = document.getElementById('featuredList');
+      
+      if (featuredList) {
+        featuredList.addEventListener('scroll', updateActiveDot);
+        
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            // Recalculate scroll position after resize
+            updateActiveDot();
+          }, 250);
+        });
+      }
+    });
+    
+    // Function to normalize text for search
+    function normalizeText(text) {
+      return text.toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, ''); // Remove accents
+    }
+
+    // Function to implement real-time search
+    function setupSearch(products) {
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      
+      if (!searchInput || !searchResults) return;
+      
+      function filterProducts(query) {
+        if (query === '') {
+          searchResults.classList.remove('visible');
+          return;
+        }
+        
+        const normalizedQuery = normalizeText(query);
+        
+        // Filter products that match the query
+        const filteredProducts = products.filter(product => {
+          const normalizedTitle = normalizeText(product.title);
+          const normalizedCategory = normalizeText(product.category);
+          
+          return normalizedTitle.includes(normalizedQuery) || 
+                 normalizedCategory.includes(normalizedQuery);
+        });
+        
+        // Show results
+        if (filteredProducts.length > 0) {
+          searchResults.innerHTML = '';
+          
+          // Limit to 5 results
+          const displayProducts = filteredProducts.slice(0, 5);
+          
+          displayProducts.forEach(product => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.innerHTML = `
+              <div class="result-title">${product.title}</div>
+              <div class="result-category">${product.category}</div>
+            `;
+            
+            // Click on result to go to product page
+            resultItem.addEventListener('click', () => {
+              window.open(product.link, '_blank', 'noopener,noreferrer');
+            });
+            
+            searchResults.appendChild(resultItem);
+          });
+          
+          searchResults.classList.add('visible');
+        } else {
+          // Show no results message
+          searchResults.innerHTML = '<div class="no-results">No products found</div>';
+          searchResults.classList.add('visible');
+        }
+      }
+      
+      // Listen for search events
+      searchInput.addEventListener('input', () => {
+        filterProducts(searchInput.value.trim());
+      });
+      
+      // Close results when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+          searchResults.classList.remove('visible');
+        }
+      });
+      
+      // Handle Enter key
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && searchResults.classList.contains('visible')) {
+          // Open first result if it exists
+          const firstResult = searchResults.querySelector('.search-result-item');
+          if (firstResult) {
+            firstResult.click();
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
