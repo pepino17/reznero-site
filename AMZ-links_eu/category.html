@@ -80,8 +80,8 @@
       document.getElementById('page-title').innerText = cat ? `Amazon Product Selection - ${cat}` : 'Amazon Product Selection';
       document.getElementById('category-title').innerText = cat ? cat : 'Featured Products';
 
-      // Load products and filter by category
-      fetch('data/products.json')
+      // Load EU products and filter by category
+      fetch('data/products_eu.json')
         .then(res => res.json())
         .then(data => {
           // Filter by category if specified

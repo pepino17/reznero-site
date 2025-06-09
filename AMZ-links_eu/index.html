@@ -82,8 +82,8 @@
   </footer>
 
   <script>
-    // Load data
-    fetch('data/products.json')
+    // Load data for EU version
+    fetch('data/products_eu.json')
       .then(response => response.json())
       .then(data => {
         // Store data in global variable for search
@@ -97,17 +97,17 @@
         const featuredList = document.getElementById('featuredList');
         const dotsContainer = document.getElementById('carouselDots');
         
-        // Use last 6 unique products in reverse order as featured
+        // Get exactly 5 unique featured products in reverse order
         const uniqueProducts = [];
         const seenProducts = new Set();
         
-        // Filter out duplicates by product title
+        // Start from the end to get most recent products
         for (let i = data.length - 1; i >= 0; i--) {
           const product = data[i];
           if (!seenProducts.has(product.title)) {
             seenProducts.add(product.title);
             uniqueProducts.push(product);
-            if (uniqueProducts.length >= 6) break;
+            if (uniqueProducts.length >= 5) break;
           }
         }
         
@@ -120,7 +120,9 @@
           div.className = 'featured-item';
           div.innerHTML = `
             <a href="${p.link}" class="product-link" target="_blank" rel="noopener noreferrer">
-              <img src="${p.image}" alt="${p.title}" loading="lazy">
+              <div class="featured-image-container">
+                <img src="${p.image}" alt="${p.title}" loading="lazy">
+              </div>
               <div class="product-title">${p.title}</div>
             </a>
           `;
