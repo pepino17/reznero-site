@@ -686,28 +686,54 @@ body {
 footer {
   margin-top: 30px;
   text-align: center;
-  padding: 20px 0;
-  border-top: 1px solid #C6C6C8; /* Subtle top border for separation */
+  padding: 24px 0;
+  border-top: 1px solid #C6C6C8;
   background: #EFF0F2;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .footer-content {
-  background: #EFF0F2;
-  border-top: 1px solid #C6C6C8;
-  padding: 20px 15px;
-  text-align: center;
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  max-width: 800px;
+  max-width: calc(100% - 32px); /* Account for padding */
   margin: 0 auto;
+  padding: 0 16px;
   color: #4A4A4C;
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  word-break: break-word; /* Ensure long words break */
+  hyphens: auto; /* Better word breaking */
 }
 
 .footer-content p {
-  margin: 8px 0;
-  font-size: 14px;
+  margin: 12px 0;
+  font-size: 15px;
+  line-height: 1.5;
+  padding: 0 8px;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+  footer {
+    padding: 20px 0;
+  }
+  
+  .footer-content {
+    max-width: calc(100% - 24px);
+    padding: 0 12px;
+  }
+  
+  .footer-content p {
+    font-size: 14px;
+    margin: 10px 0;
+    line-height: 1.5;
+    padding: 0 4px;
+  }
 }
 
 .secure-icon {
