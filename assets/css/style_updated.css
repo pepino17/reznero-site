@@ -290,16 +290,19 @@ body {
   display: block;
   background: white;
   border-radius: 10px;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.06);
   overflow: hidden;
   text-decoration: none;
   color: #1C1C1E;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.2s ease;
+  transform: translateY(-1px);
 }
 
 .category-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  border-color: rgba(0,0,0,0.15);
 }
 
 .category-grid {
@@ -324,10 +327,15 @@ body {
   width: 100%;
   font-size: 14px;
   font-weight: 600;
-  color: #1C1C1E;
-  padding: 12px 8px;
-  background: #EFF0F2; /* fondo targeta categoria letra*/
+  background: #ffffff; /* Fondo blanco puro */
+  color: #000000; /* Texto negro para máximo contraste */
+  padding: 14px 8px;
   border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Sombra más pronunciada */
+  border: 1px solid rgba(0,0,0,0.08); /* Borde sutil */
+  border-top: none; /* Sin borde superior */
+  font-weight: 700; /* Texto en negrita */
+  letter-spacing: 0.3px; /* Mejor legibilidad */
 }
 
 /* Footer */
