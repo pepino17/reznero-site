@@ -2,12 +2,25 @@
 <html lang="es">
 <head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTJG5"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTG5"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-NE3GGCJTJG5');
+  gtag('config', 'G-NE3GGCJTG5');
+  
+  // Track page view for category (clean version)
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category') || 'unknown';
+    
+    gtag('event', 'page_view', {
+      'page_title': 'Categoría: ' + category + ' (Clean)',
+      'page_location': window.location.href,
+      'page_path': window.location.pathname + '?category=' + category,
+      'clean_version': true
+    });
+  });
 </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>

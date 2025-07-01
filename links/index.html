@@ -82,6 +82,88 @@
 
 
   <script>
+    // Función para rastrear eventos en Google Analytics
+    function trackEvent(category, action, label, value, productData = null) {
+      const eventParams = {
+        'event_category': category,
+        'event_label': label,
+        'value': value
+      };
+      
+      // Añadir datos de producto si están disponibles
+      if (productData) {
+        eventParams.items = [{
+          id: productData.id || 'N/A',
+          name: productData.name || 'Producto sin nombre',
+          category: productData.category || 'Sin categoría',
+          price: productData.price || 0,
+          quantity: 1
+        }];
+        
+        // Configurar vista de detalle de producto para seguimiento de comercio electrónico mejorado
+        if (action === 'view_item') {
+          gtag('event', 'view_item', {
+            items: eventParams.items
+          });
+          return;
+        }
+      }
+      
+      gtag('event', action, eventParams);
+    }
+    
+    // Función para rastrear la visualización de lista de productos
+    function trackProductListView(products, listName = 'Lista de productos') {
+      const items = products.map(product => ({
+        item_id: product.id || 'N/A',
+        item_name: product.title || 'Producto sin nombre',
+        item_category: product.category || 'Sin categoría',
+        price: product.price || 0,
+        item_list_name: listName,
+        index: 0,
+        quantity: 1
+      }));
+      
+      gtag('event', 'view_item_list', {
+        item_list_name: listName,
+        items: items
+      });
+    }
+
+    // Rastrear clics en productos
+    document.addEventListener('click', function(event) {
+      // Rastrear clics en productos destacados
+      if (event.target.closest('.featured-item a') || event.target.closest('.product-card')) {
+        const link = event.target.closest('a');
+        if (link) {
+          const productTitle = link.querySelector('.product-title')?.textContent || 'Producto sin título';
+          const productLink = link.href;
+          
+          trackEvent('Producto', 'click', productTitle, 1);
+          
+          // Retrasar la navegación para dar tiempo a enviar el evento
+          if (!event.ctrlKey && !event.metaKey) {
+            event.preventDefault();
+            setTimeout(() => {
+              window.open(link.href, '_blank');
+            }, 100);
+          }
+        }
+      }
+      
+      // Rastrear clics en categorías
+      if (event.target.closest('.category-card')) {
+        const categoryCard = event.target.closest('.category-card');
+        const categoryName = categoryCard.querySelector('h3')?.textContent || 'Categoría desconocida';
+        trackEvent('Categoría', 'ver', categoryName, 1);
+      }
+      
+      // Rastrear clics en redes sociales
+      if (event.target.closest('.social-icons a')) {
+        const socialNetwork = event.target.closest('a').getAttribute('aria-label') || 'red-social';
+        trackEvent('Redes Sociales', 'click', socialNetwork, 1);
+      }
+    });
     // Cargar datos
     fetch('../data/products.json')
       .then(response => response.json())
@@ -92,12 +174,20 @@
         // Implementar funcionalidad de búsqueda
         setupSearch(data);
         
-        // Cargar productos destacados (últimos 5 productos)
+        // Mostrar productos destacados
+        const featuredContainer = document.getElementById('featured-products');
         const featuredList = document.getElementById('featuredList');
-        const dotsContainer = document.getElementById('carouselDots');
+        const dotsContainer = document.getElementById('dotsContainer');
         
-        // Usa los últimos 5 productos en orden inverso como destacados
+        // Limpiar contenedores
+        featuredList.innerHTML = '';
+        dotsContainer.innerHTML = '';
+        
+        // Obtener los 5 productos más recientes
         const featuredProducts = data.slice(-5).reverse();
+        
+        // Rastrear visualización de lista de productos destacados
+        trackProductListView(featuredProducts, 'Productos destacados');
         
         featuredProducts.forEach((p, index) => {
           const div = document.createElement('div');
@@ -154,6 +244,20 @@
         // Cargar categorías
         const categories = [...new Set(data.map(p => p.category))];
         const categoriesGrid = document.getElementById('categoriesGrid');
+        
+        // Mostrar categorías
+        const categoriesContainer = document.getElementById('categories');
+        categoriesContainer.innerHTML = '';
+        
+        // Rastrear visualización de lista de categorías
+        gtag('event', 'view_item_list', {
+          item_list_name: 'Lista de categorías',
+          items: categories.map(category => ({
+            item_name: category,
+            item_list_name: 'Lista de categorías',
+            index: categories.indexOf(category)
+          }))
+        });
         
         categories.forEach(category => {
           const categoryProducts = data.filter(p => p.category === category);
@@ -283,7 +387,26 @@
     function setupSearch(products) {
       const searchInput = document.getElementById('searchInput');
       const searchResults = document.getElementById('searchResults');
+      let searchTimeout;
       
+      // Rastrear búsquedas
+      searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          const searchTerm = this.value.trim();
+          if (searchTerm.length > 0) {
+            trackEvent('Búsqueda', 'realizada', searchTerm, 1);
+          }
+        }, 500);
+      });
+      
+      // Rastrear clic en sugerencias de búsqueda
+      document.addEventListener('click', function(event) {
+        if (event.target.closest('.suggestion-item')) {
+          const suggestion = event.target.closest('.suggestion-item').textContent.trim();
+          trackEvent('Búsqueda', 'sugerencia', suggestion, 1);
+        }
+      });
       // Función para normalizar texto (quitar acentos, convertir a minúsculas)
       function normalizeText(text) {
         return text.toLowerCase()
