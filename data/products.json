@@ -1,206 +1,38 @@
 [
   {
-    "link": "https://www.amazon.es/dp/B0BPYVNW3L?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61UgmGTZ6OL._AC_SL1500_.jpg",
-    "title": "Freidora sin aceite Cecotec Cecofry Bombastik 6000",
-    "category": "Pequeños electrodomésticos"
+    "id": "kitchen-appliance-1",
+    "title": "Smart Kitchen Blender with 6 Blades",
+    "description": "Powerful 1500W kitchen blender with 6 stainless steel blades for smooth blending. Perfect for making smoothies, soups, and sauces. Essential kitchen gadget for easy cooking.",
+    "price": 89.99,
+    "image": "../assets/img/kitchen/blender.jpg",
+    "link": "https://www.amazon.es/dp/EXAMPLE1",
+    "category": "Kitchen Appliances",
+    "brand": "KitchenPro",
+    "rating": 4.5,
+    "reviews": 1245
   },
   {
-    "link": "https://www.amazon.es/dp/B09XV6YCN2?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61eiCwwz0OL._AC_SL1500_.jpg",
-    "title": "Tarro pepinillos WhiteRhino",
-    "category": "Utensilios de cocina"
+    "id": "kitchen-appliance-2",
+    "title": "Air Fryer with Digital Display",
+    "description": "5.5L capacity air fryer with 8 cooking presets. Healthier cooking with little to no oil. Top-rated kitchen tool for effortless meal preparation.",
+    "price": 129.99,
+    "image": "../assets/img/kitchen/airfryer.jpg",
+    "link": "https://www.amazon.es/dp/EXAMPLE2",
+    "category": "Kitchen Appliances",
+    "brand": "FryMaster",
+    "rating": 4.7,
+    "reviews": 2341
   },
   {
-    "link": "https://www.amazon.es/dp/B0DGGW276N?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71-HFX2uPXL._AC_SL1500_.jpg",
-    "title": "Set de cuencos mezcladores Hunnycook",
-    "category": "Utensilios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B07WD8MF7W?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71j9kn9-cEL._AC_SL1500_.jpg",
-    "title": "Egguins Peleg Design",
-    "category": "Utensilios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B01EHQ7FT6?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/91mQ13s6YIL._AC_SL1500_.jpg",
-    "title": "Moldes paletas Lékué",
-    "category": "Utensilios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0BRCFMKYD?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71fpuBSfRHL._AC_SL1500_.jpg",
-    "title": "Estantería especias CZKDTT sin taladro",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0D25YFS8F?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71KDqUsrKGL._AC_SL1500_.jpg",
-    "title": "Pulverizador aceite Sweet View",
-    "category": "Accesorios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0DZ27KD2C?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61zUC0tGtKL._AC_SL1100_.jpg",
-    "title": "Cortador cebolla XYTAHDM",
-    "category": "Herramientas de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0CZ9BVF5T?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61V0WBCFO5L._AC_SL1013_.jpg",
-    "title": "Caja adhesiva EigPluy",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0CY1Z8QWD?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61lx4YFUj1L._AC_SL1500_.jpg",
-    "title": "Moldes helado Freeze-N-Sip Marigold",
-    "category": "Utensilios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0DBGX2RD4?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61M7ZCB39KL._AC_SL1500_.jpg",
-    "title": "Cortadora plátano multifuncional",
-    "category": "Herramientas de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0BHSXFTGH?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/81DjwnE9XkL._AC_SL1500_.jpg",
-    "title": "Fullstar Mandolina & Picadora (6 en 1)",
-    "category": "Utensilios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0DY7L8N6R?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61QjGlpU8PL._AC_SL1100_.jpg",
-    "title": "Centrifugadora manual frutas",
-    "category": "Utensilios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0C4BBJPHQ?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71I4hnt10QL._AC_SL1500_.jpg",
-    "title": "Tabla bambú extra large BAMOTTO",
-    "category": "Menaje de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B081GWNH5Y?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71tUla7V-QL._AC_SL1500_.jpg",
-    "title": "Set cuencos inox Navaris",
-    "category": "Utensilios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0BJV3WC3W?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/91WHo0M27xL._AC_SL1500_.jpg",
-    "title": "Bolsa térmica BALIGO",
-    "category": "Accesorios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B073ZRS74L?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71J51yG6C6L._AC_SL1500_.jpg",
-    "title": "Recipientes de cristal Amazon Basics",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0CNTWY3VM?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/51Kb0iVGD-L._AC_SL1500_.jpg",
-    "title": "Stanley Quencher H2.0",
-    "category": "Otros"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B09HV438VV?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71INE8iumYL._AC_SL1500_.jpg",
-    "title": "Porta embutidos Fresh TATAY",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B08YRDBBYJ?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71U3AEHIXHL._AC_SL1500_.jpg",
-    "title": "Estante para especias SONGMICS",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B09WRL5625?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/41Y7gqI2XhL._AC_SL1500_.jpg",
-    "title": "Cubo de Basura de Reciclaje",
-    "category": "Otros"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0B9K6VHC2?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71noxCkYR2L._AC_SL1500_.jpg",
-    "title": "Escurridor de platos niffgaff",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0D1KJKV1H?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/81HK8ozdMJL._AC_SL1500_.jpg",
-    "title": "Organizador de cocina ViWaVee",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0F4NNJJ29?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/51wrlfPyZKL._AC_SL1500_.jpg",
-    "title": "Carro de la Compra POPYS",
-    "category": "Otros"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0BLHL2DML?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71dXbiOcfAL._AC_SL1500_.jpg",
-    "title": "Organizador de cocina Meltrck",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B07V126F2D?tag=reznero-21",
-    "image": "",
-    "title": "Carrito de cocina AmazonBasics",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0BPDSD55W?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/81Az7aKVfgL._AC_SL1500_.jpg",
-    "title": "Organizador de cajones Alpina",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B096VKV4XD?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/81+U6T-ELQS._AC_SL1500_.jpg",
-    "title": "Soporte para ollas Toplife",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0BY36S871?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/71CikybQrfL._AC_SL1500_.jpg",
-    "title": "Escurreplatos plegable ViWaVee",
-    "category": "Accesorios de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B001HHACHG?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/61BKCE1r5DL._AC_SL1500_.jpg",
-    "title": "Portarrollos de pared Leifheit",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0CQWXNL8C?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/716lFSFMupL._AC_SL1500_.jpg",
-    "title": "Organizadores de despensa Heyuzb",
-    "category": "Organización de cocina"
-  },
-  {
-    "link": "https://www.amazon.es/dp/B0DT4CRBLJ?tag=reznero-21",
-    "image": "https://m.media-amazon.com/images/I/51BAerxEoIL._AC_SL1100_.jpg",
-    "title": "Clips de sellado IKOPFLN",
-    "category": "Accesorios de cocina"
-  },
-  {
-    "title": "Pelador eléctrico de verduras Starfrit",
-    "category": "Pequeños electrodomésticos",
-    "image": "https://m.media-amazon.com/images/I/61ODK7uIJSL._AC_SL1500_.jpg",
-    "link": "https://www.amazon.es/dp/B01IN37K3K?tag=reznero-21"
-  },
-  {
-    "title": "Organizador deslizante para armario",
-    "category": "Organización de cocina",
-    "image": "https://drive.google.com/file/d/1bSfbs4nhk7vvMR69y2b5jywyQ37y-w-D/view?usp=drive_link",
-    "link": "https://www.amazon.es/dp/B0CXXFFLYN?tag=reznero-21"
+    "id": "kitchen-appliance-3",
+    "title": "Multi-Cooker with 10-in-1 Functionality",
+    "description": "Versatile multi-cooker that replaces 10 kitchen appliances. Must-have appliance for the modern kitchen. Makes cooking easier than ever with preset programs.",
+    "price": 149.99,
+    "image": "../assets/img/kitchen/multicooker.jpg",
+    "link": "https://www.amazon.es/dp/EXAMPLE3",
+    "category": "Kitchen Appliances",
+    "brand": "CookWise",
+    "rating": 4.8,
+    "reviews": 3120
   }
 ]

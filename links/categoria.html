@@ -174,8 +174,13 @@
       const params = new URLSearchParams(window.location.search);
       const cat = params.get('category');
       
-      // Actualizar títulos
-      document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
+          // Update meta description and title based on category
+      if (cat === 'Kitchen Appliances') {
+        document.title = 'Best Kitchen Appliances for Effortless Cooking | Top Kitchen Gadgets';
+        document.querySelector('meta[name="description"]').content = 'Discover the best kitchen appliances and top-rated gadgets that make cooking easier and faster. Find essential kitchen tools and time-saving gadgets for your home.';
+      } else {
+        document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
+      }
       document.getElementById('category-title').innerText = cat ? cat : 'Productos destacados';
 
       // Cargar productos y filtrar por categoría
