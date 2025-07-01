@@ -1,6 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Descubre las mejores ofertas y productos seleccionados de Amazon. Encuentra artículos de calidad en diferentes categorías con enlaces directos a Amazon.">
+  <meta name="keywords" content="ofertas Amazon, productos Amazon, compras en línea, ofertas en línea, compras Amazon, comprar en Amazon">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Ofertas Seleccionadas de Amazon | Productos Destacados">
+  <meta property="og:description" content="Descubre las mejores ofertas y productos seleccionados de Amazon. Encuentra artículos de calidad en diferentes categorías con enlaces directos.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Ofertas Seleccionadas de Amazon | Productos Destacados</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTG5"></script>
   <script>
@@ -63,7 +73,7 @@
 <body>
   <header>
     <div class="header-wrapper">
-      <h1 class="page-title">Amazon Product Selection</h1>
+      <h1 class="page-title">Selección de Productos de Amazon | Ofertas y Gadgets 2025</h1>
       <div class="social-icons">
         <a href="https://www.youtube.com/@PrimeNest-01" target="_blank" rel="noopener noreferrer">
           <img src="../assets/img/youtube.svg" alt="YouTube"/>
@@ -98,7 +108,7 @@
     
     <!-- Featured Products Section -->
     <div class="featured-card" id="featuredSection">
-      <h2>Featured Products</h2>
+      <h2>Productos Destacados en Tecnología y Gadgets</h2>
       <div class="featured-list-container">
         <div class="featured-list" id="featuredList">
           <!-- Loaded dynamically -->
@@ -112,7 +122,7 @@
 
     <!-- Categories Section -->
     <div class="categories-section">
-      <h2>Categories</h2>
+      <h2>Explora Nuestras Categorías</h2>
       <div class="categories-grid" id="categoriesGrid">
         <!-- Loaded dynamically -->
       </div>
@@ -474,10 +484,22 @@
             imageGrid.appendChild(img);
           }
           
-          // Create category title
-          const title = document.createElement('div');
+          // Create category title with H3 for better SEO
+          const title = document.createElement('h3');
           title.className = 'category-title';
-          title.textContent = category;
+          // Improve category titles with more descriptive text
+          const categoryTitles = {
+            'Electronics': 'Electrónica y Gadgets en Oferta',
+            'Home': 'Hogar y Electrodomésticos',
+            'Fashion': 'Moda y Complementos',
+            'Beauty': 'Belleza y Cuidado Personal',
+            'Sports': 'Deportes y Aire Libre',
+            'Toys': 'Juguetes y Juegos',
+            'Books': 'Libros y eBooks',
+            'Office': 'Oficina y Papelería'
+          };
+          // Use the improved title if available, otherwise use the original category name
+          title.textContent = categoryTitles[category] || category;
           
           // Assemble the card
           categoryCard.appendChild(imageGrid);
