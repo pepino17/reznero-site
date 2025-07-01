@@ -184,7 +184,8 @@
     // Load data
     showSkeletons();
     
-    fetch('data/products_eu.json')
+    // Usar ruta absoluta para asegurar que siempre se cargue el archivo correcto
+    fetch('/AMZ-links_eu/data/products_eu.json')
       .then(response => {
         if (!response.ok) {
           throw new Error('No se pudo cargar la información de productos');

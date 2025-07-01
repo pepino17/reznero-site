@@ -83,7 +83,8 @@
       document.getElementById('category-title').innerText = cat ? cat : 'Featured Products';
 
       // Load EU products and filter by category
-      fetch('data/products_eu.json')
+      // Usar ruta absoluta para asegurar que siempre se cargue el archivo correcto
+      fetch('/AMZ-links_eu/data/products_eu.json')
         .then(res => res.json())
         .then(data => {
           // Filter by category if specified
