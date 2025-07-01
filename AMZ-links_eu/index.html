@@ -204,8 +204,9 @@
     // Load data
     showSkeletons();
     
-    // Usar ruta absoluta para asegurar que siempre se cargue el archivo correcto
-    fetch('/AMZ-links_eu/data/products_eu.json')
+    // Usar URL completa con parámetro de versión para evitar caché
+    const timestamp = new Date().getTime();
+    fetch(`/AMZ-links_eu/data/products_eu.json?v=${timestamp}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('No se pudo cargar la información de productos');

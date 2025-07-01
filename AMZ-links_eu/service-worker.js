@@ -2,7 +2,6 @@ const CACHE_NAME = 'amazon-affiliate-v1';
 const ASSETS_TO_CACHE = [
   '/AMZ-links_eu/index.html',
   '/AMZ-links_eu/category.html',
-  '/AMZ-links_eu/data/products_eu.json',
   '/assets/css/style.css',
   '/assets/img/Logo-Pagina-web.png',
   '/assets/img/icon-192x192.png',
@@ -11,6 +10,11 @@ const ASSETS_TO_CACHE = [
   '/assets/img/instagram.svg',
   '/assets/img/tiktok.svg',
   '/assets/img/youtube.svg'
+];
+
+// No cachear el archivo de productos
+const NO_CACHE_FILES = [
+  '/AMZ-links_eu/data/products_eu.json'
 ];
 
 // Install event - cache all static assets
@@ -40,6 +44,8 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache, falling back to network
 self.addEventListener('fetch', (event) => {
+  const requestUrl = new URL(event.request.url);
+  
   // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) {
     return;
@@ -50,6 +56,23 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Si es el archivo de productos, siempre ir a la red y no cachear
+  if (NO_CACHE_FILES.some(path => requestUrl.pathname.endsWith(path))) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // No almacenar en caché
+          return response;
+        })
+        .catch(() => {
+          // Si falla, intentar servir desde la caché
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+
+  // Para otros recursos, usar la estrategia cache-first
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -61,7 +84,7 @@ self.addEventListener('fetch', (event) => {
         // Clone the request
         const fetchRequest = event.request.clone();
 
-        // Make network request and cache the response
+        // Make network request
         return fetch(fetchRequest).then(
           (response) => {
             // Check if we received a valid response
