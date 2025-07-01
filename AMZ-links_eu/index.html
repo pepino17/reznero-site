@@ -446,63 +446,35 @@
         // Clear any existing content
         categoriesGrid.innerHTML = '';
         
-        // Category to subcategory mapping
-        const categorySubcategories = {
-          'Electronics': ['Smart Home Devices', 'Wearable Tech', 'Audio & Headphones', 'Mobile Accessories'],
-          'Home': ['Kitchen Essentials', 'Home Decor', 'Bed & Bath', 'Storage Solutions'],
-          'Fashion': ['Men\'s Fashion', 'Women\'s Fashion', 'Jewelry', 'Watches'],
-          'Beauty': ['Skincare', 'Hair Care', 'Makeup', 'Personal Care'],
-          'Sports': ['Fitness Equipment', 'Outdoor Recreation', 'Sports Apparel', 'Team Sports'],
-          'Toys': ['Educational Toys', 'Action Figures', 'Board Games', 'Outdoor Play'],
-          'Books': ['Bestsellers', 'New Releases', 'Fiction', 'Non-Fiction'],
-          'Office': ['Office Supplies', 'Desk Accessories', 'Stationery', 'Filing & Storage']
+        // Map of main categories to their display names
+        const categoryDisplayNames = {
+          'Electronics': 'Electronics & Gadgets',
+          'Home & Kitchen': 'Home & Kitchen',
+          'Beauty and personal care': 'Beauty & Personal Care',
+          'Tools & Home Improvement': 'Home Improvement',
+          'Home Cleaning & Organization': 'Home Organization',
+          'diy & tools': 'DIY & Tools'
         };
         
-        // Group products by subcategory
-        const productsBySubcategory = {};
-        data.forEach(product => {
-          const mainCategory = Object.keys(categorySubcategories).find(cat => 
-            product.category.toLowerCase().includes(cat.toLowerCase()));
+        // Process each category
+        categories.forEach(category => {
+          // Get display name or use the original category name
+          const displayName = categoryDisplayNames[category] || category;
           
-          if (mainCategory) {
-            const subcats = categorySubcategories[mainCategory];
-            const subcategory = subcats[Math.floor(Math.random() * subcats.length)]; // For demo, assign random subcategory
-            
-            if (!productsBySubcategory[mainCategory]) {
-              productsBySubcategory[mainCategory] = {};
-            }
-            if (!productsBySubcategory[mainCategory][subcategory]) {
-              productsBySubcategory[mainCategory][subcategory] = [];
-            }
-            productsBySubcategory[mainCategory][subcategory].push(product);
-          }
-        });
-        
-        // Create category sections with subcategories
-        Object.entries(productsBySubcategory).forEach(([mainCategory, subcategories]) => {
-          // Create main category section
-          const categorySection = document.createElement('div');
-          categorySection.className = 'category-section';
+          // Get all products in this category
+          const categoryProducts = data.filter(p => p.category === category);
           
-          // Add main category title as H2
-          const mainCategoryTitle = document.createElement('h2');
-          mainCategoryTitle.className = 'main-category-title';
-          mainCategoryTitle.textContent = mainCategory;
-          categorySection.appendChild(mainCategoryTitle);
+          // Skip if no products
+          if (categoryProducts.length === 0) return;
           
-          // Process each subcategory
-          Object.entries(subcategories).forEach(([subcategory, categoryProducts]) => {
-            // Add subcategory title as H3
-            const subcategoryTitle = document.createElement('h3');
-            subcategoryTitle.className = 'subcategory-title';
-            subcategoryTitle.textContent = subcategory;
-            categorySection.appendChild(subcategoryTitle);
-            
-            // Create products container for this subcategory
-            const subcategoryContainer = document.createElement('div');
-            subcategoryContainer.className = 'subcategory-products';
-            
-            // Get up to 4 unique images for the subcategory
+          // Create category card
+          const categoryCard = document.createElement('a');
+          categoryCard.href = `category.html?category=${encodeURIComponent(category)}`;
+          categoryCard.className = 'category-card';
+          
+          // Create image grid
+          const imageGrid = document.createElement('div');
+          imageGrid.className = 'category-grid';
           
           // Get up to 4 unique images for the category
           const uniqueImages = [];
@@ -519,15 +491,6 @@
             }
           }
           
-          // Create category card
-          const categoryCard = document.createElement('a');
-          categoryCard.href = `category.html?category=${encodeURIComponent(mainCategory)}&subcategory=${encodeURIComponent(subcategory)}`;
-          categoryCard.className = 'category-card';
-          
-          // Create image grid
-          const imageGrid = document.createElement('div');
-          imageGrid.className = 'category-grid';
-          
           // Add images to grid (always 4 items, repeating if necessary)
           for (let i = 0; i < 4; i++) {
             const img = document.createElement('img');
@@ -538,34 +501,17 @@
             imageGrid.appendChild(img);
           }
           
-          // Create category title with H3 for better SEO
+          // Create category title
           const title = document.createElement('h3');
           title.className = 'category-title';
-          // Improve category titles with more descriptive text
-          const categoryTitles = {
-            'Electronics': 'Electronics & Gadgets Deals',
-            'Home': 'Home & Appliances',
-            'Fashion': 'Fashion & Accessories',
-            'Beauty': 'Beauty & Personal Care',
-            'Sports': 'Sports & Outdoors',
-            'Toys': 'Toys & Games',
-            'Books': 'Books & eBooks',
-            'Office': 'Office & Stationery'
-          };
-          // Use the improved title if available, otherwise use the original category name
-          title.textContent = categoryTitles[category] || category;
+          title.textContent = displayName;
           
-            // Assemble the card
-            categoryCard.appendChild(imageGrid);
-            categoryCard.appendChild(title);
-            subcategoryContainer.appendChild(categoryCard);
-            
-            // Add subcategory container to section
-            categorySection.appendChild(subcategoryContainer);
-          });
+          // Assemble the card
+          categoryCard.appendChild(imageGrid);
+          categoryCard.appendChild(title);
+          categoriesGrid.appendChild(categoryCard);
           
-          // Add the complete category section to the grid
-          categoriesGrid.appendChild(categorySection);
+
         });
       })
       .catch(error => console.error('Error loading products:', error));
