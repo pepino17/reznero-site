@@ -182,10 +182,13 @@
       fetch('../data/products.json')
         .then(res => res.json())
         .then(data => {
-          // Filtrar por categoría si se especificó
-          const filteredProducts = cat 
+          // Filtrar por categoría si se especificó y revertir el orden para mostrar los más recientes primero
+          let filteredProducts = cat 
             ? data.filter(p => p.category === cat)
             : data.slice(-8); // Si no hay categoría, mostrar los últimos 8
+          
+          // Invertir el orden para mostrar los más recientes primero
+          filteredProducts = [...filteredProducts].reverse();
 
           categoryProducts.innerHTML = ''; // Limpiar contenido previo
           
