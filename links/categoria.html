@@ -179,7 +179,7 @@
       document.getElementById('category-title').innerText = cat ? cat : 'Productos destacados';
 
       // Cargar productos y filtrar por categoría
-      fetch('../data/products.json')
+      fetch('../data/products_eu.json')
         .then(res => res.json())
         .then(data => {
           // Filtrar por categoría si se especificó y revertir el orden para mostrar los más recientes primero
