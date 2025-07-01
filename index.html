@@ -1,86 +1,809 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover the best deals and selected products from Amazon. Find quality items across different categories with direct links to Amazon.">
+  <meta name="keywords" content="Amazon deals, Amazon products, online shopping, online deals, Amazon shopping, shop on Amazon">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Selected Amazon Deals | Featured Products">
+  <meta property="og:description" content="Discover the best deals and selected products from Amazon. Find quality items across different categories with direct links.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Ofertas Seleccionadas de Amazon | Productos Destacados</title>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTG5"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    
+    // Configuración básica de GA4
     gtag('js', new Date());
     gtag('config', 'G-NE3GGCJTG5');
     
-    // Track page view
-    gtag('event', 'page_view', {
-      'page_title': 'Inicio',
-      'page_location': window.location.href,
-      'page_path': window.location.pathname
+    // Función para rastrear eventos
+    function trackEvent(category, action, label, value) {
+      gtag('event', action, {
+        'event_category': category,
+        'event_label': label,
+        'value': value
+      });
+    }
+    
+    // Rastrear página vista
+    document.addEventListener('DOMContentLoaded', function() {
+      gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: window.location.pathname
+      });
     });
   </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reznero - Próximamente</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"/>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title id="page-title">Amazon Product Selection</title>
+  <meta name="description" content="Discover Amazon's hottest gadgets and tech finds. Daily tech deals, must-have gadgets, and innovative products. 100% secure shopping with fast shipping.">
+  <meta name="theme-color" content="#e0eafc">
+  <!-- Open Graph for social media -->
+  <meta property="og:title" content="Amazon Product Selection">
+  <meta property="og:description" content="Discover the best products on Amazon. Daily deals and fast shipping.">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/img/Logo-Pagina-web.png">
+  <link rel="apple-touch-icon" href="../assets/img/Logo-Pagina-web.png">
+  <link rel="shortcut icon" href="../assets/img/Logo-Pagina-web.png">
+  
+  <!-- Open Graph for social media -->
+  <meta property="og:image" content="../assets/img/Logo-Pagina-web.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Amazon Product Selection">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="../assets/img/Logo-Pagina-web.png">
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="../assets/img/icon-192x192.png">
+  <meta name="theme-color" content="#e0eafc">
 </head>
 <body>
-  <header style="text-align: center; padding: 20px 0;">
-    <!-- Logo de la marca -->
-    <img 
-      src="assets/img/logo-marca.png" 
-      alt="Logo Marca Reznero" 
-      style="height: 60px; margin-bottom: 16px;"
-    >
-    <nav>
-      <a 
-        href="links/index.html" 
-        style="
-          text-decoration: none; 
-          font-size: 1rem; 
-          color: #333; 
-          border: 2px solid #333; 
-          padding: 8px 16px; 
-          border-radius: 4px; 
-          transition: background 0.2s; 
-          display: inline-block;
-        "
-      >
-        Ver Productos Afiliados
-      </a>
-    </nav>
+  <header>
+    <div class="header-wrapper">
+      <h1 class="page-title">Amazon Product Selection | Top Deals 2025</h1>
+      <div class="social-icons">
+        <a href="https://www.youtube.com/@PrimeNest-01" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/youtube.svg" alt="YouTube"/>
+        </a>
+        <a href="https://www.instagram.com/prime_nest001/" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/instagram.svg" alt="Instagram"/>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61575537725999" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/facebook.svg" alt="Facebook"/>
+        </a>
+        <a href="https://www.tiktok.com/@prime_nest01" target="_blank" rel="noopener noreferrer">
+          <img src="../assets/img/tiktok.svg" alt="TikTok"/>
+        </a>
+      </div>
+      <!-- Search Bar -->
+      <div class="search-container">
+        <div class="search-bar">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 21L16.65 16.65" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search products..." aria-label="Search products">
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <main style="display: flex; align-items: center; justify-content: center; height: calc(100vh - 160px);">
-    <div style="
-        text-align: center; 
-        max-width: 600px; 
-        background: #fff; 
-        padding: 40px; 
-        border-radius: 8px; 
-        box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-      ">
-      <h1 style="font-size: 2.5rem; margin-bottom: 16px;">¡Reznero Está Llegando!</h1>
-      <p style="font-size: 1.1rem; margin-bottom: 24px;">
-        Estamos trabajando duro para traerte los mejores productos a través de nuestro programa de afiliados de Amazon. ¡Vuelve pronto para descubrirlos!
-      </p>
-      <a 
-        href="links/index.html" 
-        style="
-          font-size: 1rem; 
-          color: #fff; 
-          background: #333; 
-          text-decoration: none; 
-          padding: 12px 24px; 
-          border-radius: 4px; 
-          transition: opacity 0.2s; 
-          display: inline-block;
-        "
-      >
-        Explorar Productos
-      </a>
+  <main>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner"></div>
+    
+    <!-- Featured Products Section -->
+    <div class="featured-card" id="featuredSection">
+      <h2>Featured Tech and Gadgets</h2>
+      <div class="featured-list-container">
+        <div class="featured-list" id="featuredList">
+          <!-- Loaded dynamically -->
+        </div>
+      </div>
+      <!-- Dots for mobile navigation -->
+      <div class="carousel-dots" id="carouselDots">
+        <!-- Generated dynamically -->
+      </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="categories-section">
+      <h2>Explore Our Categories</h2>
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- Loaded dynamically -->
+      </div>
     </div>
   </main>
 
-  <footer style="text-align: center; padding: 20px 0; background: #f0f0f0;">
-    <p style="font-size: 0.9rem; color: #666;">&copy; 2025 Reznero. Todos los derechos reservados.</p>
+  <footer>
+    <div class="footer-content">
+      <p><strong>Amazon's Hottest Gadgets & Tech Finds</strong></p>
+      <p>This site uses <em>Amazon affiliate links</em>. <br>Prices and availability are subject to change without notice.</p>
+      <p>© 2025 – All rights reserved.<br>Discover must-have tech you didn't know you needed!</p>
+    </div>
   </footer>
+
+  <script>
+    // Device detection and capabilities
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    
+    // Add device class to body for conditional styling
+    document.body.classList.add(isMobile ? 'mobile-device' : 'desktop-device');
+    if (isTouchDevice) document.body.classList.add('touch-device');
+    if (isIOS) document.body.classList.add('ios-device');
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/AMZ-links_eu/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            // Check for updates
+            registration.update().catch(err => console.log('ServiceWorker update failed: ', err));
+          })
+          .catch(err => console.log('ServiceWorker registration failed: ', err));
+      });
+    }
+
+    // Show loading spinner
+    document.addEventListener('DOMContentLoaded', () => {
+      // Optimize for mobile performance
+      if (isMobile) {
+        // Disable heavy animations on mobile
+        document.body.classList.add('reduced-motion');
+        
+        // Optimize images for mobile
+        const images = document.querySelectorAll('img[data-src]');
+        images.forEach(img => {
+          // You could add mobile-optimized image sources here if available
+          // e.g., if (img.dataset.srcMobile) { img.src = img.dataset.srcMobile; }
+        });
+      }
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      loadingSpinner.style.display = 'block';
+    });
+
+    // Load data for EU version
+    function showError(message) {
+      const main = document.querySelector('main');
+      main.innerHTML = `
+        <div class="error-message">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#FF3B30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>Error loading products</h3>
+          <p>${message}</p>
+          <button onclick="window.location.reload()" class="retry-button">Retry</button>
+        </div>
+      `;
+      document.getElementById('loadingSpinner').style.display = 'none';
+    }
+
+    // Show skeleton loaders
+    function showSkeletons() {
+      const featuredList = document.getElementById('featuredList');
+      const categoriesGrid = document.getElementById('categoriesGrid');
+      
+      // Add skeleton for featured products
+      featuredList.innerHTML = Array(4).fill(`
+        <div class="product-card skeleton" style="height: 200px;"></div>
+      `).join('');
+      
+      // Add skeleton for categories
+      categoriesGrid.innerHTML = Array(6).fill(`
+        <div class="category-card skeleton" style="height: 150px;"></div>
+      `).join('');
+    }
+
+    // Load data
+    showSkeletons();
+    
+    // Use full URL with version parameter to avoid cache
+    const timestamp = new Date().getTime();
+    fetch(`/AMZ-links_eu/data/products_eu.json?v=${timestamp}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Could not load product information');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Hide loading spinner when data is loaded
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('featuredSection').style.opacity = '1';
+        document.querySelector('.categories-section').style.opacity = '1';
+        // Store data in global variable for search
+        window.allProducts = data;
+        
+        // Setup search functionality with the loaded products
+        setupSearch(window.allProducts);
+        
+        // Load featured products (last 6 products)
+        const featuredList = document.getElementById('featuredList');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        // Add loaded class to trigger animations
+        setTimeout(() => {
+          document.body.classList.add('loaded');
+        }, 100);
+        
+        // Get exactly 5 unique featured products in reverse order
+        const uniqueProducts = [];
+        const seenProducts = new Set();
+        
+        // Start from the end to get most recent products
+        for (let i = data.length - 1; i >= 0; i--) {
+          const product = data[i];
+          if (!seenProducts.has(product.title)) {
+            seenProducts.add(product.title);
+            uniqueProducts.push(product);
+            if (uniqueProducts.length >= 5) break;
+          }
+        }
+        
+        // Clear any existing items
+        featuredList.innerHTML = '';
+        
+        // Función para crear elementos de producto
+        function createProductElement(product) {
+          const item = document.createElement('div');
+          item.className = 'product-card';
+          item.innerHTML = `
+            <div itemscope itemtype="http://schema.org/Product">
+              <a href="${product.link}" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 itemprop="url" 
+                 class="product-link" 
+                 onclick="trackEvent('Producto', 'Clic', '${product.title.replace(/'/g, "\\'")}', 1);">
+                <div class="product-image-container">
+                  <img src="${product.image}" alt="${product.title}" itemprop="image" loading="lazy">
+                </div>
+                <div class="product-title" itemprop="name">${product.title}</div>
+              </a>
+              <meta itemprop="brand" content="${product.brand || 'Brand'}">
+              <meta itemprop="category" content="${product.category}">
+              <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                <meta itemprop="priceCurrency" content="GBP">
+                <meta itemprop="price" content="${product.price || ''}">
+                <link itemprop="availability" href="http://schema.org/InStock">
+              </div>
+            </div>
+          `;
+          return item;
+        }
+        
+        // Add featured products
+        uniqueProducts.forEach((product, index) => {
+          const item = document.createElement('div');
+          item.className = 'featured-item';
+          
+          const link = document.createElement('a');
+          link.href = product.link;
+          link.className = 'product-link';
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          
+          const imageContainer = document.createElement('div');
+          imageContainer.className = 'featured-image-container';
+          
+          const img = document.createElement('img');
+          img.src = product.image;
+          img.alt = product.title;
+          img.loading = 'lazy';
+          img.width = 300;
+          img.height = 300;
+          
+          const title = document.createElement('div');
+          title.className = 'product-title';
+          title.textContent = product.title;
+          
+          // Construir la estructura
+          imageContainer.appendChild(img);
+          link.appendChild(imageContainer);
+          link.appendChild(title);
+          item.appendChild(link);
+          featuredList.appendChild(item);
+        });
+        
+        // Store the featured products for dot navigation
+        const featuredProducts = uniqueProducts;
+        
+        // Function to update dots based on scroll position
+        function updateDots() {
+          const scrollPosition = featuredList.scrollLeft;
+          const itemWidth = featuredList.children[0].offsetWidth + 14; // Width + margin
+          const currentIndex = Math.round(scrollPosition / itemWidth);
+          
+          // Update active dot
+          const dots = dotsContainer.querySelectorAll('.dot');
+          dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentIndex);
+          });
+        }
+        
+        // Función para calcular la posición de scroll centrada
+        const calculateScrollPosition = (index, totalDots) => {
+          const containerWidth = featuredList.offsetWidth;
+          const itemWidth = featuredList.children[0].offsetWidth + 16; // Ancho + margen
+          const itemsPerView = Math.floor(containerWidth / itemWidth);
+          
+          // Si hay pocos puntos (menos de 3), centrar el elemento seleccionado
+          if (totalDots <= 3) {
+            const scrollPosition = index * itemWidth * itemsPerView;
+            const centerOffset = (containerWidth - (itemWidth * itemsPerView)) / 2;
+            return Math.max(0, scrollPosition - centerOffset);
+          }
+          
+          // Para más de 3 puntos, ajustar según la posición del punto
+          const totalScrollWidth = featuredList.scrollWidth - containerWidth;
+          const scrollStep = totalScrollWidth / (totalDots - 1);
+          
+          // Ajustar para que el primer y último punto muestren el inicio y final respectivamente
+          if (index === 0) return 0;
+          if (index === totalDots - 1) return totalScrollWidth;
+          
+          return scrollStep * index;
+        };
+        
+        // Calcular número de puntos basado en el ancho de la pantalla
+        const containerWidth = featuredList.offsetWidth;
+        const itemWidth = featuredList.children[0].offsetWidth + 16;
+        const itemsPerView = Math.min(4, Math.max(1, Math.floor(containerWidth / itemWidth)));
+        const dotCount = Math.ceil(featuredProducts.length / itemsPerView);
+        
+        // Asegurar un mínimo de 3 puntos si hay suficientes productos
+        const minDots = Math.min(3, featuredProducts.length);
+        const effectiveDotCount = Math.max(minDots, dotCount);
+        
+        // Limpiar puntos existentes
+        dotsContainer.innerHTML = '';
+        
+        // Crear puntos de navegación
+        for (let i = 0; i < effectiveDotCount; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', `Ir al producto ${i + 1} de ${effectiveDotCount}`);
+          
+          dot.addEventListener('click', () => {
+            // Calcular posición de scroll basada en el punto seleccionado
+            const scrollPos = calculateScrollPosition(i, effectiveDotCount);
+            
+            // Aplicar scroll suave
+            featuredList.scrollTo({
+              left: scrollPos,
+              behavior: 'smooth'
+            });
+            
+            // Actualizar punto activo
+            dotsContainer.querySelectorAll('.dot').forEach((d, idx) => {
+              d.classList.toggle('active', idx === i);
+            });
+          });
+          
+          dotsContainer.appendChild(dot);
+        }
+        
+        // Update dots on scroll
+        let scrollTimeout;
+        featuredList.addEventListener('scroll', () => {
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(updateDots, 100);
+        });
+        
+        // Update dots on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(updateDots, 250);
+        });
+        
+        // Ensure carousel shows complete first cards on mobile
+        setTimeout(() => {
+          // Force initial scroll position to 0 for first card to be fully visible
+          featuredList.scrollLeft = 0;
+          
+          // Add loaded class when carousel is initialized
+          featuredList.classList.add('loaded');
+          
+          // Double check for mobile devices
+          if (window.innerWidth <= 768) {
+            // Ensure no initial scroll
+            featuredList.style.scrollBehavior = 'auto';
+            featuredList.scrollLeft = 0;
+            
+            // Restore smooth scroll behavior
+            setTimeout(() => {
+              featuredList.style.scrollBehavior = 'smooth';
+            }, 50);
+          }
+        }, 100);
+        
+        // Detect scroll end and update dots
+        checkScrollEnd();
+        updateActiveDot();
+        
+        // Load categories
+        const categories = [...new Set(data.map(p => p.category))];
+        const categoriesGrid = document.getElementById('categoriesGrid');
+        
+        // Clear any existing content
+        categoriesGrid.innerHTML = '';
+        
+        // Category to subcategory mapping
+        const categorySubcategories = {
+          'Electronics': ['Smart Home Devices', 'Wearable Tech', 'Audio & Headphones', 'Mobile Accessories'],
+          'Home': ['Kitchen Essentials', 'Home Decor', 'Bed & Bath', 'Storage Solutions'],
+          'Fashion': ['Men\'s Fashion', 'Women\'s Fashion', 'Jewelry', 'Watches'],
+          'Beauty': ['Skincare', 'Hair Care', 'Makeup', 'Personal Care'],
+          'Sports': ['Fitness Equipment', 'Outdoor Recreation', 'Sports Apparel', 'Team Sports'],
+          'Toys': ['Educational Toys', 'Action Figures', 'Board Games', 'Outdoor Play'],
+          'Books': ['Bestsellers', 'New Releases', 'Fiction', 'Non-Fiction'],
+          'Office': ['Office Supplies', 'Desk Accessories', 'Stationery', 'Filing & Storage']
+        };
+        
+        // Group products by subcategory
+        const productsBySubcategory = {};
+        data.forEach(product => {
+          const mainCategory = Object.keys(categorySubcategories).find(cat => 
+            product.category.toLowerCase().includes(cat.toLowerCase()));
+          
+          if (mainCategory) {
+            const subcats = categorySubcategories[mainCategory];
+            const subcategory = subcats[Math.floor(Math.random() * subcats.length)]; // For demo, assign random subcategory
+            
+            if (!productsBySubcategory[mainCategory]) {
+              productsBySubcategory[mainCategory] = {};
+            }
+            if (!productsBySubcategory[mainCategory][subcategory]) {
+              productsBySubcategory[mainCategory][subcategory] = [];
+            }
+            productsBySubcategory[mainCategory][subcategory].push(product);
+          }
+        });
+        
+        // Create category sections with subcategories
+        Object.entries(productsBySubcategory).forEach(([mainCategory, subcategories]) => {
+          // Create main category section
+          const categorySection = document.createElement('div');
+          categorySection.className = 'category-section';
+          
+          // Add main category title as H2
+          const mainCategoryTitle = document.createElement('h2');
+          mainCategoryTitle.className = 'main-category-title';
+          mainCategoryTitle.textContent = mainCategory;
+          categorySection.appendChild(mainCategoryTitle);
+          
+          // Process each subcategory
+          Object.entries(subcategories).forEach(([subcategory, categoryProducts]) => {
+            // Add subcategory title as H3
+            const subcategoryTitle = document.createElement('h3');
+            subcategoryTitle.className = 'subcategory-title';
+            subcategoryTitle.textContent = subcategory;
+            categorySection.appendChild(subcategoryTitle);
+            
+            // Create products container for this subcategory
+            const subcategoryContainer = document.createElement('div');
+            subcategoryContainer.className = 'subcategory-products';
+            
+            // Get up to 4 unique images for the subcategory
+          
+          // Get up to 4 unique images for the category
+          const uniqueImages = [];
+          const imageSet = new Set();
+          
+          for (const product of categoryProducts) {
+            if (!imageSet.has(product.image)) {
+              imageSet.add(product.image);
+              uniqueImages.push(product.image);
+              
+              if (uniqueImages.length >= 4) {
+                break;
+              }
+            }
+          }
+          
+          // Create category card
+          const categoryCard = document.createElement('a');
+          categoryCard.href = `category.html?category=${encodeURIComponent(mainCategory)}&subcategory=${encodeURIComponent(subcategory)}`;
+          categoryCard.className = 'category-card';
+          
+          // Create image grid
+          const imageGrid = document.createElement('div');
+          imageGrid.className = 'category-grid';
+          
+          // Add images to grid (always 4 items, repeating if necessary)
+          for (let i = 0; i < 4; i++) {
+            const img = document.createElement('img');
+            const imgIndex = i % uniqueImages.length;
+            img.src = uniqueImages[imgIndex];
+            img.alt = '';
+            img.loading = 'lazy';
+            imageGrid.appendChild(img);
+          }
+          
+          // Create category title with H3 for better SEO
+          const title = document.createElement('h3');
+          title.className = 'category-title';
+          // Improve category titles with more descriptive text
+          const categoryTitles = {
+            'Electronics': 'Electronics & Gadgets Deals',
+            'Home': 'Home & Appliances',
+            'Fashion': 'Fashion & Accessories',
+            'Beauty': 'Beauty & Personal Care',
+            'Sports': 'Sports & Outdoors',
+            'Toys': 'Toys & Games',
+            'Books': 'Books & eBooks',
+            'Office': 'Office & Stationery'
+          };
+          // Use the improved title if available, otherwise use the original category name
+          title.textContent = categoryTitles[category] || category;
+          
+            // Assemble the card
+            categoryCard.appendChild(imageGrid);
+            categoryCard.appendChild(title);
+            subcategoryContainer.appendChild(categoryCard);
+            
+            // Add subcategory container to section
+            categorySection.appendChild(subcategoryContainer);
+          });
+          
+          // Add the complete category section to the grid
+          categoriesGrid.appendChild(categorySection);
+        });
+      })
+      .catch(error => console.error('Error loading products:', error));
+    
+    // Function to detect if scroll has reached the end
+    function checkScrollEnd() {
+      const featuredList = document.getElementById('featuredList');
+      
+      // Only if the element exists
+      if (featuredList) {
+        // Detect if at the end of scroll
+        const isAtEnd = featuredList.scrollWidth <= featuredList.scrollLeft + featuredList.clientWidth + 5;
+        
+        // Add or remove class as needed
+        if (isAtEnd) {
+          featuredList.classList.add('scroll-end');
+        } else {
+          featuredList.classList.remove('scroll-end');
+        }
+      }
+    }
+    
+    // Function to update the active dot based on scroll position
+    function updateActiveDot() {
+      const featuredList = document.getElementById('featuredList');
+      const dots = document.querySelectorAll('.dot');
+      
+      if (!featuredList || dots.length === 0) return;
+      
+      // Calculate which pair of products is currently visible
+      const scrollPosition = featuredList.scrollLeft;
+      const itemWidth = featuredList.clientWidth * 0.8; // 80% of container width
+      const activeDotIndex = Math.round(scrollPosition / itemWidth);
+      
+      // Update active dot
+      dots.forEach((dot, index) => {
+        if (index === activeDotIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+      
+      // Check if we've reached the end of the carousel
+      checkScrollEnd();
+    }
+    
+    // Listen for scroll events on the carousel
+    document.addEventListener('DOMContentLoaded', () => {
+      const featuredList = document.getElementById('featuredList');
+      
+      if (featuredList) {
+        featuredList.addEventListener('scroll', updateActiveDot);
+        
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            // Recalculate scroll position after resize
+            updateActiveDot();
+          }, 250);
+        });
+      }
+    });
+    
+    // Function to normalize text for search
+    function normalizeText(text) {
+      return text.toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, ''); // Remove accents
+    }
+
+    // Function to implement real-time search
+    function setupSearch(products) {
+      const searchInput = document.getElementById('searchInput');
+      const searchResults = document.getElementById('searchResults');
+      
+      if (!searchInput || !searchResults) return;
+      
+      function filterProducts(query) {
+        if (query === '') {
+          searchResults.classList.remove('visible');
+          return;
+        }
+        
+        const normalizedQuery = normalizeText(query);
+        
+        // Filter products that match the query
+        const filteredProducts = products.filter(product => {
+          const normalizedTitle = normalizeText(product.title);
+          const normalizedCategory = normalizeText(product.category);
+          
+          return normalizedTitle.includes(normalizedQuery) || 
+                 normalizedCategory.includes(normalizedQuery);
+        });
+        
+        // Show results
+        if (filteredProducts.length > 0) {
+          searchResults.innerHTML = '';
+          
+          // Limit to 5 results
+          const displayProducts = filteredProducts.slice(0, 5);
+          
+          displayProducts.forEach(product => {
+            const resultItem = document.createElement('div');
+            resultItem.className = 'search-result-item';
+            resultItem.innerHTML = `
+              <div class="result-title">${product.title}</div>
+              <div class="result-category">${product.category}</div>
+            `;
+            
+            // Click on result to go to product page
+            resultItem.addEventListener('click', () => {
+              window.open(product.link, '_blank', 'noopener,noreferrer');
+            });
+            
+            searchResults.appendChild(resultItem);
+          });
+          
+          searchResults.classList.add('visible');
+        } else {
+          // Show no results message
+          searchResults.innerHTML = '<div class="no-results">No products found</div>';
+          searchResults.classList.add('visible');
+        }
+      }
+      
+      // Listen for search events
+      searchInput.addEventListener('input', () => {
+        filterProducts(searchInput.value.trim());
+      });
+      
+      // Close results when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+          searchResults.classList.remove('visible');
+        }
+      });
+      
+      // Handle Enter key
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && searchResults.classList.contains('visible')) {
+          // Open first result if it exists
+          const firstResult = searchResults.querySelector('.search-result-item');
+          if (firstResult) {
+            firstResult.click();
+          }
+        }
+      });
+    }
+  </script>
+  
+  <script>
+    // Lazy loading implementation
+    document.addEventListener('DOMContentLoaded', function() {
+      // First try to use IntersectionObserver if available
+      if ('IntersectionObserver' in window) {
+        const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const lazyImage = entry.target;
+              if (lazyImage.dataset.src) {
+                lazyImage.src = lazyImage.dataset.src;
+                lazyImage.classList.add('loaded');
+                lazyImageObserver.unobserve(lazyImage);
+              }
+            }
+          });
+        }, {
+          rootMargin: '200px',
+          threshold: 0.01
+        });
+
+        // Observe all lazy images
+        document.querySelectorAll('img[data-src]').forEach(img => {
+          lazyImageObserver.observe(img);
+        });
+      } else {
+        // Fallback for browsers without IntersectionObserver
+        let lazyLoadThrottle;
+        let lazyImages = [].slice.call(document.querySelectorAll('img[data-src]'));
+        
+        function lazyLoad() {
+          if (lazyLoadThrottle) {
+            clearTimeout(lazyLoadThrottle);
+          }
+          
+          lazyLoadThrottle = setTimeout(function() {
+            const scrollTop = window.pageYOffset;
+            lazyImages = lazyImages.filter(img => {
+              if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                img.src = img.dataset.src;
+                img.classList.add('loaded');
+                return false; // Remove from array
+              }
+              return true; // Keep in array
+            });
+            
+            if (lazyImages.length === 0) {
+              document.removeEventListener('scroll', lazyLoad);
+              window.removeEventListener('resize', lazyLoad);
+              window.removeEventListener('orientationchange', lazyLoad);
+            }
+          }, 20);
+        }
+        
+        document.addEventListener('scroll', lazyLoad);
+        window.addEventListener('resize', lazyLoad);
+        window.addEventListener('orientationchange', lazyLoad);
+        lazyLoad();
+      }
+    });
+
+    // Mejorar la accesibilidad del teclado
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const activeElement = document.activeElement;
+        if (activeElement && activeElement.classList.contains('search-bar')) {
+          activeElement.blur();
+        }
+      }
+    });
+  </script>
+  
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/AMZ-links_eu/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(err => {
+            console.error('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
 </body>
 </html>
