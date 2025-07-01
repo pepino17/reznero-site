@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Descubre las mejores ofertas y productos seleccionados de Amazon. Encuentra artículos de calidad en diferentes categorías con enlaces directos a Amazon.">
-  <meta name="keywords" content="ofertas Amazon, productos Amazon, compras en línea, ofertas en línea, compras Amazon, comprar en Amazon">
+  <meta name="description" content="Discover the best deals and selected products from Amazon. Find quality items across different categories with direct links to Amazon.">
+  <meta name="keywords" content="Amazon deals, Amazon products, online shopping, online deals, Amazon shopping, shop on Amazon">
   <meta name="robots" content="index, follow">
-  <meta property="og:title" content="Ofertas Seleccionadas de Amazon | Productos Destacados">
-  <meta property="og:description" content="Descubre las mejores ofertas y productos seleccionados de Amazon. Encuentra artículos de calidad en diferentes categorías con enlaces directos.">
+  <meta property="og:title" content="Selected Amazon Deals | Featured Products">
+  <meta property="og:description" content="Discover the best deals and selected products from Amazon. Find quality items across different categories with direct links.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
   <title>Ofertas Seleccionadas de Amazon | Productos Destacados</title>
@@ -73,7 +73,7 @@
 <body>
   <header>
     <div class="header-wrapper">
-      <h1 class="page-title">Selección de Productos de Amazon | Ofertas y Gadgets 2025</h1>
+      <h1 class="page-title">Amazon Product Selection | Top Deals 2025</h1>
       <div class="social-icons">
         <a href="https://www.youtube.com/@PrimeNest-01" target="_blank" rel="noopener noreferrer">
           <img src="../assets/img/youtube.svg" alt="YouTube"/>
@@ -108,7 +108,7 @@
     
     <!-- Featured Products Section -->
     <div class="featured-card" id="featuredSection">
-      <h2>Productos Destacados en Tecnología y Gadgets</h2>
+      <h2>Featured Tech and Gadgets</h2>
       <div class="featured-list-container">
         <div class="featured-list" id="featuredList">
           <!-- Loaded dynamically -->
@@ -122,7 +122,7 @@
 
     <!-- Categories Section -->
     <div class="categories-section">
-      <h2>Explora Nuestras Categorías</h2>
+      <h2>Explore Our Categories</h2>
       <div class="categories-grid" id="categoriesGrid">
         <!-- Loaded dynamically -->
       </div>
@@ -187,9 +187,9 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#FF3B30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
-          <h3>Error al cargar los productos</h3>
+          <h3>Error loading products</h3>
           <p>${message}</p>
-          <button onclick="window.location.reload()" class="retry-button">Reintentar</button>
+          <button onclick="window.location.reload()" class="retry-button">Retry</button>
         </div>
       `;
       document.getElementById('loadingSpinner').style.display = 'none';
@@ -214,12 +214,12 @@
     // Load data
     showSkeletons();
     
-    // Usar URL completa con parámetro de versión para evitar caché
+    // Use full URL with version parameter to avoid cache
     const timestamp = new Date().getTime();
     fetch(`/AMZ-links_eu/data/products_eu.json?v=${timestamp}`)
       .then(response => {
         if (!response.ok) {
-          throw new Error('No se pudo cargar la información de productos');
+          throw new Error('Could not load product information');
         }
         return response.json();
       })
@@ -446,9 +446,63 @@
         // Clear any existing content
         categoriesGrid.innerHTML = '';
         
-        categories.forEach(category => {
-          // Get all products in this category
-          const categoryProducts = data.filter(p => p.category === category);
+        // Category to subcategory mapping
+        const categorySubcategories = {
+          'Electronics': ['Smart Home Devices', 'Wearable Tech', 'Audio & Headphones', 'Mobile Accessories'],
+          'Home': ['Kitchen Essentials', 'Home Decor', 'Bed & Bath', 'Storage Solutions'],
+          'Fashion': ['Men\'s Fashion', 'Women\'s Fashion', 'Jewelry', 'Watches'],
+          'Beauty': ['Skincare', 'Hair Care', 'Makeup', 'Personal Care'],
+          'Sports': ['Fitness Equipment', 'Outdoor Recreation', 'Sports Apparel', 'Team Sports'],
+          'Toys': ['Educational Toys', 'Action Figures', 'Board Games', 'Outdoor Play'],
+          'Books': ['Bestsellers', 'New Releases', 'Fiction', 'Non-Fiction'],
+          'Office': ['Office Supplies', 'Desk Accessories', 'Stationery', 'Filing & Storage']
+        };
+        
+        // Group products by subcategory
+        const productsBySubcategory = {};
+        data.forEach(product => {
+          const mainCategory = Object.keys(categorySubcategories).find(cat => 
+            product.category.toLowerCase().includes(cat.toLowerCase()));
+          
+          if (mainCategory) {
+            const subcats = categorySubcategories[mainCategory];
+            const subcategory = subcats[Math.floor(Math.random() * subcats.length)]; // For demo, assign random subcategory
+            
+            if (!productsBySubcategory[mainCategory]) {
+              productsBySubcategory[mainCategory] = {};
+            }
+            if (!productsBySubcategory[mainCategory][subcategory]) {
+              productsBySubcategory[mainCategory][subcategory] = [];
+            }
+            productsBySubcategory[mainCategory][subcategory].push(product);
+          }
+        });
+        
+        // Create category sections with subcategories
+        Object.entries(productsBySubcategory).forEach(([mainCategory, subcategories]) => {
+          // Create main category section
+          const categorySection = document.createElement('div');
+          categorySection.className = 'category-section';
+          
+          // Add main category title as H2
+          const mainCategoryTitle = document.createElement('h2');
+          mainCategoryTitle.className = 'main-category-title';
+          mainCategoryTitle.textContent = mainCategory;
+          categorySection.appendChild(mainCategoryTitle);
+          
+          // Process each subcategory
+          Object.entries(subcategories).forEach(([subcategory, categoryProducts]) => {
+            // Add subcategory title as H3
+            const subcategoryTitle = document.createElement('h3');
+            subcategoryTitle.className = 'subcategory-title';
+            subcategoryTitle.textContent = subcategory;
+            categorySection.appendChild(subcategoryTitle);
+            
+            // Create products container for this subcategory
+            const subcategoryContainer = document.createElement('div');
+            subcategoryContainer.className = 'subcategory-products';
+            
+            // Get up to 4 unique images for the subcategory
           
           // Get up to 4 unique images for the category
           const uniqueImages = [];
@@ -467,7 +521,7 @@
           
           // Create category card
           const categoryCard = document.createElement('a');
-          categoryCard.href = `category.html?category=${encodeURIComponent(category)}`;
+          categoryCard.href = `category.html?category=${encodeURIComponent(mainCategory)}&subcategory=${encodeURIComponent(subcategory)}`;
           categoryCard.className = 'category-card';
           
           // Create image grid
@@ -489,22 +543,29 @@
           title.className = 'category-title';
           // Improve category titles with more descriptive text
           const categoryTitles = {
-            'Electronics': 'Electrónica y Gadgets en Oferta',
-            'Home': 'Hogar y Electrodomésticos',
-            'Fashion': 'Moda y Complementos',
-            'Beauty': 'Belleza y Cuidado Personal',
-            'Sports': 'Deportes y Aire Libre',
-            'Toys': 'Juguetes y Juegos',
-            'Books': 'Libros y eBooks',
-            'Office': 'Oficina y Papelería'
+            'Electronics': 'Electronics & Gadgets Deals',
+            'Home': 'Home & Appliances',
+            'Fashion': 'Fashion & Accessories',
+            'Beauty': 'Beauty & Personal Care',
+            'Sports': 'Sports & Outdoors',
+            'Toys': 'Toys & Games',
+            'Books': 'Books & eBooks',
+            'Office': 'Office & Stationery'
           };
           // Use the improved title if available, otherwise use the original category name
           title.textContent = categoryTitles[category] || category;
           
-          // Assemble the card
-          categoryCard.appendChild(imageGrid);
-          categoryCard.appendChild(title);
-          categoriesGrid.appendChild(categoryCard);
+            // Assemble the card
+            categoryCard.appendChild(imageGrid);
+            categoryCard.appendChild(title);
+            subcategoryContainer.appendChild(categoryCard);
+            
+            // Add subcategory container to section
+            categorySection.appendChild(subcategoryContainer);
+          });
+          
+          // Add the complete category section to the grid
+          categoriesGrid.appendChild(categorySection);
         });
       })
       .catch(error => console.error('Error loading products:', error));
