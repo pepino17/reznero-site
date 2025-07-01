@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTG5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    // Configuración básica de GA4
+    gtag('js', new Date());
+    gtag('config', 'G-NE3GGCJTG5');
+    
+    // Función para rastrear eventos
+    function trackEvent(category, action, label, value) {
+      gtag('event', action, {
+        'event_category': category,
+        'event_label': label,
+        'value': value
+      });
+    }
+    
+    // Track page view with clean URL
+    document.addEventListener('DOMContentLoaded', function() {
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const productSlug = pathParts[pathParts.length - 1] || '';
+      
+      gtag('event', 'page_view', {
+        page_title: 'Product Details | Amazon Product Selection',
+        page_location: window.location.href,
+        page_path: window.location.pathname,
+        product_slug: productSlug
+      });
+    });
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"/>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Loading Product... | Amazon Product Selection</title>
+  <meta name="description" content="Discover this product on Amazon. 100% secure shopping with fast shipping.">
+  <meta name="theme-color" content="#e0eafc">
+  <!-- Open Graph for social media -->
+  <meta property="og:title" content="Product Details | Amazon Product Selection">
+  <meta property="og:description" content="Discover this product on Amazon. 100% secure shopping with fast shipping.">
+  <link rel="stylesheet" href="../assets/css/style.css"/>
+  <style>
+    .product-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .product-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin-top: 20px;
+    }
+    
+    @media (min-width: 768px) {
+      .product-detail {
+        flex-direction: row;
+      }
+    }
+    
+    .product-gallery {
+      flex: 1;
+      max-width: 100%;
+    }
+    
+    .product-image-main {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-info {
+      flex: 1;
+      padding: 0 20px;
+    }
+    
+    .product-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1a1a1a;
+    }
+    
+    .product-category {
+      display: inline-block;
+      background: #f0f4ff;
+      color: #3a6df0;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .product-description {
+      line-height: 1.6;
+      color: #4a4a4a;
+      margin-bottom: 25px;
+    }
+    
+    .product-cta {
+      display: inline-block;
+      background: #3a6df0;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+      text-align: center;
+    }
+    
+    .product-cta:hover {
+      background: #2a5bd7;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(58, 109, 240, 0.3);
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      color: #3a6df0;
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+    
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    
+    .back-link svg {
+      margin-right: 6px;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: #666;
+    }
+    
+    .error {
+      text-align: center;
+      padding: 40px;
+      color: #e74c3c;
+    }
+    
+    @media (max-width: 767px) {
+      .product-detail {
+        flex-direction: column;
+      }
+      
+      .product-info {
+        padding: 0;
+      }
+      
+      .product-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-wrapper">
+      <a href="/" class="logo">
+        <h1>Amazon Product Selection</h1>
+      </a>
+      <div class="social-icons">
+        <a href="#" class="social-icon">
+          <img src="../assets/img/facebook.svg" alt="Facebook">
+        </a>
+        <a href="#" class="social-icon">
+          <img src="../assets/img/instagram.svg" alt="Instagram">
+        </a>
+        <a href="#" class="social-icon">
+          <img src="../assets/img/twitter.svg" alt="Twitter">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="product-container">
+    <a href="#" class="back-link" id="back-button">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Back to Products
+    </a>
+    
+    <div id="product-loading" class="loading">
+      Loading product details...
+    </div>
+    
+    <div id="product-content" style="display: none;">
+      <div class="product-detail">
+        <div class="product-gallery">
+          <img id="product-image" src="" alt="" class="product-image-main">
+        </div>
+        <div class="product-info">
+          <span id="product-category" class="product-category"></span>
+          <h1 id="product-title" class="product-title"></h1>
+          <div id="product-description" class="product-description">
+            <!-- Description will be loaded here -->
+          </div>
+          <a href="#" id="buy-now" class="product-cta" target="_blank" rel="noopener noreferrer">
+            View on Amazon
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div id="product-error" class="error" style="display: none;">
+      <p>Sorry, we couldn't find this product.</p>
+      <a href="/" class="back-link">Return to Home</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p><strong>Amazon's Hottest Gadgets & Tech Finds</strong></p>
+      <p>This site uses <em>Amazon affiliate links</em>. <br>Prices and availability are subject to change without notice.</p>
+      <p> 2025 – All rights reserved.<br>Discover must-have tech you didn't know you needed!</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { getCurrentProductSlug, slugify } from '../assets/js/utils.js';
+    
+    document.addEventListener('DOMContentLoaded', async function() {
+      const productSlug = getCurrentProductSlug();
+      
+      // Track product view
+      if (window.gtag) {
+        gtag('event', 'view_item', {
+          'event_category': 'Product View',
+          'event_label': productSlug,
+          'items': [{
+            'item_id': productSlug,
+            'item_name': 'Product: ' + productSlug
+          }]
+        });
+      }
+      const loadingElement = document.getElementById('product-loading');
+      const contentElement = document.getElementById('product-content');
+      const errorElement = document.getElementById('product-error');
+      const backButton = document.getElementById('back-button');
+      
+      // Set up back button
+      backButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.history.back();
+      });
+      
+      if (!productSlug) {
+        showError('No product specified');
+        return;
+      }
+      
+      // Show loading state
+      loadingElement.style.display = 'block';
+      contentElement.style.display = 'none';
+      errorElement.style.display = 'none';
+      
+      try {
+        // Fetch product data
+        const response = await fetch('../data/products_eu.json');
+        const products = await response.json();
+        
+        // Find product by slug (check both slug field and generate from title)
+        const product = products.find(p => 
+          (p.slug && p.slug === productSlug) || 
+          slugify(p.title) === productSlug
+        );
+        
+        if (!product) {
+          throw new Error('Product not found');
+        }
+        
+        // Update page title and metadata
+        document.title = `${product.title} | Amazon Product Selection`;
+        document.querySelector('meta[name="description"]').content = 
+          `Discover ${product.title} on Amazon. 100% secure shopping with fast shipping.`;
+        
+        // Update Open Graph meta tags for social sharing
+        document.querySelector('meta[property="og:title"]').content = 
+          `${product.title} | Amazon Product Selection`;
+        document.querySelector('meta[property="og:description"]').content = 
+          `Discover ${product.title} on Amazon. 100% secure shopping with fast shipping.`;
+        document.querySelector('meta[property="og:image"]').content = 
+          product.image;
+        
+        // Update product details in the UI
+        document.getElementById('product-title').textContent = product.title;
+        document.getElementById('product-category').textContent = product.category || 'Uncategorized';
+        
+        const productImage = document.getElementById('product-image');
+        productImage.src = product.image;
+        productImage.alt = product.title;
+        
+        // Handle buy now button click with tracking
+        const buyNowBtn = document.getElementById('buy-now');
+        if (buyNowBtn) {
+          buyNowBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Track the purchase event
+            if (window.gtag) {
+              gtag('event', 'begin_checkout', {
+                'event_category': 'Product Purchase',
+                'event_label': product.title,
+                'items': [{
+                  'item_name': product.title,
+                  'item_category': product.category,
+                  'item_brand': 'Amazon',
+                  'item_id': product.slug || slugify(product.title),
+                  'price': 0, // We don't track prices per user preference
+                  'quantity': 1
+                }]
+              });
+              
+              // Track the outbound link
+              gtag('event', 'click', {
+                'event_category': 'Outbound Link',
+                'event_label': 'Amazon Product',
+                'transport_type': 'beacon',
+                'event_callback': function() {
+                  // Redirect to Amazon with affiliate link after tracking
+                  window.location.href = product.link + (product.link.includes('?') ? '&' : '?') + 'tag=reznero-20';
+                }
+              });
+            } else {
+              // Fallback if gtag isn't available
+              window.location.href = product.link + (product.link.includes('?') ? '&' : '?') + 'tag=reznero-20';
+            }
+          });
+        }
+        
+        // Show content
+        loadingElement.style.display = 'none';
+        contentElement.style.display = 'block';
+        
+        // Preload images
+        if ('loading' in HTMLImageElement.prototype) {
+          const img = new Image();
+          img.src = product.image;
+        }
+      } catch (error) {
+        console.error('Error loading product:', error);
+        document.title = 'Error | Amazon Product Selection';
+        document.querySelector('.product-container').innerHTML = `
+          <div class="error-message">
+            <h2>${error.message === 'Product not found' ? 'Product Not Found' : 'Error Loading Product'}</h2>
+            <p>${error.message === 'Product not found' 
+              ? 'Sorry, the requested product could not be found.' 
+              : 'Sorry, there was an error loading the product details. Please try again later.'}</p>
+            <a href="/" class="back-button">Back to Home</a>
+          </div>`;
+          
+        // Track the error
+        if (window.gtag) {
+          gtag('event', 'exception', {
+            'description': error.message,
+            'fatal': false
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

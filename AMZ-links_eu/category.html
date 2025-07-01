@@ -20,14 +20,16 @@
       });
     }
     
-    // Rastrear página vista
+    // Track page view with clean URL
     document.addEventListener('DOMContentLoaded', function() {
-      const category = new URLSearchParams(window.location.search).get('category') || 'home';
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const categorySlug = pathParts[pathParts.length - 1] || 'home';
+      
       gtag('event', 'page_view', {
-        page_title: `Categoría: ${category}`,
+        page_title: `Categoría: ${categorySlug}`,
         page_location: window.location.href,
         page_path: window.location.pathname,
-        category: category
+        category: categorySlug
       });
     });
   </script>
@@ -88,78 +90,126 @@
   <div class="footer-content">
     <p><strong>Amazon's Hottest Gadgets & Tech Finds</strong></p>
     <p>This site uses <em>Amazon affiliate links</em>. <br>Prices and availability are subject to change without notice.</p>
-    <p>© 2025 – All rights reserved.<br>Discover must-have tech you didn't know you needed!</p>
+    <p> 2025 – All rights reserved.<br>Discover must-have tech you didn't know you needed!</p>
   </div>
 </footer>
 
   <script>
+    // Import utility functions
+    import { getCurrentCategory, slugify } from '../assets/js/utils.js';
+    
     document.addEventListener('DOMContentLoaded', function() {
       const categoryProducts = document.getElementById('category-products');
+      const categoryTitle = document.getElementById('category-title');
+      const loadingElement = document.querySelector('.loading');
       
-      // Get category from URL
-      const params = new URLSearchParams(window.location.search);
-      const cat = params.get('category');
+      // Get category from URL slug
+      const categorySlug = getCurrentCategory();
+      let category = 'Home & Kitchen'; // Default category
       
-      // Update titles
-      document.getElementById('page-title').innerText = cat ? `Amazon Product Selection - ${cat}` : 'Amazon Product Selection';
-      document.getElementById('category-title').innerText = cat ? cat : 'Featured Products';
-
-      // Load EU products and filter by category
-      // Usar URL completa con parámetro de versión para evitar caché
-      const timestamp = new Date().getTime();
-      fetch(`/AMZ-links_eu/data/products_eu.json?v=${timestamp}`)
-        .then(res => res.json())
-        .then(data => {
-          // Filter by category if specified
-          const filteredProducts = cat 
-            ? data.filter(p => p.category === cat)
-            : data.slice(-8); // If no category, show last 8
-
-          categoryProducts.innerHTML = ''; // Clear previous content
+      // Show loading state
+      if (loadingElement) loadingElement.style.display = 'block';
+      
+      // Fetch products
+      fetch('../data/products_eu.json')
+        .then(response => response.json())
+        .then(products => {
+          // First, try to find the category by slug
+          const categories = [...new Set(products.map(p => p.category))];
+          const matchedCategory = categories.find(c => 
+            slugify(c) === categorySlug
+          );
           
-          // If no products, show message
-          if (filteredProducts.length === 0) {
-            categoryProducts.innerHTML = '<p class="no-products">No products in this category.</p>';
-            categoryProducts.classList.add('loaded');
+          // If we found a matching category, use it
+          if (matchedCategory) {
+            category = matchedCategory;
+          }
+          
+          // Update page title and heading
+          document.title = `${category} | Amazon Product Selection`;
+          if (categoryTitle) categoryTitle.textContent = category;
+          
+          // Filter products by category using slug
+          const categoryItems = products.filter(product => {
+            const productCategorySlug = slugify(product.category);
+            return productCategorySlug === categorySlug;
+          });
+
+          if (categoryItems.length === 0) {
+            categoryProducts.innerHTML = `
+              <div class="no-products">
+                <p>No products found in this category.</p>
+                <a href="/" class="back-button">Back to Home</a>
+              </div>`;
             return;
           }
 
-          // Generate product cards
-          filteredProducts.forEach(p => {
-            const card = document.createElement('div');
-            card.className = 'product-card';
-            card.innerHTML = `
-              <div itemscope itemtype="http://schema.org/Product">
-                <a href="${p.link}" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   itemprop="url" 
-                   class="product-link"
-                   onclick="trackEvent('Producto', 'Clic', '${p.title.replace(/'/g, "\\'")}', 1);">
-                  <div class="product-image-container">
-                    <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy">
-                  </div>
-                  <div class="product-title" itemprop="name">${p.title}</div>
-                </a>
-                <meta itemprop="brand" content="${p.brand || 'Brand'}">
-                <meta itemprop="category" content="${p.category}">
-                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                  <meta itemprop="priceCurrency" content="GBP">
-                  <meta itemprop="price" content="${p.price || ''}">
-                  <link itemprop="availability" href="http://schema.org/InStock">
+          // Display products
+          categoryItems.forEach(product => {
+            const productElement = document.createElement('div');
+            productElement.className = 'product-card';
+            const productSlug = slugify(product.title);
+            
+            // Use the cleanUrl from product data if available, otherwise generate it
+            const productUrl = product.cleanUrl || `/producto/${productSlug}/`;
+            
+            productElement.innerHTML = `
+              <a href="${productUrl}" class="product-link">
+                <div class="product-image-container">
+                  <img 
+                    src="${product.image}" 
+                    alt="${product.title}" 
+                    loading="lazy"
+                    class="product-image"
+                    data-product-slug="${product.slug || productSlug}"
+                  >
                 </div>
-              </div>
+                <h3 class="product-title">${product.title}</h3>
+              </a>
             `;
-            categoryProducts.appendChild(card);
+            categoryProducts.appendChild(productElement);
+          });
+          
+          // Add click handler for product links with tracking
+          document.querySelectorAll('.product-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+              e.preventDefault();
+              const img = this.querySelector('img');
+              const productSlug = img?.dataset.productSlug;
+              const productTitle = img?.alt || '';
+              
+              // Track the click
+              if (window.gtag) {
+                gtag('event', 'select_item', {
+                  'event_category': 'Product Click',
+                  'event_label': productTitle,
+                  'items': [{
+                    'item_name': productTitle,
+                    'item_category': category
+                  }]
+                });
+              }
+              
+              // Navigate to product page
+              if (productSlug) {
+                window.location.href = `/producto/${productSlug}/`;
+              }
+            });
           });
           
           // Show content once loaded
           categoryProducts.classList.add('loaded');
         })
-        .catch(err => {
-          console.error('Error loading products:', err);
-          categoryProducts.innerHTML = '<p class="error-message">Error loading products. Please try again later.</p>';
-          categoryProducts.classList.add('loaded');
+        .catch(error => {
+          console.error('Error loading products:', error);
+          categoryProducts.innerHTML = `
+            <div class="error">
+              <p>Error loading products. Please try again later.</p>
+              <a href="/" class="back-button">Back to Home</a>
+            </div>`;
+        })
+        .finally(() => {
+          if (loadingElement) loadingElement.style.display = 'none';
         });
     });
   </script>

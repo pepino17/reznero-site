@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Products with Slugs</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 300px;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      white-space: pre-wrap;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .success {
+      color: #27ae60;
+    }
+    .error {
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Update Products with Slugs</h1>
+  <p>Paste your products JSON below and click "Update Products" to add slugs and clean URLs.</p>
+  
+  <div>
+    <button id="updateBtn">Update Products</button>
+    <button id="copyBtn">Copy to Clipboard</button>
+    <button id="downloadBtn">Download Updated JSON</button>
+  </div>
+  
+  <div style="margin: 20px 0;">
+    <textarea id="productsJson" placeholder="Paste your products JSON here..."></textarea>
+  </div>
+  
+  <div id="result">
+    The updated JSON will appear here after processing.
+  </div>
+
+  <script>
+    // Function to generate a URL-friendly slug from a string
+    function slugify(text) {
+      return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/&/g, '-and-')
+        .replace(/[\s\W-]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .replace(/[-]+/g, '-')
+        .substring(0, 80);
+    }
+
+    // Function to process products and add slugs
+    function updateProducts(products) {
+      try {
+        if (!Array.isArray(products)) {
+          throw new Error('Input must be an array of products');
+        }
+
+        return products.map(product => {
+          // Generate a slug from the product title
+          const slug = slugify(product.title || '');
+          
+          // Create a clean URL for the product
+          const cleanUrl = `/producto/${slug}/`;
+          
+          // Return the updated product with the new fields
+          return {
+            ...product,
+            slug,
+            cleanUrl,
+            // Keep the original affiliate link in a separate field
+            affiliateLink: product.link,
+            // Update the main link to use the clean URL
+            link: cleanUrl
+          };
+        });
+      } catch (error) {
+        console.error('Error updating products:', error);
+        throw error;
+      }
+    }
+
+    // Handle the update button click
+    document.getElementById('updateBtn').addEventListener('click', () => {
+      const input = document.getElementById('productsJson').value.trim();
+      const resultDiv = document.getElementById('result');
+      
+      if (!input) {
+        resultDiv.textContent = 'Please paste your products JSON first.';
+        resultDiv.className = 'error';
+        return;
+      }
+      
+      try {
+        // Parse the input JSON
+        const products = JSON.parse(input);
+        
+        // Update the products with slugs
+        const updatedProducts = updateProducts(products);
+        
+        // Display the result
+        const prettyJson = JSON.stringify(updatedProducts, null, 2);
+        resultDiv.textContent = prettyJson;
+        resultDiv.className = 'success';
+        
+        // Store the result for download/copy
+        resultDiv.dataset.updatedJson = prettyJson;
+      } catch (error) {
+        resultDiv.textContent = `Error: ${error.message}`;
+        resultDiv.className = 'error';
+      }
+    });
+    
+    // Handle copy to clipboard
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      const resultDiv = document.getElementById('result');
+      const jsonToCopy = resultDiv.dataset.updatedJson;
+      
+      if (!jsonToCopy) {
+        resultDiv.textContent = 'No updated JSON to copy. Please update products first.';
+        resultDiv.className = 'error';
+        return;
+      }
+      
+      navigator.clipboard.writeText(jsonToCopy).then(() => {
+        const originalText = resultDiv.textContent;
+        resultDiv.textContent = '✓ Copied to clipboard!';
+        resultDiv.className = 'success';
+        
+        // Revert the message after 2 seconds
+        setTimeout(() => {
+          resultDiv.textContent = originalText;
+        }, 2000);
+      }).catch(err => {
+        resultDiv.textContent = `Failed to copy: ${err}`;
+        resultDiv.className = 'error';
+      });
+    });
+    
+    // Handle download
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const resultDiv = document.getElementById('result');
+      const jsonToDownload = resultDiv.dataset.updatedJson;
+      
+      if (!jsonToDownload) {
+        resultDiv.textContent = 'No updated JSON to download. Please update products first.';
+        resultDiv.className = 'error';
+        return;
+      }
+      
+      const blob = new Blob([jsonToDownload], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'products_updated.json';
+      document.body.appendChild(a);
+      a.click();
+      
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 0);
+    });
+  </script>
+</body>
+</html>

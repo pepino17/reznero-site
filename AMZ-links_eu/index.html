@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script type="module">
+    import { getCategoryUrl } from '../assets/js/utils.js';
+    window.getCategoryUrl = getCategoryUrl;
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTG5"></script>
   <script>
@@ -441,24 +445,21 @@
           const categoryProducts = data.filter(p => p.category === category);
           
           // Get up to 4 unique images for the category
-          const uniqueImages = [];
-          const imageSet = new Set();
-          
+          const categoryImages = [];
           for (const product of categoryProducts) {
-            if (!imageSet.has(product.image)) {
-              imageSet.add(product.image);
-              uniqueImages.push(product.image);
-              
-              if (uniqueImages.length >= 4) {
-                break;
-              }
+            if (categoryImages.length < 4 && !categoryImages.some(img => img.src === product.image)) {
+              categoryImages.push({
+                src: product.image,
+                title: product.title
+              });
             }
           }
           
-          // Create category card
+          // Create category card with clean URL
           const categoryCard = document.createElement('a');
-          categoryCard.href = `category.html?category=${encodeURIComponent(category)}`;
+          categoryCard.href = getCategoryUrl(category);
           categoryCard.className = 'category-card';
+          categoryCard.setAttribute('data-category', category);
           
           // Create image grid
           const imageGrid = document.createElement('div');
@@ -467,10 +468,11 @@
           // Add images to grid (always 4 items, repeating if necessary)
           for (let i = 0; i < 4; i++) {
             const img = document.createElement('img');
-            const imgIndex = i % uniqueImages.length;
-            img.src = uniqueImages[imgIndex];
-            img.alt = '';
+            const imgData = categoryImages[i % categoryImages.length] || {};
+            img.src = imgData.src || '../assets/img/placeholder-light.png';
+            img.alt = imgData.title || category;
             img.loading = 'lazy';
+            img.setAttribute('data-category', category);
             imageGrid.appendChild(img);
           }
           
@@ -482,7 +484,37 @@
           // Assemble the card
           categoryCard.appendChild(imageGrid);
           categoryCard.appendChild(title);
+          
+          // Add click handler for tracking
+          categoryCard.addEventListener('click', function(e) {
+            const card = e.target.closest('[data-category]');
+            if (card) {
+              const category = card.getAttribute('data-category');
+              if (category) {
+                trackEvent('Category', 'View', category);
+                // Let the default link behavior handle navigation
+              }
+            }
+          });
+          
           categoriesGrid.appendChild(categoryCard);
+        });
+        
+        // Add click handler for view all links and category images
+        function handleCategoryClick(e) {
+          const card = e.target.closest('[data-category]');
+          if (card) {
+            const category = card.getAttribute('data-category');
+            if (category) {
+              trackEvent('Category', 'View', category);
+              // Let the default link behavior handle navigation
+            }
+          }
+        }
+        
+        // Add click handlers to all category cards and images
+        document.querySelectorAll('.category-card, .category-card img').forEach(element => {
+          element.addEventListener('click', handleCategoryClick);
         });
       })
       .catch(error => console.error('Error loading products:', error));
