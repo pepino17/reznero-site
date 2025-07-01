@@ -10,7 +10,10 @@
   gtag('config', 'G-NE3GGCJTG5');
 </script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"/>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title id="page-title">Amazon Product Selection</title>
   <meta name="description" content="Discover Amazon's hottest gadgets and tech finds. Daily tech deals, must-have gadgets, and innovative products. 100% secure shopping with fast shipping.">
   <meta name="theme-color" content="#e0eafc">
@@ -33,6 +36,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="../assets/img/Logo-Pagina-web.png">
   <link rel="stylesheet" href="../assets/css/style.css"/>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="../assets/img/icon-192x192.png">
+  <meta name="theme-color" content="#e0eafc">
 </head>
 <body>
   <header>
@@ -102,8 +108,43 @@
   </footer>
 
   <script>
+    // Device detection and capabilities
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    
+    // Add device class to body for conditional styling
+    document.body.classList.add(isMobile ? 'mobile-device' : 'desktop-device');
+    if (isTouchDevice) document.body.classList.add('touch-device');
+    if (isIOS) document.body.classList.add('ios-device');
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/AMZ-links_eu/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            // Check for updates
+            registration.update().catch(err => console.log('ServiceWorker update failed: ', err));
+          })
+          .catch(err => console.log('ServiceWorker registration failed: ', err));
+      });
+    }
+
     // Show loading spinner
     document.addEventListener('DOMContentLoaded', () => {
+      // Optimize for mobile performance
+      if (isMobile) {
+        // Disable heavy animations on mobile
+        document.body.classList.add('reduced-motion');
+        
+        // Optimize images for mobile
+        const images = document.querySelectorAll('img[data-src]');
+        images.forEach(img => {
+          // You could add mobile-optimized image sources here if available
+          // e.g., if (img.dataset.srcMobile) { img.src = img.dataset.srcMobile; }
+        });
+      }
       const loadingSpinner = document.getElementById('loadingSpinner');
       loadingSpinner.style.display = 'block';
     });
@@ -567,53 +608,59 @@
   </script>
   
   <script>
-    // Lazy loading para imágenes
+    // Lazy loading implementation
     document.addEventListener('DOMContentLoaded', function() {
-      const lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
-      
+      // First try to use IntersectionObserver if available
       if ('IntersectionObserver' in window) {
-        const lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-          entries.forEach(function(entry) {
+        const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
             if (entry.isIntersecting) {
               const lazyImage = entry.target;
-              lazyImage.src = lazyImage.dataset.src;
-              lazyImage.classList.add('loaded');
-              lazyImageObserver.unobserve(lazyImage);
+              if (lazyImage.dataset.src) {
+                lazyImage.src = lazyImage.dataset.src;
+                lazyImage.classList.add('loaded');
+                lazyImageObserver.unobserve(lazyImage);
+              }
             }
           });
+        }, {
+          rootMargin: '200px',
+          threshold: 0.01
         });
 
-        lazyImages.forEach(function(lazyImage) {
-          lazyImageObserver.observe(lazyImage);
+        // Observe all lazy images
+        document.querySelectorAll('img[data-src]').forEach(img => {
+          lazyImageObserver.observe(img);
         });
       } else {
-        // Fallback para navegadores que no soportan IntersectionObserver
-        let active = false;
-        const lazyLoad = function() {
-          if (active === false) {
-            active = true;
-            setTimeout(function() {
-              lazyImages.forEach(function(lazyImage) {
-                if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && 
-                     lazyImage.getBoundingClientRect().bottom >= 0) &&
-                    getComputedStyle(lazyImage).display !== 'none') {
-                  lazyImage.src = lazyImage.dataset.src;
-                  lazyImage.classList.add('loaded');
-                  lazyImages = lazyImages.filter(function(image) {
-                    return image !== lazyImage;
-                  });
-                  if (lazyImages.length === 0) {
-                    document.removeEventListener('scroll', lazyLoad);
-                    window.removeEventListener('resize', lazyLoad);
-                    window.removeEventListener('orientationchange', lazyLoad);
-                  }
-                }
-              });
-              active = false;
-            }, 200);
+        // Fallback for browsers without IntersectionObserver
+        let lazyLoadThrottle;
+        let lazyImages = [].slice.call(document.querySelectorAll('img[data-src]'));
+        
+        function lazyLoad() {
+          if (lazyLoadThrottle) {
+            clearTimeout(lazyLoadThrottle);
           }
-        };
-
+          
+          lazyLoadThrottle = setTimeout(function() {
+            const scrollTop = window.pageYOffset;
+            lazyImages = lazyImages.filter(img => {
+              if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                img.src = img.dataset.src;
+                img.classList.add('loaded');
+                return false; // Remove from array
+              }
+              return true; // Keep in array
+            });
+            
+            if (lazyImages.length === 0) {
+              document.removeEventListener('scroll', lazyLoad);
+              window.removeEventListener('resize', lazyLoad);
+              window.removeEventListener('orientationchange', lazyLoad);
+            }
+          }, 20);
+        }
+        
         document.addEventListener('scroll', lazyLoad);
         window.addEventListener('resize', lazyLoad);
         window.addEventListener('orientationchange', lazyLoad);

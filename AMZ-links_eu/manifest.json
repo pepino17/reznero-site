@@ -1,0 +1,18 @@
+{
+  "name": "Amazon Product Selection",
+  "short_name": "Amazon Products",
+  "description": "Discover Amazon's hottest gadgets and tech finds",
+  "start_url": "/AMZ-links_eu/index.html",
+  "display": "standalone",
+  "background_color": "#F7F8FA",
+  "theme_color": "#e0eafc",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/img/Logo-Pagina-web.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
