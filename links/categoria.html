@@ -45,38 +45,38 @@
   <header>
     <div class="header-wrapper">
       <div class="social-icons">
-        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer">
-          <img src="../assets/img/instagram.svg" alt="Instagram"/>
+        <a href="https://www.instagram.com/tu_cocina_ideal_/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+          <img src="../assets/img/instagram.svg" alt="Instagram" />
         </a>
-        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer">
-          <img src="../assets/img/youtube.svg" alt="YouTube"/>
+        <a href="https://www.youtube.com/@Tu_cocina_ideal" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="YouTube">
+          <img src="../assets/img/youtube.svg" alt="YouTube" />
         </a>
-        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer">
-          <img src="../assets/img/telegram.svg" alt="Telegram"/>
+        <a href="https://t.me/+87xav6EbwthiYzZk" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Telegram">
+          <img src="../assets/img/telegram.svg" alt="Telegram" />
         </a>
       </div>
     </div>
   </header>
 
   <main>
-    <h1 class="category-page-title" id="category-title">Productos de la categoría</h1>
+    <h1 class="category-page-title" id="category-title">Selección de Productos de Amazon</h1>
     
     <div class="category-page-header">
       <a href="index.html" class="back-button" aria-label="Volver a la página principal">
-        <span>← Volver</span>
+        <span aria-hidden="true">←</span> Volver
       </a>
     </div>
 
-    <section class="categories-card">
-      <div class="category-products hidden-loading" id="category-products"><!-- Contenido cargado dinámicamente --></div>
+    <section class="categories-card" aria-label="Productos">
+      <div class="category-products hidden-loading" id="category-products"></div>
     </section>
   </main>
 
 <footer>
   <div class="footer-content">
-    <p><strong>Encuentra utensilios de cocina, accesorios, organización y pequeños electrodomésticos en Amazon.</strong></p>
-    <p>Esta web utiliza <em>enlaces de afiliados a Amazon</em>. <br>Precios y disponibilidad pueden cambiar sin previo aviso.</p>
-    <p>© 2025 – Todos los derechos reservados.<br>Diseñado para amantes de la cocina.</p>
+    <p><strong>Compra con confianza: solo enlazamos productos reales y seleccionados de Amazon.</strong></p>
+    <p>Esta web utiliza <em>enlaces de afiliados a Amazon</em>. No mostramos precios ni valoraciones para garantizar transparencia y sencillez.</p>
+    <p>© 2025 – Todos los derechos reservados.<br>Diseño inspirado en iOS, minimalista y seguro.</p>
   </div>
 </footer>
 
@@ -175,12 +175,8 @@
       const cat = params.get('category');
       
           // Update meta description and title based on category
-      if (cat === 'Kitchen Appliances') {
-        document.title = 'Best Kitchen Appliances for Effortless Cooking | Top Kitchen Gadgets';
-        document.querySelector('meta[name="description"]').content = 'Discover the best kitchen appliances and top-rated gadgets that make cooking easier and faster. Find essential kitchen tools and time-saving gadgets for your home.';
-      } else {
-        document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
-      }
+      document.title = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
+      document.getElementById('page-title').innerText = cat ? `Selección de Productos de Amazon - ${cat}` : 'Selección de Productos de Amazon';
       document.getElementById('category-title').innerText = cat ? cat : 'Productos destacados';
 
       // Cargar productos y filtrar por categoría
@@ -195,37 +191,30 @@
           categoryProducts.innerHTML = ''; // Limpiar contenido previo
           
           // Si no hay productos, mostrar mensaje
-          if (filteredProducts.length === 0) {
-            categoryProducts.innerHTML = '<p class="no-products">No hay productos en esta categoría.</p>';
-            categoryProducts.classList.add('loaded');
-            return;
-          }
+      if (!filteredProducts || filteredProducts.length === 0) {
+        categoryProducts.innerHTML = '<p class="no-products">No hay productos en esta categoría.</p>';
+        categoryProducts.classList.add('loaded');
+        return;
+      }
 
           // Rastrear visualización de lista de productos
           trackProductListView(filteredProducts, cat || 'Productos destacados');
           
           // Generar tarjetas de producto
           filteredProducts.forEach((p, index) => {
+            // Solo productos válidos: sin placeholders, sin campos undefined
+            if (!p.title || !p.image || !p.link) return;
             const card = document.createElement('div');
             card.className = 'product-card';
             card.setAttribute('data-product-id', p.id || `product-${index}`);
             card.setAttribute('data-category', p.category || 'Sin categoría');
             card.innerHTML = `
-              <div itemscope itemtype="http://schema.org/Product">
-                <a href="${p.link}" target="_blank" rel="noopener noreferrer" itemprop="url" class="product-link">
-                  <div class="product-image-container">
-                    <img src="${p.image}" alt="${p.title}" itemprop="image" loading="lazy">
-                  </div>
-                  <div class="product-title" itemprop="name">${p.title}</div>
-                </a>
-                <meta itemprop="brand" content="${p.brand || 'Marca'}">
-                <meta itemprop="category" content="${p.category}">
-                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                  <meta itemprop="priceCurrency" content="EUR">
-                  <meta itemprop="price" content="${p.price || ''}">
-                  <link itemprop="availability" href="http://schema.org/InStock">
+              <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="product-link" aria-label="${p.title}">
+                <div class="product-image-container">
+                  <img src="${p.image}" alt="${p.title}" loading="lazy">
                 </div>
-              </div>
+                <div class="product-title">${p.title}</div>
+              </a>
             `;
             categoryProducts.appendChild(card);
           });

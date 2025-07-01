@@ -2,37 +2,26 @@
   {
     "id": "kitchen-appliance-1",
     "title": "Smart Kitchen Blender with 6 Blades",
-    "description": "Powerful 1500W kitchen blender with 6 stainless steel blades for smooth blending. Perfect for making smoothies, soups, and sauces. Essential kitchen gadget for easy cooking.",
-    "price": 89.99,
+
     "image": "../assets/img/kitchen/blender.jpg",
     "link": "https://www.amazon.es/dp/EXAMPLE1",
-    "category": "Kitchen Appliances",
-    "brand": "KitchenPro",
-    "rating": 4.5,
-    "reviews": 1245
+    "category": "Kitchen Appliances"
   },
   {
     "id": "kitchen-appliance-2",
     "title": "Air Fryer with Digital Display",
-    "description": "5.5L capacity air fryer with 8 cooking presets. Healthier cooking with little to no oil. Top-rated kitchen tool for effortless meal preparation.",
-    "price": 129.99,
+
     "image": "../assets/img/kitchen/airfryer.jpg",
     "link": "https://www.amazon.es/dp/EXAMPLE2",
-    "category": "Kitchen Appliances",
-    "brand": "FryMaster",
-    "rating": 4.7,
-    "reviews": 2341
+    "category": "Kitchen Appliances"
+
   },
   {
     "id": "kitchen-appliance-3",
     "title": "Multi-Cooker with 10-in-1 Functionality",
-    "description": "Versatile multi-cooker that replaces 10 kitchen appliances. Must-have appliance for the modern kitchen. Makes cooking easier than ever with preset programs.",
-    "price": 149.99,
+
     "image": "../assets/img/kitchen/multicooker.jpg",
     "link": "https://www.amazon.es/dp/EXAMPLE3",
-    "category": "Kitchen Appliances",
-    "brand": "CookWise",
-    "rating": 4.8,
-    "reviews": 3120
+    "category": "Kitchen Appliances"
   }
 ]
