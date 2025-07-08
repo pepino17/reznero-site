@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover the best deals and top products from Amazon. Find quality items across different categories with direct links to Amazon.">
+  <meta name="keywords" content="Amazon deals, top products, online shopping, Amazon shopping, shop on Amazon">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="AMZ Top Products | Best Amazon Deals">
+  <meta property="og:description" content="Discover the best deals and top products from Amazon. Find quality items across different categories with direct links.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>AMZ Top Products | Best Amazon Deals</title>
+  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NE3GGCJTG5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    
+    // Configuración básica de GA4
+    gtag('js', new Date());
+    gtag('config', 'G-NE3GGCJTG5');
+    
+    // Función para rastrear eventos
+    function trackEvent(category, action, label, value) {
+      gtag('event', action, {
+        'event_category': category,
+        'event_label': label,
+        'value': value
+      });
+    }
+    
+    // Rastrear página vista
+    document.addEventListener('DOMContentLoaded', function() {
+      gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: window.location.pathname
+      });
+    });
+  </script>
+  
+  <meta name="theme-color" content="#e0eafc">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+  <link rel="apple-touch-icon" href="assets/img/logo.png">
+  <link rel="shortcut icon" href="assets/img/logo.png">
+  
+  <!-- Open Graph -->
+  <meta property="og:image" content="assets/img/logo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AMZ Top Products">
+  
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">AMZ Top Products</a>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#featured">Destacados</a></li>
+          <li><a href="#categories">Categorías</a></li>
+          <li><a href="#deals">Ofertas</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Los Mejores Productos de Amazon</h1>
+      <p>Descubre las mejores ofertas y productos seleccionados cuidadosamente para ti.</p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <section id="featured" class="section">
+        <h2>Productos Destacados</h2>
+        <div class="products-grid" id="featured-products">
+          <!-- Los productos se cargarán aquí con JavaScript -->
+          <div class="loading">Cargando productos...</div>
+        </div>
+      </section>
+
+      <section id="categories" class="section">
+        <h2>Categorías Populares</h2>
+        <div class="categories-grid">
+          <div class="category-card">
+            <i class="fas fa-laptop"></i>
+            <h3>Tecnología</h3>
+          </div>
+          <div class="category-card">
+            <i class="fas fa-tshirt"></i>
+            <h3>Moda</h3>
+          </div>
+          <div class="category-card">
+            <i class="fas fa-home"></i>
+            <h3>Hogar</h3>
+          </div>
+          <div class="category-card">
+            <i class="fas fa-dumbbell"></i>
+            <h3>Deportes</h3>
+          </div>
+        </div>
+      </section>
+
+      <section id="deals" class="section">
+        <h2>Ofertas del Día</h2>
+        <div class="products-grid" id="deals-products">
+          <!-- Las ofertas se cargarán aquí con JavaScript -->
+          <div class="loading">Cargando ofertas...</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Sobre Nosotros</h3>
+          <p>Seleccionamos los mejores productos de Amazon para ofrecerte una experiencia de compra única.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Enlaces Rápidos</h3>
+          <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#featured">Productos</a></li>
+            <li><a href="#categories">Categorías</a></li>
+            <li><a href="#deals">Ofertas</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contacto</h3>
+          <p>Email: info@amztopproducts.com</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 AMZ Top Products. Todos los derechos reservados.</p>
+        <div class="legal-links">
+          <a href="#">Términos de Uso</a>
+          <a href="#">Política de Privacidad</a>
+          <a href="#">Aviso Legal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
