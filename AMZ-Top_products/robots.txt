@@ -1,18 +1,112 @@
-# robots.txt for Amazon Top Products
-User-agent: *
-Allow: /
+# robots.txt for Reznero Blog
+# Last updated: 2025-07-09
 
-# Sitemap location
+# Global rules for all crawlers
+User-agent: *
+
+# Sitemap location (must be a full URL)
 Sitemap: https://reznero.com/AMZ-Top_products/sitemap.xml
 
-# Disallow admin and private directories
+# Allow crawling of all public content
+Allow: /
+
+# Block sensitive directories
 Disallow: /admin/
 Disallow: /private/
 Disallow: /includes/
+Disallow: /config/
+Disallow: /vendor/
+Disallow: /node_modules/
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /*.php$
 
-# Allow all other pages
-Allow: /*.html$
+# Allow specific file types
 Allow: /*.css$
 Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+Allow: /*.woff$
+Allow: /*.woff2$
+Allow: /*.ttf$
 
-# Crawl-delay: 10  # Uncomment if needed to limit crawl rate
+# Allow search parameters for blog filtering
+Allow: /*?category=*
+Allow: /*?page=*
+Allow: /*?s=*
+
+# Crawl-delay: 10  # Uncomment and adjust if needed to limit crawl rate
+
+# Block common CMS paths
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /wp-content/plugins/
+Disallow: /wp-json/
+Disallow: /xmlrpc.php
+
+# Block query strings that don't change content
+Disallow: /*?*$
+Disallow: /*&
+Disallow: /*&s=
+Disallow: /*?p=
+Disallow: /*&p=
+
+# Block search result pages
+Disallow: /search/
+Disallow: /*?*search=
+
+# Block print pages
+Disallow: /*?*print=
+
+# Block filters and sorts
+Disallow: /*?*filter=
+Disallow: /*?*sort=
+
+# Block session IDs and tracking parameters
+Disallow: /*?*sessionid=
+Disallow: /*?*PHPSESSID=
+Disallow: /*?*utm_
+Disallow: /*?*gclid=
+Disallow: /*?*fbclid=
+
+# Block API endpoints
+Disallow: /api/
+Disallow: /graphql
+Disallow: /graphiql
+
+# Block development and staging environments
+Disallow: /*?*debug=
+Disallow: /*?*preview=
+Disallow: /*?*test=
+
+# Allow Google Search Console verification
+User-agent: Googlebot
+Allow: /google*.html
+
+# Block image search from some bots
+User-agent: Googlebot-Image
+Disallow: /assets/images/
+
+# Block AI bots
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+# Block security scanners
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# Sitemap location (repeated for crawlers that might miss it at the top)
+Sitemap: https://reznero.com/AMZ-Top_products/sitemap.xml

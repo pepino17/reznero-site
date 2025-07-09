@@ -1,24 +1,20 @@
 /**
- * Blog functionality for AMZ Top Products
- * Handles loading and displaying blog posts
+ * Blog functionality for Reznero Blog
+ * Handles loading and displaying blog posts with infinite scroll and category filtering
  */
 
 class Blog {
   constructor() {
     this.postsContainer = document.getElementById('posts-container');
-    this.loadMoreBtn = document.getElementById('load-more');
-    this.categoryLinks = document.querySelectorAll('[data-category]');
-    this.postsPerPage = 6;
+    this.loadMoreBtn = document.getElementById('load-more-posts');
+    this.categoryFilters = document.querySelectorAll('.category-filter');
+    this.postsPerPage = 9; // Increased for better initial load
     this.currentPage = 1;
     this.allPosts = [];
     this.filteredPosts = [];
     this.currentCategory = 'all';
-    this.animationFrameId = null;
-    this.resizeObserver = null;
-    
-    // Bind methods
-    this.handleResize = this.debounce(this.handleResize.bind(this), 100);
-    this.handleScroll = this.debounce(this.handleScroll.bind(this), 100);
+    this.isLoading = false;
+    this.hasMorePosts = true;
     
     // Initialize the blog
     this.init();
@@ -27,140 +23,117 @@ class Blog {
   async init() {
     if (!this.postsContainer) return;
 
-    // Set up category navigation
-    this.setupCategoryNavigation();
-    
-    // Set up intersection observer for lazy loading
-    this.setupIntersectionObserver();
+    // Set up category filters
+    this.setupCategoryFilters();
     
     // Load initial posts
     await this.loadPosts();
     
-    // Set up event listeners
-    if (this.loadMoreBtn) {
-      this.loadMoreBtn.addEventListener('click', () => this.loadMore());
-    }
+    // Set up infinite scroll
+    this.setupInfiniteScroll();
     
     // Handle back/forward navigation
     window.addEventListener('popstate', () => this.handleUrlChange());
-    
-    // Setup viewport tracking for scroll animations
-    this.setupViewportTracking();
-    
-    // Add event listeners for window resize and scroll
-    window.addEventListener('resize', this.handleResize);
-    window.addEventListener('scroll', this.handleScroll);
   }
 
-  setupCategoryNavigation() {
-    const categoryContainer = document.querySelector('.blog-categories');
-    if (!categoryContainer) return;
-    
-    this.categoryLinks = Array.from(document.querySelectorAll('.category-link'));
-    
-    this.categoryLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
+  setupCategoryFilters() {
+    this.categoryFilters.forEach(filter => {
+      filter.addEventListener('click', (e) => {
         e.preventDefault();
-        const category = link.getAttribute('data-category');
+        const category = filter.getAttribute('data-category');
         this.filterByCategory(category);
         
         // Update URL without page reload
-        const url = category === 'all' ? '#' : `#${category.toLowerCase().replace(/\s+/g, '-')}`;
+        const url = category === 'all' ? '#' : `#category=${category}`;
         window.history.pushState({ category }, '', url);
       });
     });
   }
   
   handleUrlChange() {
-    const hash = window.location.hash.replace('#', '');
-    const category = this.getCategoryFromHash(hash);
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category') || 'all';
     this.filterByCategory(category, false);
   }
   
-  getCategoryFromHash(hash) {
-    if (!hash) return 'all';
-    
-    // Convert hash to match category names
-    const categoryMap = {
-      'electronics': 'Electronics',
-      'tech-reviews': 'Tech Reviews',
-      'gadgets': 'Gadgets',
-      'home-kitchen': 'Home & Kitchen',
-      'lifestyle': 'Lifestyle',
-      'deals': 'Deals'
-    };
-    
-    return categoryMap[hash] || 'all';
-  }
-  
-  filterByCategory(category, scrollToTop = true) {
+  filterByCategory(category, updateHistory = true) {
     this.currentCategory = category;
     this.currentPage = 1;
+    this.hasMorePosts = true;
     
-    // Update active state
-    this.categoryLinks.forEach(link => {
-      const linkCategory = link.getAttribute('data-category');
-      if (linkCategory === category) {
-        link.classList.add('active');
-        link.setAttribute('aria-current', 'page');
+    // Update active state of category filters
+    this.categoryFilters.forEach(filter => {
+      const filterCategory = filter.getAttribute('data-category');
+      if (filterCategory === category) {
+        filter.classList.add('active');
+        filter.setAttribute('aria-current', 'page');
       } else {
-        link.classList.remove('active');
-        link.removeAttribute('aria-current');
+        filter.classList.remove('active');
+        filter.removeAttribute('aria-current');
       }
     });
     
-    // Filter posts
-    this.filteredPosts = category === 'all' 
-      ? [...this.allPosts]
-      : this.allPosts.filter(post => post.category === category);
+    // Show loading state
+    this.setLoadingState(true);
     
-    // Re-render posts
-    this.postsContainer.innerHTML = '';
-    this.renderPosts(this.filteredPosts);
-    
-    // Show/hide load more button
-    if (this.filteredPosts.length >= this.allPosts.length) {
-      this.hideLoadMore();
-    } else if (this.loadMoreBtn) {
-      this.loadMoreBtn.style.display = 'block';
-    }
-    
-    // Scroll to top
-    if (scrollToTop) {
-      window.scrollTo({
-        top: this.postsContainer.offsetTop - 100,
-        behavior: 'smooth'
-      });
-    }
+    // Simulate API call with timeout
+    setTimeout(() => {
+      // Filter posts
+      this.filteredPosts = this.allPosts.filter(post => 
+        category === 'all' || post.categories.includes(category)
+      );
+      
+      // Re-render posts
+      this.postsContainer.innerHTML = '';
+      this.renderPosts(this.getPaginatedPosts());
+      
+      // Update URL if needed
+      if (updateHistory) {
+        const url = category === 'all' 
+          ? window.location.pathname 
+          : `${window.location.pathname}?category=${category}`;
+        window.history.pushState({ category }, '', url);
+      }
+      
+      // Reset loading state
+      this.setLoadingState(false);
+      
+      // Check if we should show load more button
+      this.updateLoadMoreButton();
+    }, 300);
   }
 
   createSkeletonLoader(count = 6) {
-    this.postsContainer.innerHTML = ''; // Clear existing content
+    const fragment = document.createDocumentFragment();
     
     for (let i = 0; i < count; i++) {
       const skeleton = document.createElement('div');
       skeleton.className = 'post-card skeleton';
       skeleton.innerHTML = `
-        <div class="skeleton-image"></div>
-        <div class="skeleton-content">
-          <div class="skeleton-line short"></div>
-          <div class="skeleton-line medium"></div>
-          <div class="skeleton-line long"></div>
-          <div class="skeleton-line button"></div>
+        <div class="post-image"></div>
+        <div class="post-content">
+          <div class="post-category"></div>
+          <h3 class="post-title"></h3>
+          <p class="post-excerpt"></p>
+          <div class="post-meta"></div>
         </div>
       `;
-      this.postsContainer.appendChild(skeleton);
+      fragment.appendChild(skeleton);
     }
+    
+    this.postsContainer.appendChild(fragment);
   }
 
   async loadPosts() {
-    if (this.isLoading) return;
+    if (this.isLoading || !this.hasMorePosts) return;
     
     this.isLoading = true;
     this.setLoadingState(true);
     
     // Show skeleton loaders
-    this.createSkeletonLoader(this.postsPerPage);
+    if (this.currentPage === 1) {
+      this.createSkeletonLoader(this.postsPerPage);
+    }
 
     try {
       // In a real app, this would be an API call to fetch posts
@@ -169,20 +142,36 @@ class Blog {
       // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 800));
       
-      this.allPosts = [...this.allPosts, ...mockPosts];
+      // If first page, replace all posts, otherwise append
+      if (this.currentPage === 1) {
+        this.allPosts = [...mockPosts];
+      } else {
+        this.allPosts = [...this.allPosts, ...mockPosts];
+      }
       
-      // Filter posts based on current category
-      const postsToShow = this.currentCategory === 'all' 
-        ? mockPosts 
-        : mockPosts.filter(post => post.category === this.currentCategory);
+      // Update filtered posts based on current category
+      this.filteredPosts = this.currentCategory === 'all' 
+        ? [...this.allPosts]
+        : this.allPosts.filter(post => post.categories.includes(this.currentCategory));
       
-      this.renderPosts(postsToShow);
+      // Render or update posts
+      if (this.currentPage === 1) {
+        this.postsContainer.innerHTML = '';
+        this.renderPosts(this.getPaginatedPosts());
+      } else {
+        this.renderPosts(this.getPaginatedPosts());
+      }
+      
       this.currentPage++;
       
-      // Hide load more button if we've reached the end of posts
-      if (this.allPosts.length >= 30) { // Assuming 30 is the total number of posts
-        this.hideLoadMore();
+      // Check if we've reached the end of posts
+      if (mockPosts.length < this.postsPerPage) {
+        this.hasMorePosts = false;
       }
+      
+      // Update load more button
+      this.updateLoadMoreButton();
+      
     } catch (error) {
       console.error('Error loading posts:', error);
       this.showError('Failed to load posts. Please try again later.');
@@ -192,6 +181,12 @@ class Blog {
     }
   }
 
+  getPaginatedPosts() {
+    const start = 0; // Always show all filtered posts for now
+    const end = this.filteredPosts.length;
+    return this.filteredPosts.slice(start, end);
+  }
+  
   renderPosts(posts) {
     const fragment = document.createDocumentFragment();
     
@@ -203,91 +198,72 @@ class Blog {
     this.postsContainer.appendChild(fragment);
     
     // Initialize any lazy loading for images
-    if (window.lazyLoadInstance) {
-      window.lazyLoadInstance.update();
-    }
+    this.initLazyLoading();
   }
-
-  observeLazyImages() {
-    const lazyImages = this.postsContainer.querySelectorAll('img[loading="lazy"]');
-    lazyImages.forEach(img => this.observer.observe(img));
+  
+  initLazyLoading() {
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.classList.add('loaded');
+            img.removeAttribute('data-src');
+            observer.unobserve(img);
+          }
+        });
+      });
+      
+      lazyImages.forEach(img => imageObserver.observe(img));
+    } else {
+      // Fallback for browsers that don't support IntersectionObserver
+      lazyImages.forEach(img => {
+        img.src = img.dataset.src;
+        img.classList.add('loaded');
+        img.removeAttribute('data-src');
+      });
+    }
   }
 
   createPostElement(post) {
     const article = document.createElement('article');
     article.className = 'post-card';
+    article.setAttribute('data-categories', post.categories.join(' '));
     
-    // Generate responsive image sources
-    const imageUrl = new URL(post.image);
-    const imageParams = new URLSearchParams(imageUrl.search);
-    const imageBase = imageUrl.origin + imageUrl.pathname;
+    const date = new Date(post.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
     
-    // Add a small delay to simulate network conditions in development
-    const debugDelay = window.location.hostname === 'localhost' ? '?delay=500' : '';
+    // Get the first category for display
+    const displayCategory = post.categories[0] || 'Uncategorized';
     
-    // Create responsive image markup
-    const picture = document.createElement('picture');
-    
-    // WebP format with different sizes
-    const webpSource = document.createElement('source');
-    webpSource.type = 'image/webp';
-    webpSource.sizes = '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw';
-    webpSource.srcset = `
-      ${this.getImageUrl(imageBase, 400, 225, 'webp')} 400w,
-      ${this.getImageUrl(imageBase, 600, 338, 'webp')} 600w,
-      ${this.getImageUrl(imageBase, 800, 450, 'webp')} 800w
-    `;
-    
-    // Fallback to original format
-    const fallbackSource = document.createElement('source');
-    fallbackSource.sizes = '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw';
-    fallbackSource.srcset = `
-      ${this.getImageUrl(imageBase, 400, 225)} 400w,
-      ${this.getImageUrl(imageBase, 600, 338)} 600w,
-      ${this.getImageUrl(imageBase, 800, 450)} 800w
-    `;
-    
-    // Fallback image with lazy loading
-    const img = document.createElement('img');
-    img.className = 'post-card__image blur-up';
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    img.width = 800;
-    img.height = 450;
-    img.alt = post.title;
-    
-    // Use data-src for lazy loading
-    img.setAttribute('data-src', `${this.getImageUrl(imageBase, 800, 450)}${debugDelay}`);
-    
-    // Add low-quality image placeholder (LQIP)
-    if (post.placeholder) {
-      img.style.backgroundImage = `url(${post.placeholder})`;
-      img.style.backgroundSize = 'cover';
-      img.style.backgroundPosition = 'center';
-    }
-    
-    // Assemble the picture element
-    picture.appendChild(webpSource);
-    picture.appendChild(fallbackSource);
-    picture.appendChild(img);
-    
-    // Create the card content
     article.innerHTML = `
-      <a href="${post.url}" class="post-card__link-wrapper">
-        <div class="post-card__image-wrapper">
-          ${picture.outerHTML}
+      <a href="${post.url}" class="post-card-link" aria-label="Read more about ${post.title}">
+        <div class="post-image">
+          <img 
+            data-src="${post.image}" 
+            alt="${post.title}" 
+            loading="lazy"
+            width="400"
+            height="225"
+            class="post-image-img"
+          >
+          <span class="category-badge">${displayCategory}</span>
         </div>
-        <div class="post-card__content">
-          <span class="post-card__category">${post.category}</span>
-          <h3 class="post-card__title">${post.title}</h3>
-          <p class="post-card__excerpt">${post.excerpt}</p>
-          <span class="post-card__link">
-            Read Article
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </span>
+        <div class="post-content">
+          <div class="post-category">${displayCategory}</div>
+          <h3 class="post-title">${post.title}</h3>
+          <p class="post-excerpt">${post.excerpt}</p>
+          <div class="post-meta">
+            <time datetime="${new Date(post.date).toISOString()}">${date}</time>
+            <span>•</span>
+            <span>${post.readTime} min read</span>
+          </div>
         </div>
       </a>
     `;
@@ -296,21 +272,58 @@ class Blog {
   }
 
   async loadMore() {
-    if (this.isLoading) return;
-    await this.loadPosts();
+    if (this.isLoading || !this.hasMorePosts) return;
+    this.loadPosts();
   }
 
   setLoadingState(isLoading) {
-    if (!this.loadMoreBtn) return;
+    this.isLoading = isLoading;
     
     if (isLoading) {
-      this.loadMoreBtn.classList.add('is-loading');
-      this.loadMoreBtn.setAttribute('aria-busy', 'true');
-      this.loadMoreBtn.disabled = true;
+      document.body.classList.add('loading-posts');
+      if (this.loadMoreBtn) {
+        this.loadMoreBtn.classList.add('loading');
+        this.loadMoreBtn.setAttribute('aria-busy', 'true');
+        this.loadMoreBtn.disabled = true;
+      }
     } else {
-      this.loadMoreBtn.classList.remove('is-loading');
-      this.loadMoreBtn.setAttribute('aria-busy', 'false');
-      this.loadMoreBtn.disabled = false;
+      document.body.classList.remove('loading-posts');
+      if (this.loadMoreBtn) {
+        this.loadMoreBtn.classList.remove('loading');
+        this.loadMoreBtn.setAttribute('aria-busy', 'false');
+        this.loadMoreBtn.disabled = false;
+      }
+      
+      // Update the sentinel element for infinite scroll
+      this.observeLastPost();
+    }
+  }
+
+  observeLastPost() {
+    if (!this.intersectionObserver) return;
+    
+    // Stop observing previous last post
+    if (this.lastPostObserver) {
+      this.intersectionObserver.unobserve(this.lastPostObserver);
+    }
+    
+    // Observe the new last post or load more button
+    const posts = this.postsContainer.querySelectorAll('.post-card');
+    if (posts.length > 0) {
+      this.lastPostObserver = posts[posts.length - 1];
+      this.intersectionObserver.observe(this.lastPostObserver);
+    } else if (this.loadMoreBtn) {
+      this.intersectionObserver.observe(this.loadMoreBtn);
+    }
+  }
+  
+  updateLoadMoreButton() {
+    if (!this.loadMoreBtn) return;
+    
+    if (!this.hasMorePosts || this.filteredPosts.length < this.postsPerPage) {
+      this.loadMoreBtn.style.display = 'none';
+    } else {
+      this.loadMoreBtn.style.display = 'block';
     }
   }
 
@@ -320,149 +333,68 @@ class Blog {
     }
   }
   
-  setupIntersectionObserver() {
-    // Clean up existing observer if any
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-
-    const options = {
-      root: null,
-      rootMargin: '200px',
-      threshold: 0.01
-    };
-
-    this.observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          
-          // Only load images that haven't been loaded yet
-          if (img.dataset.src) {
-            // Use requestAnimationFrame for smoother performance
-            this.animationFrameId = requestAnimationFrame(() => {
-              img.src = img.dataset.src;
-              img.removeAttribute('data-src');
-              
-              // Handle image load state
-              if (img.complete) {
-                this.handleImageLoad(img);
-              } else {
-                const loadHandler = () => {
-                  this.handleImageLoad(img);
-                  img.removeEventListener('load', loadHandler);
-                };
-                const errorHandler = () => {
-                  this.handleImageError(img);
-                  img.removeEventListener('error', errorHandler);
-                };
-                
-                img.addEventListener('load', loadHandler, { once: true });
-                img.addEventListener('error', errorHandler, { once: true });
-              }
-              
-              observer.unobserve(img);
-            });
-          }
+  setupInfiniteScroll() {
+    if (!('IntersectionObserver' in window)) {
+      // Fallback for browsers that don't support IntersectionObserver
+      window.addEventListener('scroll', () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000 && !this.isLoading && this.hasMorePosts) {
+          this.loadMore();
         }
       });
-    }, options);
-  }
-
-  handleImageLoad(img) {
-    // Remove blur effect and show image
-    img.classList.add('loaded');
-    
-    // If parent has blur-up class, remove it after a short delay
-    if (img.classList.contains('blur-up')) {
-      setTimeout(() => {
-        img.style.backgroundImage = 'none';
-      }, 300);
-    }
-  }
-
-  handleImageError(img) {
-    // Handle image loading error
-    console.error('Failed to load image:', img.src);
-    img.classList.add('error');
-    
-    // You could show a fallback image or icon here
-    const wrapper = img.closest('.post-card__image-wrapper');
-    if (wrapper) {
-      wrapper.classList.add('error');
-    }
-  }
-
-  // Update renderPosts to use filtered posts
-  renderPosts(posts) {
-    if (!posts || !posts.length) {
-      this.postsContainer.innerHTML = '<p class="no-posts">No posts found in this category.</p>';
       return;
     }
     
-    const fragment = document.createDocumentFragment();
-    
-    posts.forEach(post => {
-      const postElement = this.createPostElement(post);
-      fragment.appendChild(postElement);
+    // Use IntersectionObserver for better performance
+    this.intersectionObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !this.isLoading && this.hasMorePosts) {
+        this.loadMore();
+      }
+    }, {
+      root: null,
+      rootMargin: '100px',
+      threshold: 0.1
     });
     
-    this.postsContainer.appendChild(fragment);
-    
-    // Observe all lazy-loaded images
-    this.observeLazyImages();
+    // Start observing the sentinel element (load more button or last post)
+    this.observeLastPost();
   }
 
-  showError(message) {
-    const errorElement = document.createElement('div');
-    errorElement.className = 'error-message';
-    errorElement.textContent = message;
-    this.postsContainer.appendChild(errorElement);
-  }
-
-  // Helper to generate responsive image URLs
-  getImageUrl(base, width, height, format = null) {
-    const url = new URL(base);
-    const params = new URLSearchParams({
-      w: width,
-      h: height,
-      q: 80,
-      fit: 'crop',
-      crop: 'entropy',
-      auto: 'format',
-      ...(format && { fm: format })
-    });
-    return `${url}?${params}`;
-  }
-
-  // Mock data generator - replace with real API call
   generateMockPosts(count) {
-    const categories = [
-      'Electronics', 'Tech Reviews', 'Gadgets', 
-      'Home & Kitchen', 'Lifestyle', 'Deals'
-    ];
-    
     const mockPosts = [];
-    const colors = ['f3f4f6', 'e5e7eb', 'd1d5db', '9ca3af', '6b7280'];
+    const categories = {
+      'technology': ['Web Development', 'AI & Machine Learning', 'Gadgets', 'Programming'],
+      'lifestyle': ['Productivity', 'Travel', 'Health & Wellness', 'Minimalism'],
+      'tutorials': ['Guides', 'How-To', 'Tutorials', 'Walkthroughs'],
+      'reviews': ['Product Reviews', 'Book Reviews', 'Gear Reviews', 'Software Reviews']
+    };
+    
+    const allCategories = Object.values(categories).flat();
     
     for (let i = 0; i < count; i++) {
-      const category = categories[Math.floor(Math.random() * categories.length)];
-      const id = this.allPosts.length + i + 1;
-      const color = colors[Math.floor(Math.random() * colors.length)];
+      const categoryGroup = Object.keys(categories)[Math.floor(Math.random() * Object.keys(categories).length)];
+      const postCategories = [
+        categoryGroup,
+        allCategories[Math.floor(Math.random() * allCategories.length)]
+      ];
       
-      // Generate a simple color placeholder as base64
-      const placeholder = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450' viewBox='0 0 800 450'%3E%3Crect width='800' height='450' fill='%23${color}'/%3E%3C/svg%3E`;
+      // Ensure unique categories
+      const uniqueCategories = [...new Set(postCategories)];
+      
+      const id = Math.floor(Math.random() * 10000);
+      const titleWords = ['The Ultimate Guide', 'How to Master', '10 Tips for', 'The Future of', 'Beginner\'s Guide to', 'Advanced Techniques for'];
+      const titleTopics = ['Web Development', 'JavaScript', 'React', 'CSS', 'Design Systems', 'Performance', 'Accessibility'];
       
       mockPosts.push({
         id,
-        title: `The Best ${category} of 2023: Our Top Picks`,
-        excerpt: 'Discover our carefully curated selection of the best products in this category based on extensive testing and research.',
-        category,
-        image: `https://source.unsplash.com/random/800x450/?${encodeURIComponent(category)},tech,product,${id}`,
-        placeholder,
-        url: `post-${id}.html`,
-        date: new Date().toISOString(),
-        readingTime: `${Math.floor(Math.random() * 5) + 3} min read`
+        title: `${titleWords[Math.floor(Math.random() * titleWords.length)]} ${titleTopics[Math.floor(Math.random() * titleTopics.length)]}`,
+        excerpt: 'This is a comprehensive guide that covers everything you need to know about this topic. Learn the best practices and latest techniques used by industry experts.',
+        image: `https://source.unsplash.com/random/800x450/?${categoryGroup},tech,${id}`,
+        categories: uniqueCategories,
+        date: new Date(Date.now() - Math.floor(Math.random() * 30) * 24 * 60 * 60 * 1000).toISOString(),
+        readTime: Math.floor(Math.random() * 8) + 3, // 3-10 min read
+        url: `/blog/post-${id}`,
+        author: 'John Doe',
+        authorImage: `https://i.pravatar.cc/100?img=${Math.floor(Math.random() * 70)}`
       });
     }
     
@@ -472,5 +404,8 @@ class Blog {
 
 // Initialize blog functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  new Blog();
+  // Check if we're on a page with blog posts
+  if (document.getElementById('posts-container')) {
+    window.blog = new Blog();
+  }
 });

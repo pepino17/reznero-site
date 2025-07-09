@@ -21,10 +21,58 @@
   <meta property="twitter:description" content="Discover the best products in this category based on our expert analysis and customer reviews.">
   <meta property="twitter:image" content="https://reznero.com/AMZ-Top_products/assets/images/og-category.jpg">
   
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://reznero.com/AMZ-Top_products/top.html">
+  <!-- Canonical URL (will be updated dynamically) -->
+  <link id="canonical-url" rel="canonical" href="https://reznero.com/AMZ-Top_products/top.html">
   
   <title data-dynamic-title>Top Products | Amazon US</title>
+  
+  <script>
+    // Update canonical URL and meta tags based on category parameter
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        // Get category from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        
+        if (category) {
+          const baseUrl = 'https://reznero.com/AMZ-Top_products/top.html';
+          const canonicalUrl = `${baseUrl}?category=${encodeURIComponent(category)}`;
+          
+          // Update canonical URL
+          const canonicalLink = document.getElementById('canonical-url');
+          if (canonicalLink) {
+            canonicalLink.href = canonicalUrl;
+          }
+          
+          // Update Open Graph and Twitter URLs
+          document.querySelector('meta[property="og:url"]').setAttribute('content', canonicalUrl);
+          document.querySelector('meta[property="twitter:url"]').setAttribute('content', canonicalUrl);
+          
+          // Format category for display
+          const formattedCategory = category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+          
+          // Update title and meta descriptions
+          const titleElement = document.querySelector('title[data-dynamic-title]');
+          if (titleElement) {
+            titleElement.textContent = `${formattedCategory} | Top Products | Amazon US`;
+          }
+          
+          // Update meta descriptions
+          const metaDescription = `Discover the best ${formattedCategory} products based on our expert analysis and customer reviews.`;
+          document.querySelector('meta[name="description"]').setAttribute('content', metaDescription);
+          document.querySelector('meta[property="og:description"]').setAttribute('content', metaDescription);
+          document.querySelector('meta[property="twitter:description"]').setAttribute('content', metaDescription);
+          
+          // Update Open Graph and Twitter titles
+          const ogTitle = `${formattedCategory} | Top Products | Amazon US`;
+          document.querySelector('meta[property="og:title"]').setAttribute('content', ogTitle);
+          document.querySelector('meta[property="twitter:title"]').setAttribute('content', ogTitle);
+        }
+      } catch (error) {
+        console.error('Error updating dynamic metadata:', error);
+      }
+    });
+  </script>
   
   <!-- Preconnect to external domains -->
   <link rel="preconnect" href="https://m.media-amazon.com">
