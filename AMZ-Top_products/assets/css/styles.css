@@ -1,3 +1,6 @@
+/* ===== Imports ===== */
+@import url('components/product-cards.css');
+
 /* ===== Accessibility & Performance ===== */
 /* Skip link for keyboard users */
 .skip-link {
@@ -48,6 +51,8 @@ img.loaded {
   position: relative;
   overflow: hidden;
   background: var(--gray-100);
+  background-size: cover;
+  background-position: center;
   border-radius: var(--radius-md);
   aspect-ratio: 1/1;
   display: flex;

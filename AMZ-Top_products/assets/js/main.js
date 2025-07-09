@@ -1,7 +1,24 @@
 /**
  * AMZ Top Products - Main JavaScript File
- * Contiene la lógica principal del sitio web
+ * Handles the main logic of the website
  */
+
+// Import API service and UI utilities
+import { amazonAPI } from './api-service.js';
+import { UIUtils } from './ui-utils.js';
+
+// Register service worker for PWA support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/AMZ-Top_products/sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful');
+      })
+      .catch(err => {
+        console.error('ServiceWorker registration failed: ', err);
+      });
+  });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Add a class to the html element to indicate JavaScript is enabled
@@ -37,17 +54,16 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
     
-    // Sample product data (will be replaced with real data)
-    const sampleProducts = [
+    // Product data with ASINs for US market
+    const productData = [
         {
             id: 1,
-            name: 'Auriculares Inalámbricos Bluetooth con Cancelación de Ruido',
-            price: 79.99,
-            originalPrice: 99.99,
-            image: 'https://m.media-amazon.com/images/I/61CGHv6kmWL._AC_SL1500_.jpg',
+            asin: 'B0B4LZ2KQZ',
+            name: 'Wireless Earbuds with Active Noise Cancelling',
             category: 'Electronics',
-            rating: 4.5,
-            reviews: 1243,
+            image: 'https://m.media-amazon.com/images/I/61CGHv6kmWL._AC_SL1500_.jpg',
+            primeEligible: true,
+            dealEnds: '2025-12-31',
             isDeal: true,
             isPrime: true,
             url: 'https://www.amazon.com/dp/B08NTT1C3F',
@@ -167,7 +183,50 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadMoreButton = document.querySelector('.load-more-btn');
 
     // Application state
-    let currentProducts = [...sampleProducts];
+    let currentProducts = [];
+    let productCache = new Map();
+    
+    // Fetch product data from API
+    async function fetchProductData(products) {
+        try {
+            const asins = products.map(p => p.asin).filter(Boolean);
+            if (asins.length === 0) return [];
+            
+            const response = await amazonAPI.getProducts(asins);
+            if (!response || !response.ItemsResult || !response.ItemsResult.Items) {
+                console.error('Invalid API response');
+                return [];
+            }
+            
+            // Map API response to our product format
+            return response.ItemsResult.Items.map(item => {
+                const listing = item.Offers?.Listings?.[0] || {};
+                const price = listing.Price?.Amount || 0;
+                const originalPrice = listing.SavingBasis?.Amount || price;
+                const saved = listing.AmountSaved?.Amount || 0;
+                const isPrime = listing.DeliveryInfo?.IsPrimeEligible || false;
+                
+                return {
+                    id: item.ASIN,
+                    asin: item.ASIN,
+                    name: item.ItemInfo?.Title?.DisplayValue || 'Unknown Product',
+                    price: price,
+                    originalPrice: originalPrice,
+                    saved: saved,
+                    image: item.Images?.Primary?.Medium?.URL || '',
+                    category: item.BrowseNodeInfo?.BrowseNodes?.[0]?.DisplayName || 'Uncategorized',
+                    rating: item.CustomerReviews?.StarRating || 0,
+                    reviews: item.CustomerReviews?.Count || 0,
+                    primeEligible: isPrime,
+                    dealEnds: listing.OfferEndTime || '',
+                    features: item.ItemInfo?.Features?.DisplayValues || []
+                };
+            });
+        } catch (error) {
+            console.error('Error fetching product data:', error);
+            return [];
+        }
+    }
     let cart = [];
 
     /**
@@ -562,9 +621,90 @@ document.addEventListener('DOMContentLoaded', function() {
         return `<div class="star-rating">${stars}</div>`;
     }
 
-    // Inicializar la aplicación
+    // Initialize the application
     loadCart();
-    init();
+    
+    // Initialize with sample data first, then fetch real data
+    init().then(() => {
+        // After initial render, fetch and update with real data
+        updateProductsWithRealData();
+    });
+    
+    // Update products with real data from API
+    async function updateProductsWithRealData() {
+        const productContainers = document.querySelectorAll('.products-grid, .featured-products, .deals-grid');
+        
+        for (const container of productContainers) {
+            const productElements = container.querySelectorAll('.product-card');
+            const productAsins = Array.from(productElements).map(el => el.dataset.asin).filter(Boolean);
+            
+            if (productAsins.length > 0) {
+                const products = await fetchProductData(productAsins.map(asin => ({ asin })));
+                
+                // Update product cache
+                products.forEach(product => {
+                    if (product && product.asin) {
+                        productCache.set(product.asin, product);
+                    }
+                });
+                
+                // Update UI with real data
+                updateProductCards(container, products);
+            }
+        }
+    }
+    
+    // Update product cards with real data
+    function updateProductCards(container, products) {
+        products.forEach(product => {
+            if (!product || !product.asin) return;
+            
+            const card = container.querySelector(`.product-card[data-asin="${product.asin}"]`);
+            if (!card) return;
+            
+            // Update price if available
+            const priceElement = card.querySelector('.product-price');
+            if (priceElement && product.price) {
+                priceElement.textContent = UIUtils.formatPrice(product.price);
+                
+                // Show original price if there's a discount
+                if (product.originalPrice > product.price) {
+                    const originalPriceElement = document.createElement('span');
+                    originalPriceElement.className = 'original-price';
+                    originalPriceElement.textContent = UIUtils.formatPrice(product.originalPrice);
+                    priceElement.appendChild(originalPriceElement);
+                }
+            }
+            
+            // Update rating if available
+            const ratingElement = card.querySelector('.product-rating');
+            if (ratingElement && product.rating) {
+                ratingElement.innerHTML = generateStarRating(product.rating);
+                
+                // Add review count if available
+                if (product.reviews) {
+                    const reviewCount = document.createElement('span');
+                    reviewCount.className = 'review-count';
+                    reviewCount.textContent = `(${product.reviews})`;
+                    ratingElement.appendChild(reviewCount);
+                }
+            }
+            
+            // Update Prime badge
+            const primeBadge = card.querySelector('.prime-badge');
+            if (primeBadge) {
+                primeBadge.style.display = product.primeEligible ? 'inline-block' : 'none';
+            }
+            
+            // Add deal expiration tooltip if applicable
+            if (product.dealEnds) {
+                const dealBadge = card.querySelector('.deal-badge');
+                if (dealBadge) {
+                    dealBadge.setAttribute('data-tooltip', `Deal ends: ${new Date(product.dealEnds).toLocaleDateString()}`);
+                }
+            }
+        });
+    }
 });
 
 // Función global para rastrear eventos

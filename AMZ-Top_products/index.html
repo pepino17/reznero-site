@@ -48,6 +48,12 @@
   <meta name="theme-color" content="#f5f7ff">
   
   <!-- Preconnect to external domains for better performance -->
+  <link rel="preconnect" href="https://m.media-amazon.com">
+  <link rel="preconnect" href="https://completion.amazon.com">
+  <link rel="preconnect" href="https://images-na.ssl-images-amazon.com">
+  <link rel="dns-prefetch" href="https://m.media-amazon.com">
+  <link rel="dns-prefetch" href="https://completion.amazon.com">
+  <link rel="dns-prefetch" href="https://images-na.ssl-images-amazon.com">
   <link rel="preconnect" href="https://m.media-amazon.com" crossorigin>
   <link rel="preconnect" href="https://completion.amazon.com" crossorigin>
   <link rel="preconnect" href="https://images-na.ssl-images-amazon.com" crossorigin>
@@ -319,22 +325,24 @@
         <div class="footer-about">
           <h3>Amazon Top Products</h3>
           <p class="footer-description">We provide honest product recommendations and in-depth reviews to help you make better purchasing decisions.</p>
-          <div class="footer-social">
-            <a href="#" class="social-icon" aria-label="Facebook">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon" aria-label="Twitter">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon" aria-label="Pinterest">
-              <i class="fab fa-pinterest-p"></i>
-            </a>
-            <a href="#" class="social-icon" aria-label="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
-        </div>
-        
+          <article class="product-card" data-asin="B0B4LZ2KQZ">
+          <a href="#" class="product-link" data-product-link>
+            <div class="product-image-container">
+              <img src="https://m.media-amazon.com/images/I/61CGHv6kmWL._AC_SL1500_.jpg" 
+                   alt="Wireless Earbuds with Active Noise Cancelling" 
+                   class="product-image" 
+                   loading="lazy"
+                   data-product-image>
+              <div class="skeleton skeleton-image" aria-hidden="true"></div>
+              <div class="product-badges">
+                <span class="prime-badge" data-prime-badge>
+                  <i class="fas fa-check-circle"></i> Prime
+                </span>
+              </div>
+            </div>
+            <h3 class="product-title">Wireless Earbuds with Active Noise Cancelling</h3>
+          </a>
+        </article>
         <div class="footer-links">
           <div class="footer-column">
             <h4>Categories</h4>
@@ -389,6 +397,9 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="assets/js/main.js"></script>
+  <!-- Load the main module -->
+  <script type="module" src="assets/js/api-service.js"></script>
+  <script type="module" src="assets/js/ui-utils.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>
