@@ -20,9 +20,38 @@ if ('serviceWorker' in navigator) {
   });
 }
 
+// Sticky header functionality
+let lastScroll = 0;
+const header = document.getElementById('site-header');
+
+function handleScroll() {
+  const currentScroll = window.pageYOffset;
+  
+  // Only apply if scrolled more than 200px
+  if (currentScroll > 200) {
+    if (currentScroll > lastScroll && !header.classList.contains('hidden')) {
+      // Scrolling down
+      header.classList.add('hidden');
+    } else if (currentScroll < lastScroll && header.classList.contains('hidden')) {
+      // Scrolling up
+      header.classList.remove('hidden');
+    }
+  } else {
+    // Always show header when near top of page
+    header.classList.remove('hidden');
+  }
+  
+  lastScroll = currentScroll;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Add a class to the html element to indicate JavaScript is enabled
     document.documentElement.classList.add('js-enabled');
+    
+    // Initialize sticky header
+    if (header) {
+      window.addEventListener('scroll', handleScroll, { passive: true });
+    }
     
     // Create a style element for screen reader only class
     const style = document.createElement('style');

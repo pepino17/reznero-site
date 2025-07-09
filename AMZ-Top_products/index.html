@@ -106,12 +106,25 @@
 </head>
 <body class="ios-style">
   <!-- Header -->
-  <header class="app-header">
+  <header id="site-header" class="app-header">
     <div class="container">
       <div class="header-content">
         <h1>Amazon Top Products</h1>
         <p class="tagline">Expert rankings & in-depth comparisons</p>
       </div>
+      
+      <!-- Blog Categories Navigation -->
+      <nav class="blog-categories" aria-label="Blog categories">
+        <ul class="categories-list">
+          <li><a href="#all" class="category-link active" data-category="all">All Posts</a></li>
+          <li><a href="#electronics" class="category-link" data-category="Electronics">Electronics</a></li>
+          <li><a href="#tech-reviews" class="category-link" data-category="Tech Reviews">Tech Reviews</a></li>
+          <li><a href="#gadgets" class="category-link" data-category="Gadgets">Gadgets</a></li>
+          <li><a href="#home-kitchen" class="category-link" data-category="Home & Kitchen">Home & Kitchen</a></li>
+          <li><a href="#lifestyle" class="category-link" data-category="Lifestyle">Lifestyle</a></li>
+          <li><a href="#deals" class="category-link" data-category="Deals">Deals</a></li>
+        </ul>
+      </nav>
     </div>
   </header>
 
@@ -138,8 +151,8 @@
   <section class="hero">
     <div class="container">
       <div class="hero-content">
-        <h2>Find the Best Products on Amazon</h2>
-        <p class="hero-description">Here you'll find the best rankings and in-depth comparisons of the Amazon products you're looking for—so you can pick the one that fits you best.</p>
+        <small>Expert rankings & in-depth comparisons</small>
+        <h1>Find the Best Products on Amazon</h1>
       </div>
     </div>
   </section>
@@ -210,6 +223,30 @@
       
       <div class="load-more-container">
         <button class="load-more-btn">Load More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Posts Section -->
+  <section id="blog-list" class="blog-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Latest Blog Posts</h2>
+        <a href="#all-posts" class="view-all">View All Posts</a>
+      </div>
+      
+      <div class="posts-grid" id="posts-container">
+        <!-- Posts will be loaded here dynamically via blog.js -->
+      </div>
+      
+      <div class="load-more-container">
+        <button id="load-more-posts" class="btn btn-outline" aria-label="Load more blog posts">
+          <span class="btn-text">Load More Posts</span>
+          <span class="btn-loading">
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Loading...</span>
+          </span>
+        </button>
       </div>
     </div>
   </section>
@@ -408,6 +445,7 @@
   <!-- Main application scripts -->
   <script type="module" src="assets/js/api-service.js"></script>
   <script type="module" src="assets/js/ui-utils.js"></script>
-  <script type="module" src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" type="module"></script>
+  <script src="assets/js/blog.js" type="module"></script>
 </body>
 </html>
