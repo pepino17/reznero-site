@@ -7,6 +7,8 @@ User-agent: *
 # Sitemap location (must be a full URL)
 Sitemap: https://reznero.com/AMZ-Top_products/sitemap.xml
 
+# Crawl-delay: 10  # Uncomment and adjust if needed to limit crawl rate
+
 # Allow crawling of all public content
 Allow: /
 
@@ -38,8 +40,16 @@ Allow: /*.ttf$
 Allow: /*?category=*
 Allow: /*?page=*
 Allow: /*?s=*
+Allow: /*?search=*
+Allow: /*?tag=*
+Allow: /*?author=*
 
-# Crawl-delay: 10  # Uncomment and adjust if needed to limit crawl rate
+# Allow access to blog post pagination
+Allow: /blog/page/*
+Allow: /category/*/page/*
+Allow: /tag/*/page/*
+
+# Allow crawling of all public content
 
 # Block common CMS paths
 Disallow: /wp-admin/

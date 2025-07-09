@@ -134,6 +134,7 @@ class Blog {
     
     // Show skeleton loaders
     if (this.currentPage === 1) {
+      this.postsContainer.innerHTML = '';
       this.createSkeletonLoader(this.postsPerPage);
     }
 
@@ -154,15 +155,12 @@ class Blog {
       // Update filtered posts based on current category
       this.filterPostsByCategory();
       
+      // Increment page after successful load
+      this.currentPage++;
+      
       // Check if we have more posts to show
-      if (this.filteredPosts.length <= (this.currentPage - 1) * this.postsPerPage) {
-        this.hasMorePosts = false;
-      } else {
-        // Only increment page if we're not on the first load
-        if (this.currentPage > 1) {
-          this.currentPage++;
-        }
-      }
+      const totalLoaded = this.currentPage * this.postsPerPage;
+      this.hasMorePosts = this.filteredPosts.length > totalLoaded;
       
       // Render posts
       this.renderPosts();
@@ -175,7 +173,7 @@ class Blog {
       this.showError('Failed to load posts. Please try again.');
     } finally {
       this.isLoading = false;
-      this.showLoading(false);
+      this.setLoadingState(false);
     }
   }
 
@@ -295,20 +293,12 @@ class Blog {
   updateLoadMoreButton() {
     if (!this.loadMoreBtn) return;
     
-    // Hide button if no more posts to load or if loading
-    if (this.isLoading || !this.hasMorePosts) {
-      this.loadMoreBtn.style.display = 'none';
+    if (this.hasMorePosts) {
+      this.loadMoreBtn.style.display = 'inline-flex';
+      this.loadMoreBtn.disabled = false;
+      this.loadMoreBtn.innerHTML = '<span class="btn-text">Load More</span> <span class="btn-arrow">→</span>';
     } else {
-      this.loadMoreBtn.style.display = 'block';
-      
-      // Update button text based on current page
-      if (this.currentPage === 1) {
-        this.loadMoreBtn.textContent = 'Load More Posts';
-      } else {
-        const remaining = this.filteredPosts.length - (this.currentPage * this.postsPerPage);
-        const moreText = remaining > 0 ? ` (${remaining} more)` : '';
-        this.loadMoreBtn.textContent = `Load More${moreText}`;
-      }
+      this.loadMoreBtn.style.display = 'none';
     }
   }
 
