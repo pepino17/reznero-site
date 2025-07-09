@@ -127,7 +127,7 @@ class Blog {
   }
 
   async loadPosts() {
-    if (this.isLoading || !this.hasMorePosts) return;
+    if (this.isLoading) return;
     
     this.isLoading = true;
     this.setLoadingState(true);
@@ -135,6 +135,8 @@ class Blog {
     // Show skeleton loaders
     if (this.currentPage === 1) {
       this.postsContainer.innerHTML = '';
+      this.createSkeletonLoader(this.postsPerPage);
+    } else {
       this.createSkeletonLoader(this.postsPerPage);
     }
 
@@ -180,18 +182,36 @@ class Blog {
   getPaginatedPosts() {
     const start = (this.currentPage - 1) * this.postsPerPage;
     const end = this.currentPage * this.postsPerPage;
-    return this.filteredPosts.slice(0, end);
+    return this.filteredPosts.slice(start, end);
   }
   
   renderPosts() {
-    const fragment = document.createDocumentFragment();
+    // If it's the first page, clear the container
+    if (this.currentPage === 1) {
+      this.postsContainer.innerHTML = '';
+    }
     
-    this.getPaginatedPosts().forEach(post => {
+    const fragment = document.createDocumentFragment();
+    const postsToShow = this.getPaginatedPosts();
+    
+    postsToShow.forEach(post => {
       const postElement = this.createPostElement(post);
       fragment.appendChild(postElement);
     });
     
     this.postsContainer.appendChild(fragment);
+    
+    // Update the current page
+    this.currentPage++;
+    
+    // Check if we have more posts to show
+    const totalShown = (this.currentPage - 1) * this.postsPerPage;
+    this.hasMorePosts = totalShown < this.filteredPosts.length;
+    
+    // Update the load more button
+    if (this.loadMoreBtn) {
+      this.loadMoreBtn.style.display = this.hasMorePosts ? 'block' : 'none';
+    }
     
     // Initialize any lazy loading for images
     this.initLazyLoading();

@@ -33,13 +33,9 @@
   
   <!-- Preconnect to external domains -->
   <link rel="preconnect" href="https://www.googletagmanager.com">
-  <link rel="preconnect" href="https://m.media-amazon.com" crossorigin>
-  <link rel="preconnect" href="https://completion.amazon.com" crossorigin>
-  <link rel="preconnect" href="https://www.amazon.com" crossorigin>
-  <link rel="dns-prefetch" href="https://m.media-amazon.com">
-  <link rel="dns-prefetch" href="https://completion.amazon.com">
-  <link rel="dns-prefetch" href="https://www.amazon.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   
   <!-- Preload critical assets -->
   <link rel="preload" href="assets/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -89,8 +85,17 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Amazon Top Products",
+    "name": "Tech & Lifestyle Blog",
     "url": "https://reznero.com/AMZ-Top_products/",
+    "description": "Explore our collection of articles, tutorials, and reviews on technology, lifestyle, and more.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Tech & Lifestyle Blog",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://reznero.com/AMZ-Top_products/assets/images/logo.png"
+      }
+    },
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://reznero.com/AMZ-Top_products/search?q={search_term_string}",

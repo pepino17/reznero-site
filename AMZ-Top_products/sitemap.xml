@@ -2,7 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <!-- Homepage -->
   <url>
     <loc>https://reznero.com/AMZ-Top_products/</loc>
@@ -13,29 +14,29 @@
   
   <!-- Blog Index -->
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/blog/</loc>
+    <loc>https://reznero.com/AMZ-Top_products/</loc>
     <lastmod>2025-07-09</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
   </url>
   
   <!-- Blog Categories -->
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/#category=technology</loc>
+    <loc>https://reznero.com/AMZ-Top_products/#technology</loc>
     <lastmod>2025-07-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/#category=lifestyle</loc>
+    <loc>https://reznero.com/AMZ-Top_products/#lifestyle</loc>
     <lastmod>2025-07-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/#category=productivity</loc>
+    <loc>https://reznero.com/AMZ-Top_products/#productivity</loc>
     <lastmod>2025-07-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -72,31 +73,51 @@
   
   <!-- Blog Posts -->
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/blog/the-ultimate-guide-to-web-development</loc>
+    <loc>https://reznero.com/AMZ-Top_products/#post=the-ultimate-guide-to-web-development</loc>
     <lastmod>2025-07-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://reznero.com/AMZ-Top_products/assets/images/blog/web-dev.jpg</image:loc>
+      <image:caption>Web Development Guide</image:caption>
+      <image:title>The Ultimate Guide to Web Development</image:title>
+    </image:image>
   </url>
   
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/blog/how-to-master-javascript</loc>
+    <loc>https://reznero.com/AMZ-Top_products/#post=how-to-master-javascript</loc>
     <lastmod>2025-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://reznero.com/AMZ-Top_products/assets/images/blog/javascript.jpg</image:loc>
+      <image:caption>JavaScript Mastery</image:caption>
+      <image:title>How to Master JavaScript</image:title>
+    </image:image>
   </url>
   
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/blog/10-tips-for-react-developers</loc>
+    <loc>https://reznero.com/AMZ-Top_products/#post=10-tips-for-react-developers</loc>
     <lastmod>2025-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://reznero.com/AMZ-Top_products/assets/images/blog/react.jpg</image:loc>
+      <image:caption>React Development</image:caption>
+      <image:title>10 Tips for React Developers</image:title>
+    </image:image>
   </url>
   
   <url>
-    <loc>https://reznero.com/AMZ-Top_products/blog/the-future-of-css</loc>
+    <loc>https://reznero.com/AMZ-Top_products/#post=the-future-of-css</loc>
     <lastmod>2025-07-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://reznero.com/AMZ-Top_products/assets/images/blog/css.jpg</image:loc>
+      <image:caption>CSS Future</image:caption>
+      <image:title>The Future of CSS</image:title>
+    </image:image>
   </url>
   
   <url>
