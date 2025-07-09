@@ -18,8 +18,10 @@
   --blur-effect: blur(20px);
   --header-bg: rgba(255, 255, 255, 0.85);
   --search-bg: rgba(229, 229, 234, 0.6);
-  --header-content-height: 70px;
-  --search-bar-height: 80px;
+  
+  /* Responsive Sizes */
+  --header-content-height: 60px;
+  --search-bar-height: 70px;
   
   /* Border Radius */
   --radius-sm: 8px;
@@ -27,6 +29,19 @@
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  
+  /* Breakpoints */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-large: 1280px;
 }
 
 /* ===== Header Styles ===== */
@@ -45,7 +60,11 @@
   height: var(--header-content-height);
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 var(--space-md);
+  
+  @media (min-width: 768px) {
+    padding: 0 var(--space-lg);
+  }
 }
 
 .header-content {
@@ -82,8 +101,12 @@
   z-index: 999;
   background: var(--bg-light);
   border-bottom: 1px solid var(--border-light);
-  padding: 15px 0;
+  padding: var(--space-sm) 0;
   transition: var(--transition);
+  
+  @media (min-width: 768px) {
+    padding: var(--space-md) 0;
+  }
 }
 
 .search-form {
@@ -251,40 +274,108 @@ body {
 }
 
 /* Responsive Grid */
-@media (max-width: 1024px) {
-  .categories-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+.categories-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  padding: 0 var(--space-md);
+  margin: 0 auto;
+  max-width: 1200px;
+  padding-top: calc(var(--header-content-height) + var(--search-bar-height) + var(--space-xl));
+  
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--space-lg);
+  }
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1400px;
   }
 }
 
-@media (max-width: 768px) {
-  .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 0 1rem;
+/* Touch-friendly category cards */
+.category-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition);
+  border: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  min-height: 200px;
+  justify-content: center;
+  
+  /* Minimum touch target size */
+  min-width: 0; /* Prevents flex item overflow */
+  
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
   }
   
-  .category-card {
-    padding: 1.5rem 1rem;
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+  html {
+    font-size: 15px; /* Slightly smaller base font for mobile */
+  }
+  
+  .app-header h1 {
+    font-size: 1.4rem;
+  }
+  
+  .search-input {
+    height: 44px; /* Minimum touch target size */
+    font-size: 1rem;
   }
   
   .category-icon {
-    width: 70px;
-    height: 70px;
-    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    font-size: 1.75rem;
   }
 }
 
-@media (max-width: 480px) {
-  .categories-grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    margin: 0 auto;
+/* Accessibility: Increase tap targets for touch devices */
+@media (pointer: coarse) {
+  button, 
+  a, 
+  .category-card,
+  .search-input,
+  .search-submit {
+    min-height: 44px;
+    min-width: 44px;
   }
   
-  .category-card {
-    padding: 1.5rem;
+  .search-input-container {
+    min-height: 44px;
   }
+}
+
+/* Prevent text size adjustment on mobile */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 /* ===== Typography ===== */
