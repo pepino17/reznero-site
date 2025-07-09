@@ -1,0 +1,18 @@
+# robots.txt for Amazon Top Products
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://reznero.com/AMZ-Top_products/sitemap.xml
+
+# Disallow admin and private directories
+Disallow: /admin/
+Disallow: /private/
+Disallow: /includes/
+
+# Allow all other pages
+Allow: /*.html$
+Allow: /*.css$
+Allow: /*.js$
+
+# Crawl-delay: 10  # Uncomment if needed to limit crawl rate
