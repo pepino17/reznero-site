@@ -1508,23 +1508,66 @@ a:hover {
 }
 
 .category-icon {
-  font-size: 1.75rem;
-  color: white;
-  margin-bottom: 1.5rem;
-  display: inline-flex;
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  border-radius: 18px;
+  border-radius: 20px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 20px -5px rgba(74, 108, 247, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 20px rgba(0, 122, 255, 0.2);
+  transition: all 0.3s ease;
+  
+  i {
+    font-size: 2rem;
+    color: white;
+  }
 }
 
 .category-card:hover .category-icon {
-  transform: rotate(5deg) scale(1.1);
-  box-shadow: 0 15px 30px -5px rgba(74, 108, 247, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 122, 255, 0.3);
+}
+
+.category-card h3 {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+}
+
+.category-card p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+  flex-grow: 1;
+}
+
+.category-card .btn {
+  width: 100%;
+  max-width: 120px;
+  padding: 0.6rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  
+  &:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }
 
 .input-group button:focus {
