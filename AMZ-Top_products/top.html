@@ -19,7 +19,6 @@
   
   <!-- Styles -->
   <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="stylesheet" href="assets/css/components/product-cards.css">
   
   <!-- Schema.org markup for Google -->
   <script type="application/ld+json">
@@ -116,13 +115,24 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2025 Amazon Top Picks. All rights reserved.</p>
+        <p>&copy; <span id="current-year"></span> Amazon Top Picks. All rights reserved.</p>
         <p>Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</p>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
+  <!-- Update current year in footer -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const yearElement = document.getElementById('current-year');
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+    });
+  </script>
+  
+  <!-- Main application script -->
   <script type="module" src="assets/js/top-page.js"></script>
   
   <!-- Google Analytics -->

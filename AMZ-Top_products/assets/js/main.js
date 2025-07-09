@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 2,
-            name: 'Smartwatch con Monitor de Frecuencia Cardíaca y Oxígeno en Sangre',
+            name: 'Smartwatch with Heart Rate & Blood Oxygen Monitor',
             price: 129.99,
             originalPrice: 159.99,
             image: 'https://m.media-amazon.com/images/I/71Zf0q5tV5L._AC_SL1500_.jpg',
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         {
             id: 3,
-            name: 'Altavoz Bluetooth Portátil Impermeable',
+            name: 'Waterproof Bluetooth Speaker',
             price: 45.50,
             originalPrice: 59.99,
             image: 'https://m.media-amazon.com/images/I/71y6T9ZY5VL._AC_SL1500_.jpg',
@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load more products
     function loadMoreProducts() {
         // For now, just show all products
-        renderProducts(sampleProducts, featuredProductsContainer);
+        renderProducts(productData, featuredProductsContainer);
         if (loadMoreButton) {
             loadMoreButton.style.display = 'none';
         }
@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show featured products
     function displayFeaturedProducts() {
-        const featuredProducts = [...sampleProducts]
+        const featuredProducts = [...productData]
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 8);
             
@@ -358,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Show deals
     function displayDeals() {
-        const dealProducts = sampleProducts
+        const dealProducts = productData
             .filter(product => product.isDeal)
             .sort((a, b) => {
                 const discountA = ((a.originalPrice - a.price) / a.originalPrice) * 100;
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add product to cart (simplified for current UI)
     function addToCart(productId) {
-        const product = sampleProducts.find(p => p.id === productId);
+        const product = productData.find(p => p.id === productId);
         if (!product) return;
         
         // Track Google Analytics event

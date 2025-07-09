@@ -48,19 +48,16 @@
   <meta name="theme-color" content="#f5f7ff">
   
   <!-- Preconnect to external domains for better performance -->
-  <link rel="preconnect" href="https://m.media-amazon.com">
-  <link rel="preconnect" href="https://completion.amazon.com">
-  <link rel="preconnect" href="https://images-na.ssl-images-amazon.com">
-  <link rel="dns-prefetch" href="https://m.media-amazon.com">
-  <link rel="dns-prefetch" href="https://completion.amazon.com">
-  <link rel="dns-prefetch" href="https://images-na.ssl-images-amazon.com">
   <link rel="preconnect" href="https://m.media-amazon.com" crossorigin>
   <link rel="preconnect" href="https://completion.amazon.com" crossorigin>
   <link rel="preconnect" href="https://images-na.ssl-images-amazon.com" crossorigin>
+  <link rel="dns-prefetch" href="https://m.media-amazon.com">
+  <link rel="dns-prefetch" href="https://completion.amazon.com">
+  <link rel="dns-prefetch" href="https://images-na.ssl-images-amazon.com">
   
   <!-- Preload critical assets -->
-  <link rel="preload" href="assets/css/styles.css" as="style">
-  <link rel="preload" href="assets/js/main.js" as="script">
+  <link rel="preload" href="assets/css/styles.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="assets/css/styles.css"></noscript>
   
   <!-- Preload critical fonts -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -384,7 +381,7 @@
           <p>Amazon and the Amazon logo are trademarks of Amazon.com, Inc. or its affiliates.</p>
         </div>
         <div class="copyright">
-          <p>&copy; <span id="current-year">2023</span> Amazon Top Products. All rights reserved.</p>
+          <p>&copy; <span id="current-year"></span> Amazon Top Products. All rights reserved.</p>
           <div class="legal-links">
             <a href="#">Terms of Use</a>
             <a href="#">Privacy Policy</a>
@@ -398,6 +395,17 @@
 
   <!-- Scripts -->
   <!-- Load the main module -->
+  <!-- Update current year in footer -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const yearElement = document.getElementById('current-year');
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+    });
+  </script>
+  
+  <!-- Main application scripts -->
   <script type="module" src="assets/js/api-service.js"></script>
   <script type="module" src="assets/js/ui-utils.js"></script>
   <script type="module" src="assets/js/main.js"></script>
