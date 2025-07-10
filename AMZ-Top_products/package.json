@@ -2,23 +2,29 @@
   "name": "amz-top-products",
   "version": "1.0.0",
   "description": "AMZ Top Products - Blog and Product Reviews",
+  "type": "module",
   "main": "server.js",
   "scripts": {
-    "process-blogs": "node process-blogs.js",
-    "update-blogs": "node update-blog-links.js",
+    "process": "node process-blogs.js",
+    "build": "npm run clean && npm run process",
+    "clean": "rimraf blog",
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "setup-blog": "node update-blog-links.js && npm run dev"
+    "preview": "npm run build && http-server -p 8080",
+    "deploy": "npm run build && gh-pages -d ."
   },
   "dependencies": {
     "express": "^4.18.2",
     "jsdom": "^22.1.0",
-    "http-server": "^14.1.1"
+    "rimraf": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "gh-pages": "^5.0.0"
   },
-  "type": "module",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
