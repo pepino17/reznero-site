@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts - Reznero AMZ Picks</title>
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --background-start: #F0F7FF;
+            --background-end: #E1F0FF;
+            --card-bg: #FFFFFF;
+            --text-primary: #1C1C1E;
+            --text-secondary: #8E8E93;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .blog-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .blog-excerpt {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Blog Posts</h1>
+            <p class="subtitle">Latest articles and guides</p>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </header>
+        
+        <div class="blog-grid">
+            <!-- Blog Post 1 -->
+            <a href="Blogs/Top-5-Best-Evaporative-Air-Coolers-2025.html" class="blog-card">
+                <img src="https://m.media-amazon.com/images/I/71Yd9XQKQhL._AC_SX679_.jpg" alt="Top 5 Best Evaporative Air Coolers 2025" class="blog-image">
+                <div class="blog-content">
+                    <h2 class="blog-title">Top 5 Best Evaporative Air Coolers of 2025</h2>
+                    <p class="blog-excerpt">Discover the top 5 evaporative air coolers of 2025, featuring energy-efficient portable and tower models perfect for home cooling.</p>
+                    <div class="blog-meta">
+                        <span>By Reznero Team</span>
+                        <span>July 2025</span>
+                    </div>
+                </div>
+            </a>
+            
+            <!-- Blog Post 2 -->
+            <a href="Blogs/test-blog-post-2025.html" class="blog-card">
+                <img src="https://via.placeholder.com/600x400/f0f7ff/8e8e93?text=Test+Blog" alt="Test Blog Post" class="blog-image">
+                <div class="blog-content">
+                    <h2 class="blog-title">Test Blog Post 2025</h2>
+                    <p class="blog-excerpt">This is a test blog post to demonstrate the blog listing functionality.</p>
+                    <div class="blog-meta">
+                        <span>By Reznero Team</span>
+                        <span>July 2025</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
