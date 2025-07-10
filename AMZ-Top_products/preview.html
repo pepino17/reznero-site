@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Productos de Amazon</title>
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --background-start: #F0F7FF;
+            --background-end: #E1F0FF;
+            --card-bg: #FFFFFF;
+            --text-primary: #1C1C1E;
+            --text-secondary: #8E8E93;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+        
+        .product-features {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .product-features li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .product-features li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .view-button {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 10px;
+            transition: opacity 0.2s;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .view-button:hover {
+            opacity: 0.9;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 40px 0 20px;
+            color: var(--text-primary);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Selección de Productos de Amazon</h1>
+            <p class="subtitle">Los mejores enfriadores evaporativos de 2025</p>
+        </header>
+        
+        <h2 class="section-title">Productos Destacados</h2>
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <a href="https://www.amazon.com/dp/B0B1V2JQ7F" class="product-card" target="_blank" rel="noopener noreferrer">
+                <img src="https://m.media-amazon.com/images/I/71Yd9XQKQhL._AC_SX679_.jpg" alt="Portable 3-in-1 Evaporative Air Cooler" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">1. Enfriador Evaporativo Portátil 3 en 1</h3>
+                    <ul class="product-features">
+                        <li>Función 3 en 1: Ventilador, humidificador y enfriador</li>
+                        <li>Depósito de agua de 3L para hasta 8 horas de uso</li>
+                        <li>3 velocidades y oscilación de 70°</li>
+                        <li>Diseño portátil con asa de transporte</li>
+                    </ul>
+                    <div class="view-button">Ver en Amazon</div>
+                </div>
+            </a>
+            
+            <!-- Product 2 -->
+            <a href="https://www.amazon.com/dp/B07R5F5B8S" class="product-card" target="_blank" rel="noopener noreferrer">
+                <img src="https://m.media-amazon.com/images/I/61XZQyYQyJL._AC_SX679_.jpg" alt="Arctic Air Pure Chill 2.0" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">2. Arctic Air Pure Chill 2.0</h3>
+                    <ul class="product-features">
+                        <li>Diseño compacto y ligero</li>
+                        <li>Tecnología de enfriamiento sin agua</li>
+                        <li>Alimentación por USB para máxima portabilidad</li>
+                        <li>Funcionamiento silencioso</li>
+                    </ul>
+                    <div class="view-button">Ver en Amazon</div>
+                </div>
+            </a>
+            
+            <!-- Product 3 -->
+            <a href="https://www.amazon.com/dp/B003VDH6B8" class="product-card" target="_blank" rel="noopener noreferrer">
+                <img src="https://m.media-amazon.com/images/I/71Yd9XQKQhL._AC_SX679_.jpg" alt="Honeywell 525-729CFM" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">3. Honeywell Interior/Exterior</h3>
+                    <ul class="product-features">
+                        <li>Potencia de enfriamiento de 525-729 CFM</li>
+                        <li>Cobertura de hasta 28 m²</li>
+                        <li>Funcionalidad 3 en 1</li>
+                        <li>Incluye control remoto</li>
+                    </ul>
+                    <div class="view-button">Ver en Amazon</div>
+                </div>
+            </a>
+        </div>
+        
+        <h2 class="section-title">Recomendaciones</h2>
+        <div class="product-grid">
+            <!-- Recommendation 1 -->
+            <a href="https://www.amazon.com/dp/B08L6ZPJQ8" class="product-card" target="_blank" rel="noopener noreferrer">
+                <img src="https://m.media-amazon.com/images/I/71Yd9XQKQhL._AC_SX679_.jpg" alt="3-in-1 Tower Cooler" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">4. Torre Enfriadora 3 en 1</h3>
+                    <ul class="product-features">
+                        <li>Modos: ventilador, enfriador y humidificador</li>
+                        <li>Depósito de 3L con compatibilidad con hielo</li>
+                        <li>Oscilación de 90°</li>
+                        <li>3 velocidades y 3 modos</li>
+                    </ul>
+                    <div class="view-button">Ver en Amazon</div>
+                </div>
+            </a>
+            
+            <!-- Recommendation 2 -->
+            <a href="https://www.amazon.com/dp/B00Y1YECJ8" class="product-card" target="_blank" rel="noopener noreferrer">
+                <img src="https://m.media-amazon.com/images/I/61XZQyYQyJL._AC_SX679_.jpg" alt="Hessaire MC18M" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">5. Hessaire MC18M Portátil</h3>
+                    <ul class="product-features">
+                        <li>Capacidad de 1,300 CFM</li>
+                        <li>Enfría hasta 46 m²</li>
+                        <li>3 velocidades de ventilador</li>
+                        <li>Depósito de 40L</li>
+                    </ul>
+                    <div class="view-button">Ver en Amazon</div>
+                </div>
+            </a>
+        </div>
+        
+        <footer>
+            <p>Última actualización: Julio 2025</p>
+            <p>Confía en nuestra selección de productos de calidad</p>
+        </footer>
+    </div>
+</body>
+</html>
