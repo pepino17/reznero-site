@@ -50,8 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 async function fetchBlogPosts() {
   try {
-    const response = await fetch('/assets/data/blog-posts.json');
+    // Usar ruta relativa al dominio base para GitHub Pages
+    const baseUrl = window.location.hostname.includes('github.io') 
+      ? '/AMZ-Top_products' 
+      : '';
+    const response = await fetch(`${baseUrl}/assets/data/blog-posts.json`);
     if (!response.ok) {
+      console.error('Error loading blog posts:', response.status, response.statusText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const posts = await response.json();
