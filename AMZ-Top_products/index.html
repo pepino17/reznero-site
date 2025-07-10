@@ -129,53 +129,20 @@
   </section>
 
   <!-- Latest Blog Posts Section -->
-  <section id="latest-posts" class="blog-section">
+  <section id="latest-blogs" class="section-padding">
     <div class="container">
       <div class="section-header">
         <h2>Latest Blog Posts</h2>
-        
+        <p class="section-description">Discover our most recent articles and guides</p>
       </div>
-      
-      <div class="posts-grid" id="posts-container">
-        <!-- Posts will be loaded here dynamically via blog.js -->
-        <div class="post-card skeleton">
-          <div class="post-image"></div>
-          <div class="post-content">
-            <div class="post-category"></div>
-            <h3 class="post-title"></h3>
-            <p class="post-excerpt"></p>
-            <div class="post-meta"></div>
-          </div>
-        </div>
-        <!-- Repeat skeleton for loading state -->
-        <div class="post-card skeleton">
-          <div class="post-image"></div>
-          <div class="post-content">
-            <div class="post-category"></div>
-            <h3 class="post-title"></h3>
-            <p class="post-excerpt"></p>
-            <div class="post-meta"></div>
-          </div>
-        </div>
-        <div class="post-card skeleton">
-          <div class="post-image"></div>
-          <div class="post-content">
-            <div class="post-category"></div>
-            <h3 class="post-title"></h3>
-            <p class="post-excerpt"></p>
-            <div class="post-meta"></div>
-          </div>
+      <!-- BLOGS_LIST -->
+      <div class="blog-posts-container" style="min-height: 300px;">
+        <div class="blog-posts-grid">
+          <!-- Blog posts will be injected here by build-blog-list.js -->
         </div>
       </div>
-      
-      <div class="load-more-container">
-        <button id="load-more-posts" class="btn btn-primary" aria-label="Load more blog posts">
-          <span class="btn-text">Load More Posts</span>
-          <span class="btn-loading">
-            <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
-            <span class="sr-only">Loading...</span>
-          </span>
-        </button>
+      <div class="section-cta" style="text-align: center; margin-top: 2rem;">
+        <a href="/blog" class="btn btn-outline">View All Articles</a>
       </div>
     </div>
   </section>
@@ -297,5 +264,7 @@
   <script>
     document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
+  <!-- Load blog list script with defer to ensure DOM is ready -->
+  <script src="./build-blog-list.js" defer></script>
 </body>
 </html>

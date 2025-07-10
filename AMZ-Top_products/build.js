@@ -8,6 +8,7 @@ const DATA_DIR = path.join(__dirname, 'data', 'posts');
 const DIST_DIR = path.join(__dirname, 'dist');
 
 async function build() {
+  await buildBlogList();
   const templateSrc = await fs.readFile(TEMPLATE_PATH, 'utf-8');
   const template = Handlebars.compile(templateSrc);
 
@@ -53,3 +54,63 @@ if (require.main === module) {
 }
 
 module.exports = { build };
+
+// --- BLOG LIST GENERATION ---
+async function buildBlogList() {
+  const blogsDir = path.join(__dirname, 'Blogs');
+  const outJs = path.join(__dirname, 'build-blog-list.js');
+  const files = (await fs.readdir(blogsDir)).filter(f => f.endsWith('.html'));
+  let blogObjs = [];
+  for(const file of files){
+    const filePath = path.join(blogsDir, file);
+    const html = await fs.readFile(filePath, 'utf-8');
+    const slug = file.replace(/\.html$/, '');
+    // Extraer <title>
+    const titleMatch = html.match(/<title>([^<]*)<\/title>/i);
+    const title = titleMatch ? titleMatch[1].trim() : slug;
+    // Extraer <time datetime="...">...</time>
+    let datePublished = '';
+    const timeMatch = html.match(/<time[^>]*datetime=["']([^"']+)["'][^>]*>([^<]*)<\/time>/i);
+    if(timeMatch){
+      datePublished = timeMatch[1];
+    }else{
+      // Buscar en JSON-LD si existe
+      const ldMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);
+      if(ldMatch){
+        try{
+          const ld = JSON.parse(ldMatch[1]);
+          if(ld.datePublished) datePublished = ld.datePublished;
+        }catch(e){}
+      }
+    }
+    // Extraer excerpt: primer <p> dentro de <article>, si no hay, primer <p> global
+    let excerpt = '';
+    let articleMatch = html.match(/<article[\s\S]*?<p[^>]*>(.*?)<\/p>/is);
+    if(articleMatch){
+      excerpt = articleMatch[1].replace(/<[^>]+>/g, '').trim();
+    }else{
+      const pMatch = html.match(/<p[^>]*>(.*?)<\/p>/is);
+      if(pMatch){
+        excerpt = pMatch[1].replace(/<[^>]+>/g, '').trim();
+      }
+    }
+    blogObjs.push({slug, title, datePublished, excerpt});
+  }
+  // Ordenar por datePublished descendente (ISO 8601 fechas)
+  blogObjs.sort((a, b) => (b.datePublished || '').localeCompare(a.datePublished || ''));
+  // Limitar a los 3 últimos blogs
+  const latestBlogs = blogObjs.slice(0, 3);
+  // Generar HTML solo para los más recientes
+  const articlesHtml = latestBlogs.map(({slug, title, datePublished, excerpt}) =>
+    `<article class="blog-item">
+      <a href="https://reznero.com/AMZ-Top_products/${slug}/">
+        <h3>${title}</h3>
+        ${datePublished ? `<time datetime="${datePublished}">${datePublished}</time>` : ''}
+        <p>${excerpt}</p>
+      </a>
+    </article>`
+  ).join('\n');
+  const js = `document.getElementById('latest-blogs').innerHTML = `<h2>Latest Blog Posts</h2>` + `${articlesHtml}`;`;
+  await fs.writeFile(outJs, js, 'utf-8');
+  console.log('Generated: build-blog-list.js');
+}
