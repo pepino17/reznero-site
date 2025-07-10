@@ -93,11 +93,11 @@ async function fetchBlogPosts() {
       excerpt: post.excerpt || '',
       categoryName: post.categoryName || 'Uncategorized',
       categorySlug: post.categorySlug || 'uncategorized',
-      // Usar imagen local desde la carpeta de imágenes
+      // Usar imagen local desde la carpeta de imágenes con ruta absoluta
       image: post.image ? 
         (post.image.startsWith('http') ? 
           post.image : 
-          `assets/images/${post.image}`) : 
+          `/AMZ-Top_products/assets/images/${post.image}`) : 
         '',
       // Usar URL relativa para enlaces locales
       url: post.url || `${window.location.pathname.endsWith('/') ? '' : '/'}${post.slug || ''}/`

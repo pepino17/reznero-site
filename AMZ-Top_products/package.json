@@ -16,5 +16,8 @@
   "devDependencies": {
     "nodemon": "^3.0.2"
   },
-  "type": "module"
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

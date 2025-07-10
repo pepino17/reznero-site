@@ -264,10 +264,19 @@
   <script>
     document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
-  <!-- Initialize blog list after all content is loaded -->
+  <!-- Cargar build-blog-list.js después de que el DOM esté listo -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Initialize blog list
+      // Cargar el script build-blog-list.js
+      const script = document.createElement('script');
+      script.src = 'build-blog-list.js';
+      script.onload = function() {
+        // Inicializar la lista de blogs después de cargar el script
+        if (window.initBlogList) {
+          window.initBlogList();
+        }
+      };
+      document.body.appendChild(script);
       if (typeof initBlogList === 'function') {
         initBlogList();
       } else {
