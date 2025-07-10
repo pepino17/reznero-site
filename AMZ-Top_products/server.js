@@ -9,17 +9,17 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 const BLOG_BASE_PATH = '/AMZ-Top_products';
-const BLOG_POSTS_DIR = path.join(__dirname, 'blog-posts');
+const BLOG_POSTS_DIR = path.join(__dirname, 'Blogs');
 
 // Serve static files from the root directory
 app.use(express.static(__dirname));
 
-// Function to get all blog post slugs
-const getBlogPostSlugs = () => {
+// Function to get all blog post files
+const getBlogPostFiles = () => {
     try {
         return fs.readdirSync(BLOG_POSTS_DIR, { withFileTypes: true })
-            .filter(dirent => dirent.isDirectory())
-            .map(dirent => dirent.name);
+            .filter(dirent => dirent.isFile() && dirent.name.endsWith('.html'))
+            .map(dirent => dirent.name.replace(/\.html$/, ''));
     } catch (error) {
         console.error('Error reading blog posts directory:', error);
         return [];
@@ -28,28 +28,22 @@ const getBlogPostSlugs = () => {
 
 // Generate routes for all blog posts
 const setupBlogRoutes = () => {
-    const blogSlugs = getBlogPostSlugs();
+    const blogFiles = getBlogPostFiles();
     
-    blogSlugs.forEach(slug => {
+    // Serve individual blog post files
+    blogFiles.forEach(filename => {
         // Handle direct blog post URLs (without the base path)
-        app.get(`/${slug}`, (req, res) => {
-            res.redirect(301, `${BLOG_BASE_PATH}/${slug}`);
+        app.get(`/${filename}`, (req, res) => {
+            res.redirect(301, `${BLOG_BASE_PATH}/${filename}`);
         });
 
         // Handle blog post URLs with the base path
-        app.get(`${BLOG_BASE_PATH}/${slug}`, (req, res) => {
-            const blogPath = path.join(BLOG_POSTS_DIR, slug, 'index.html');
+        app.get(`${BLOG_BASE_PATH}/${filename}`, (req, res) => {
+            const blogPath = path.join(BLOG_POSTS_DIR, `${filename}.html`);
             if (fs.existsSync(blogPath)) {
                 res.sendFile(blogPath);
             } else {
-                // If the index.html doesn't exist, try to serve the blog-post.html
-                const altBlogPath = path.join(BLOG_POSTS_DIR, slug, 'blog-post.html');
-                if (fs.existsSync(altBlogPath)) {
-                    res.sendFile(altBlogPath);
-                } else {
-                    // Fallback to the main index if the blog post isn't found
-                    res.sendFile(path.join(__dirname, 'index.html'));
-                }
+                res.status(404).send('Blog post not found');
             }
         });
     });
@@ -85,6 +79,6 @@ if (process.env.NODE_ENV !== 'production') {
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
     console.log(`Blog posts directory: ${BLOG_POSTS_DIR}`);
-    console.log(`Available blog posts:`, getBlogPostSlugs());
+    console.log(`Available blog posts:`, getBlogPostFiles());
     console.log(`Blog posts are accessible at: ${BLOG_BASE_PATH}/:slug`);
 });
