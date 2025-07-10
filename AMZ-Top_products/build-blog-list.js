@@ -1,15 +1,15 @@
 /**
  * build-blog-list.js
- * Fetches and displays the 3 most recent blog posts from the processed JSON file
+ * Fetches and displays the 3 most recent blog posts from the Blogs directory
  * Handles placeholders when fewer than 3 posts are available
  */
 
-// Hacer la función disponible globalmente
+// Make function available globally
 window.initBlogList = function() {
-  console.log('Inicializando lista de blogs...');
+  console.log('Initializing blog list...');
   const blogContainer = document.getElementById('latest-blogs') || document.getElementById('category-blogs');
   if (!blogContainer) {
-    console.warn('No se encontró el contenedor del blog');
+    console.warn('Blog container not found');
     return;
   }
 
@@ -17,7 +17,7 @@ window.initBlogList = function() {
   const isCategoryPage = window.location.pathname.includes('/categories/');
   const categorySlug = isCategoryPage ? window.location.pathname.split('/').filter(Boolean).pop() : null;
   
-  // Cargar y mostrar los posts
+  // Load and display posts
   fetchBlogPosts()
     .then(posts => {
       try {
@@ -30,17 +30,20 @@ window.initBlogList = function() {
         const postsHtml = generateBlogPostsHtml(filteredPosts);
         
         // Inject HTML into the page
-        const container = blogContainer.querySelector('.blog-posts-grid') || blogContainer;
+        const container = blogContainer.querySelector('.blogs-grid');
         if (container) {
           container.innerHTML = postsHtml;
         } else {
-          console.warn('No se pudo encontrar el contenedor para los posts');
+          console.warn('Could not find blog posts container');
+          injectPlaceholderBlogs(blogContainer.id);
         }
         
         // Add view all link for category pages
         if (isCategoryPage && filteredPosts.length > 3) {
           const viewAllLink = document.createElement('div');
           viewAllLink.className = 'view-all-container';
+          viewAllLink.style.textAlign = 'center';
+          viewAllLink.style.marginTop = '2rem';
           viewAllLink.innerHTML = `
             <a href="/blog" class="btn btn-outline">View All ${filteredPosts.length} Articles</a>
           `;
@@ -53,55 +56,61 @@ window.initBlogList = function() {
     })
     .catch(error => {
       console.error('Error loading blog posts:', error);
-      // Fallback to placeholder if there's an error
       injectPlaceholderBlogs(blogContainer.id);
     });
 }
 
 /**
- * Fetches the processed blog posts from the JSON file
+ * Fetches blog posts from the Blogs directory
  * @returns {Promise<Array>} Array of blog post objects
  */
 async function fetchBlogPosts() {
   try {
-    // Usar ruta relativa al directorio actual
-    let baseUrl = '';
-    
-    // Determinar la ruta base basada en la URL actual
-    const pathParts = window.location.pathname.split('/');
-    if (pathParts.includes('AMZ-Top_products')) {
-      baseUrl = '/AMZ-Top_products';
-    } else if (window.location.hostname.includes('github.io')) {
-      // Para GitHub Pages
-      baseUrl = '/AMZ-Top_products';
-    }
-    
-    const jsonPath = `${baseUrl}/assets/data/blog-posts.json`;
-    console.log('Fetching blog posts from:', jsonPath);
-    
-    const response = await fetch(jsonPath);
+    // Get list of HTML files in the Blogs directory
+    const response = await fetch('/Blogs/');
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error('Failed to fetch blog posts directory');
     }
-    const posts = await response.json();
     
-    // Ensure all posts have required fields
-    return posts.map(post => ({
-      slug: post.slug || '',
-      title: post.title || 'Untitled',
-      datePublished: post.datePublished || new Date().toISOString(),
-      excerpt: post.excerpt || '',
-      categoryName: post.categoryName || 'Uncategorized',
-      categorySlug: post.categorySlug || 'uncategorized',
-      // Usar imagen local desde la carpeta de imágenes con ruta absoluta
-      image: post.image ? 
-        (post.image.startsWith('http') ? 
-          post.image : 
-          `/AMZ-Top_products/assets/images/${post.image}`) : 
-        '',
-      // Usar URL relativa para enlaces locales
-      url: post.url || `${window.location.pathname.endsWith('/') ? '' : '/'}${post.slug || ''}/`
-    }));
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    // Extract HTML file links
+    const links = Array.from(doc.querySelectorAll('a[href$=".html"]'));
+    const posts = [];
+    
+    // Process each blog post (limited to 10 for performance)
+    for (const link of links.slice(0, 10)) {
+      try {
+        const postUrl = `/Blogs/${link.getAttribute('href')}`;
+        const postResponse = await fetch(postUrl);
+        if (!postResponse.ok) continue;
+        
+        const postHtml = await postResponse.text();
+        const postDoc = parser.parseFromString(postHtml, 'text/html');
+        
+        // Extract post data
+        const title = postDoc.querySelector('title')?.textContent || 'Untitled';
+        const dateMatch = postHtml.match(/<time[^>]*datetime="([^"]+)"/i);
+        const excerptMatch = postHtml.match(/<p[^>]*>([^<]+)<\/p>/i);
+        const imageMatch = postHtml.match(/<img[^>]*src=["']([^"']+)["']/i);
+        
+        posts.push({
+          title: title.replace(' - Reznero', '').trim(),
+          slug: link.getAttribute('href').replace(/\.html$/, ''),
+          date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0],
+          excerpt: excerptMatch ? excerptMatch[1].substring(0, 160) + '...' : 'No excerpt available',
+          image: imageMatch ? imageMatch[1] : '/assets/images/blog-placeholder.jpg',
+          url: postUrl.replace('.html', '/')
+        });
+      } catch (error) {
+        console.warn(`Error processing blog post ${link.href}:`, error);
+      }
+    }
+    
+    // Sort by date (newest first)
+    return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
   } catch (error) {
     console.error('Error fetching blog posts:', error);
     return [];
@@ -114,43 +123,36 @@ async function fetchBlogPosts() {
  * @returns {string} HTML string
  */
 function generateBlogPostsHtml(posts) {
-  // Sort posts by date (newest first)
-  const sortedPosts = [...posts].sort((a, b) => 
-    new Date(b.datePublished) - new Date(a.datePublished)
-  );
-  
-  // Take the first 3 posts
-  const latestPosts = sortedPosts.slice(0, 3);
-  
-  // If no posts, return a message
-  if (latestPosts.length === 0) {
+  if (!posts || posts.length === 0) {
     return `
-      <div class="no-posts">
+      <div class="no-posts" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
         <p>No blog posts found. Check back soon for updates!</p>
       </div>
     `;
   }
+
+  // Get the latest 3 posts for the home page
+  const latestPosts = posts.slice(0, 3);
+  
+  // If no posts, return placeholders
+  if (latestPosts.length === 0) {
+    return Array(3).fill(`
+      <article class="blog-item placeholder">
+        <div class="empty-card">Coming soon...</div>
+      </article>
+    `).join('');
+  }
   
   // Generate HTML for each post
   return latestPosts.map(post => `
-    <article class="blog-item" data-category="${post.categorySlug || 'uncategorized'}">
-      <a href="${post.url}" class="blog-link">
-        ${post.image ? `
-          <div class="blog-image-container">
-            <img src="${post.image}" alt="${post.title}" class="blog-image" loading="lazy">
-          </div>
-        ` : ''}
-        <div class="blog-content">
-          <h3 class="blog-title">${post.title}</h3>
-          <div class="blog-meta">
-            <time datetime="${post.datePublished}" class="blog-date">
-              ${formatDate(post.datePublished)}
-            </time>
-            ${post.categoryName ? `<span class="blog-category">${post.categoryName}</span>` : ''}
-          </div>
-          ${post.excerpt ? `<p class="blog-excerpt">${post.excerpt}</p>` : ''}
-        </div>
-      </a>
+    <article class="blog-item">
+      <img src="${post.image}" alt="${post.title}" loading="lazy">
+      <div class="info">
+        <time datetime="${post.date}">${formatDate(post.date)}</time>
+        <h3>${post.title}</h3>
+        <p>${post.excerpt}</p>
+        <a href="${post.url}" class="btn-read">Read Article</a>
+      </div>
     </article>
   `).join('');
 }
@@ -163,12 +165,17 @@ function generateBlogPostsHtml(posts) {
 function formatDate(dateString) {
   if (!dateString) return '';
   
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
   try {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
+    const date = new Date(dateString);
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date');
+    }
+    return new Intl.DateTimeFormat('en-US', options).format(date);
   } catch (e) {
-    console.warn('Invalid date string:', dateString);
-    return '';
+    console.warn('Invalid date string, using current date:', dateString);
+    return new Intl.DateTimeFormat('en-US', options).format(new Date());
   }
 }
 
@@ -177,29 +184,31 @@ function formatDate(dateString) {
  * @param {string} containerId - ID of the container to inject placeholders into
  */
 function injectPlaceholderBlogs(containerId = 'latest-blogs') {
-  const section = document.getElementById(containerId);
-  if (!section) return;
+  const container = document.getElementById(containerId);
+  if (!container) return;
   
-  let html = '';
-  for (let i = 0; i < 3; i++) {
-    html += `
-      <article class="blog-item placeholder">
-        <div class="empty-card">
-          <div class="placeholder-content">
-            <div class="placeholder-image"></div>
-            <div class="placeholder-text"></div>
-            <div class="placeholder-text shorter"></div>
-          </div>
-        </div>
-      </article>
-    `;
-  }
-  
-  section.innerHTML = `
-    <div class="blog-posts-container">
-      <div class="blog-posts-grid">
-        ${html}
-      </div>
+  const placeholderHtml = `
+    <div class="blogs-grid">
+      ${Array(3).fill(`
+        <article class="blog-item placeholder">
+          <div class="empty-card">Loading content...</div>
+        </article>
+      `).join('')}
     </div>
   `;
+  
+  const grid = container.querySelector('.blogs-grid');
+  if (grid) {
+    grid.innerHTML = placeholderHtml;
+  } else {
+    container.innerHTML = `
+      <div class="container">
+        <div class="section-header">
+          <h2>Latest Blog Posts</h2>
+          <p class="section-description">Discover our most recent articles and guides</p>
+        </div>
+        ${placeholderHtml}
+      </div>
+    `;
+  }
 }
