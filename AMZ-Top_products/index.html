@@ -268,39 +268,21 @@
     document.getElementById('footer-year').textContent = new Date().getFullYear();
   </script>
   <!-- Cargar build-blog-list.js después de que el DOM esté listo -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Verificar si el contenedor del blog existe
-      const blogContainer = document.getElementById('latest-blogs') || document.getElementById('category-blogs');
-      
-      if (!blogContainer) {
-        console.warn('No se encontró el contenedor del blog');
-        return;
-      }
-
-      // Cargar el script build-blog-list.js
-      const script = document.createElement('script');
-      script.src = '/AMZ-Top_products/build-blog-list.js';
-      script.onload = function() {
-        // Inicializar la lista de blogs después de cargar el script
-        if (window.initBlogList) {
-          try {
-            window.initBlogList();
-          } catch (error) {
-            console.error('Error al inicializar la lista de blogs:', error);
-          }
-        } else {
-          console.warn('La función initBlogList no está disponible');
-        }
-      };
-      script.onerror = function(error) {
-        console.error('Error al cargar el script build-blog-list.js:', error);
-      };
-      
-      document.body.appendChild(script);
-    });
-  </script>
   <!-- Load blog list script -->
   <script src="./build-blog-list.js"></script>
+  <script>
+    // Initialize blog list when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initBlogList === 'function') {
+        try {
+          initBlogList();
+        } catch (error) {
+          console.error('Error initializing blog list:', error);
+        }
+      } else {
+        console.warn('initBlogList function not found');
+      }
+    });
+  </script>
 </body>
 </html>

@@ -92,25 +92,59 @@ async function fetchBlogPosts() {
         
         // Extract post data
         const title = postDoc.querySelector('title')?.textContent || 'Untitled';
-        const dateMatch = postHtml.match(/<time[^>]*datetime="([^"]+)"/i);
-        const excerptMatch = postHtml.match(/<p[^>]*>([^<]+)<\/p>/i);
-        const imageMatch = postHtml.match(/<img[^>]*src=["']([^"']+)["']/i);
+        const dateMatch = postHtml.match(/<time[^>]*datetime=["']([^"']+)["']/i);
+        const excerptMatch = postHtml.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i) || 
+                            postHtml.match(/<p[^>]*>([^<]+)<\/p>/i);
+        
+        // Try to get featured image from og:image meta tag first
+        let imageUrl = '';
+        console.log('Processing post:', postUrl);
+        
+        // Method 1: Check Open Graph image
+        const ogImageMeta = postDoc.querySelector('meta[property="og:image"], meta[name="og:image"]');
+        if (ogImageMeta) {
+          imageUrl = ogImageMeta.getAttribute('content') || '';
+          console.log('Found OG Image:', imageUrl);
+        }
+        
+        // Method 2: If no OG image, try to find the first image in the post
+        if (!imageUrl) {
+          const firstImage = postDoc.querySelector('img');
+          if (firstImage) {
+            imageUrl = firstImage.src || firstImage.getAttribute('data-src') || '';
+            console.log('Found first image:', imageUrl);
+          }
+        }
+        
+        // Method 3: If still no image, use placeholder
+        if (!imageUrl || imageUrl === 'undefined') {
+          imageUrl = 'https://via.placeholder.com/800x450?text=No+Image';
+          console.log('Using placeholder image');
+        }
+        
+        // Get post URL
+        const url = postUrl.replace(/\\/g, '/').replace('/index.html', '');
         
         posts.push({
-          title: title.replace(' - Reznero', '').trim(),
+          title: title.replace(' - Reznero', '').replace(' – Reznero AMZ Picks', '').trim(),
+          image: imageUrl,
+          url: url,
           slug: link.getAttribute('href').replace(/\.html$/, ''),
           date: dateMatch ? dateMatch[1] : new Date().toISOString().split('T')[0],
           excerpt: excerptMatch ? excerptMatch[1].substring(0, 160) + '...' : 'No excerpt available',
-          image: imageMatch ? imageMatch[1] : '/assets/images/blog-placeholder.jpg',
-          url: postUrl.replace('.html', '/')
         });
+        
       } catch (error) {
-        console.warn(`Error processing blog post ${link.href}:`, error);
+        console.error(`Error processing blog post ${link}:`, error);
       }
     }
     
-    // Sort by date (newest first)
-    return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Sort posts by date (newest first)
+    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    console.log(`Successfully loaded ${posts.length} blog posts`);
+    return posts;
+    
   } catch (error) {
     console.error('Error fetching blog posts:', error);
     return [];
