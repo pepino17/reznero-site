@@ -3,7 +3,7 @@ const path = require('path');
 const { format } = require('date-fns');
 
 // Configuration
-const SITE_URL = 'https://reznero.com/AMZ-Top_products';
+const SITE_URL = 'https://reznero.com';
 const BLOG_DIR = path.join(__dirname, 'blog');
 const SITEMAP_PATH = path.join(__dirname, 'sitemap.xml');
 const TODAY = format(new Date(), 'yyyy-MM-dd');

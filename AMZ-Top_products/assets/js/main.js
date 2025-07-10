@@ -10,7 +10,7 @@ import { UIUtils } from './ui-utils.js';
 // Register service worker for PWA support
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/AMZ-Top_products/sw.js')
+    navigator.serviceWorker.register('/sw.js')
       .then(registration => {
         console.log('ServiceWorker registration successful');
       })
