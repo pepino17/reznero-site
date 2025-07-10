@@ -4,27 +4,38 @@
  * Handles placeholders when fewer than 3 posts are available
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+// Hacer la función disponible globalmente
+window.initBlogList = function() {
+  console.log('Inicializando lista de blogs...');
+  const blogContainer = document.getElementById('latest-blogs') || document.getElementById('category-blogs');
+  if (!blogContainer) {
+    console.warn('No se encontró el contenedor del blog');
+    return;
+  }
+
   // Check if we're on a category page
   const isCategoryPage = window.location.pathname.includes('/categories/');
   const categorySlug = isCategoryPage ? window.location.pathname.split('/').filter(Boolean).pop() : null;
   
-  // Fetch and display blog posts
+  // Cargar y mostrar los posts
   fetchBlogPosts()
     .then(posts => {
-      // Filter posts by category if on a category page
-      const filteredPosts = isCategoryPage 
-        ? posts.filter(post => post.categorySlug === categorySlug)
-        : posts;
-      
-      // Generate HTML for the latest 3 posts
-      const postsHtml = generateBlogPostsHtml(filteredPosts);
-      
-      // Inject HTML into the page
-      const section = document.getElementById(isCategoryPage ? 'category-blogs' : 'latest-blogs');
-      if (section) {
-        const container = section.querySelector('.blog-posts-grid') || section;
-        container.innerHTML = postsHtml;
+      try {
+        // Filter posts by category if on a category page
+        const filteredPosts = isCategoryPage && posts && posts.length > 0
+          ? posts.filter(post => post && post.categorySlug === categorySlug)
+          : posts || [];
+        
+        // Generate HTML for the latest 3 posts
+        const postsHtml = generateBlogPostsHtml(filteredPosts);
+        
+        // Inject HTML into the page
+        const container = blogContainer.querySelector('.blog-posts-grid') || blogContainer;
+        if (container) {
+          container.innerHTML = postsHtml;
+        } else {
+          console.warn('No se pudo encontrar el contenedor para los posts');
+        }
         
         // Add view all link for category pages
         if (isCategoryPage && filteredPosts.length > 3) {
@@ -33,16 +44,19 @@ document.addEventListener('DOMContentLoaded', function() {
           viewAllLink.innerHTML = `
             <a href="/blog" class="btn btn-outline">View All ${filteredPosts.length} Articles</a>
           `;
-          section.appendChild(viewAllLink);
+          blogContainer.appendChild(viewAllLink);
         }
+      } catch (error) {
+        console.error('Error processing blog posts:', error);
+        injectPlaceholderBlogs(blogContainer.id);
       }
     })
     .catch(error => {
       console.error('Error loading blog posts:', error);
       // Fallback to placeholder if there's an error
-      injectPlaceholderBlogs(isCategoryPage ? 'category-blogs' : 'latest-blogs');
+      injectPlaceholderBlogs(blogContainer.id);
     });
-});
+}
 
 /**
  * Fetches the processed blog posts from the JSON file
@@ -50,13 +64,23 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 async function fetchBlogPosts() {
   try {
-    // Usar ruta relativa al dominio base para GitHub Pages
-    const baseUrl = window.location.hostname.includes('github.io') 
-      ? '/AMZ-Top_products' 
-      : '';
-    const response = await fetch(`${baseUrl}/assets/data/blog-posts.json`);
+    // Usar ruta relativa al directorio actual
+    let baseUrl = '';
+    
+    // Determinar la ruta base basada en la URL actual
+    const pathParts = window.location.pathname.split('/');
+    if (pathParts.includes('AMZ-Top_products')) {
+      baseUrl = '/AMZ-Top_products';
+    } else if (window.location.hostname.includes('github.io')) {
+      // Para GitHub Pages
+      baseUrl = '/AMZ-Top_products';
+    }
+    
+    const jsonPath = `${baseUrl}/assets/data/blog-posts.json`;
+    console.log('Fetching blog posts from:', jsonPath);
+    
+    const response = await fetch(jsonPath);
     if (!response.ok) {
-      console.error('Error loading blog posts:', response.status, response.statusText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const posts = await response.json();
@@ -69,8 +93,14 @@ async function fetchBlogPosts() {
       excerpt: post.excerpt || '',
       categoryName: post.categoryName || 'Uncategorized',
       categorySlug: post.categorySlug || 'uncategorized',
-      image: post.image || '',
-      url: post.url || `https://reznero.com/AMZ-Top_products/${post.slug || ''}/`
+      // Usar imagen local desde la carpeta de imágenes
+      image: post.image ? 
+        (post.image.startsWith('http') ? 
+          post.image : 
+          `assets/images/${post.image}`) : 
+        '',
+      // Usar URL relativa para enlaces locales
+      url: post.url || `${window.location.pathname.endsWith('/') ? '' : '/'}${post.slug || ''}/`
     }));
   } catch (error) {
     console.error('Error fetching blog posts:', error);
